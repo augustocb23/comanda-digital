@@ -7,4 +7,6 @@ Uma forma eficiente de realizar controle financeiro e gerência de estoques
 
 [Documento visão](https://docs.google.com/document/d/1N29tnpA0BOTXBQ6RXQDhlWgOqm1buFdwWkRjxUVgqNg/edit?usp=sharing)
 
-[Deploy](http://augustocb.ddns.net)
+[Deploy](http://augustocb.ddns.net:8080)
+
+[Backlog no Trello](https://trello.com/b/abeQ1h3C)
