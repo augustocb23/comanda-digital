@@ -1,11 +1,17 @@
-#DATABASE
-spring.datasource.url=jdbc:mysql://localhost/database?createDatabaseIfNotExist=true
+# DATABASE
+## cria o banco ao conectar pela primeira vez e desativa o SSL
+spring.datasource.url=jdbc:mysql://localhost/database?createDatabaseIfNotExist=true&useSSL=false
 spring.datasource.username=user
 spring.datasource.password=password
 
-#JPA
+# JPA
+## exibir as querys no log
 spring.jpa.show-sql=true
+## carrega as chaves estrangeiras somente quando necessário
 spring.jpa.open-in-view=true
+## cria as tabelas na primeira conexão
 spring.jpa.hibernate.ddl-auto=update
+## encarrega o SGBD de gerar as chaves primárias
 spring.jpa.hibernate.use-new-id-generator-mappings=false
+## cria novas tabelas utilizando a engine InnoDB
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
