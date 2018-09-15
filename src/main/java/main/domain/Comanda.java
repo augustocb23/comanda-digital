@@ -8,15 +8,17 @@ import java.util.List;
 @Entity
 @Table(name = "comanda")
 public class Comanda extends AbstractEntity<Integer> {
-	@Column(name = "mesa", nullable = false)
+	@Column(nullable = false)
 	private Integer mesa;
-	@Column(name = "nomes")
 	private String nomes;
-	@Column(name = "data", columnDefinition = "DATETIME", nullable = false)
+	@Column(columnDefinition = "DATETIME", nullable = false)
 	private Date data;
 	@ManyToOne
 	@JoinColumn(name = "atendente")
 	private Funcionario atendente;
-	@OneToMany(mappedBy = "codigo")
+	@OneToMany(mappedBy = "comanda")
 	private List<Pedido> pedidos;
+	@Column(nullable = false, columnDefinition = "CHAR(1)")
+	@Enumerated(EnumType.STRING)
+	private StatusComanda status = StatusComanda.A;
 }
