@@ -13,11 +13,9 @@ public class Funcionario extends AbstractEntity<Integer> {
 	private String senha;
 	@Column(nullable = false)
 	private String nome;
-	@ManyToMany
-	@JoinTable(name = "funcionario_autorizacao",
-			joinColumns = {@JoinColumn(name = "funcionario")},
-			inverseJoinColumns = {@JoinColumn(name = "autorizacao")})
-	private List<Autorizacao> autorizacoes;
+	@ManyToOne
+	@JoinColumn(name = "grupo", nullable = false)
+	private Grupo grupo;
 	@Column(nullable = false)
 	private Boolean ativo;
 
@@ -35,7 +33,7 @@ public class Funcionario extends AbstractEntity<Integer> {
 	}
 
 	public List<Autorizacao> getAutorizacoes() {
-		return autorizacoes;
+		return grupo.getAutorizacoes();
 	}
 
 	public String getLogin() {
