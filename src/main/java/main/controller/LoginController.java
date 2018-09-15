@@ -7,7 +7,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 @Controller
 public class LoginController extends HandlerInterceptorAdapter {
-	@GetMapping("/")
+	@GetMapping("/login")
 	public ModelAndView login() {
 		return new ModelAndView("login");
 	}
