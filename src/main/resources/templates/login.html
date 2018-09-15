@@ -1,44 +1,43 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml" lang="pt-br">
-<head th:replace="header :: header"></head>
-
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <body>
-  <!-- conteúdo -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-customizada">
-    <div class="container">
-      <div class="largura-max mx-auto">
-        <a class="navbar-brand fonte-titulo">Comanda Digital</a>
+  <section class="container" layout:fragment="content">
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-customizada">
+      <div class="container">
+        <div class="largura-max mx-auto">
+          <a class="navbar-brand fonte-titulo">Comanda Digital</a>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <div class="container">
-    <div class="mx-auto div-form div-login" id="div-form-login">
-      <h5 class="fonte-titulo">Acesso para funcionários</h5>
-      <form method="post" th:action="@{/login}">
-        <div class="input-group padding-form">
-          <div class="input-group-prepend">
+    <div class="container">
+      <div class="mx-auto div-form div-login">
+        <h5 class="fonte-titulo titulo-pagina">Acesso para funcionários</h5>
+        <form method="post" th:action="@{/login}">
+          <div class="input-group padding-form">
+            <div class="input-group-prepend">
             <span class="input-group-text">
               <i class="fas fa-user"></i>
             </span>
+            </div>
+            <input class="form-control" type="text" name="usuario" placeholder="Usuário" autofocus required/>
           </div>
-          <input class="form-control" type="text" name="usuario" placeholder="Usuário" autofocus required/>
-        </div>
-        <div class="input-group padding-form">
-          <div class="input-group-prepend">
+          <div class="input-group padding-form">
+            <div class="input-group-prepend">
             <span class="input-group-text">
               <i class="fas fa-key"></i>
             </span>
+            </div>
+            <input class="form-control" type="password" name="senha" placeholder="Senha" required/>
           </div>
-          <input class="form-control" type="password" name="senha" placeholder="Senha" required/>
-        </div>
-        <button class="btn btn-primary float-right" type="submit">
-          <i class="fas fa-sign-in-alt"></i>
-          Entrar
-        </button>
-      </form>
+          <button class="btn btn-primary float-right" type="submit">
+            <i class="fas fa-sign-in-alt"></i>
+            Entrar
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
-  <footer th:replace="footer :: footer"></footer>
+  </section>
 </body>
 </html>
