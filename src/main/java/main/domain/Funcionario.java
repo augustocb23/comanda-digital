@@ -16,8 +16,8 @@ public class Funcionario extends AbstractEntity<Integer> {
 	@ManyToOne
 	@JoinColumn(name = "grupo", nullable = false)
 	private Grupo grupo;
-	@Column(nullable = false)
-	private Boolean ativo;
+	@Column(nullable = false, columnDefinition = "BIT(1) DEFAULT TRUE")
+	private Boolean ativo = true;
 
 	@Override
 	public String toString() {

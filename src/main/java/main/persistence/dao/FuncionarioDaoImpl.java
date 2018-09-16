@@ -9,7 +9,7 @@ import java.util.List;
 public class FuncionarioDaoImpl extends AbstractDao<Funcionario, Long> implements FuncionarioDao {
 	@Override
 	public Funcionario findByLogin(String login) {
-		List<Funcionario> result = createQuery("SELECT f FROM Funcionario f WHERE login = ?1", login);
+		List<Funcionario> result = createQuery("FROM Funcionario WHERE login = ?1", login);
 		if (result.size() > 0)
 			return result.get(0);
 		else

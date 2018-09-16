@@ -1,9 +1,6 @@
 package main.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @SuppressWarnings("serial")
@@ -12,8 +9,9 @@ import java.util.List;
 public class Grupo extends AbstractEntity<Integer> {
 	@Column(nullable = false, unique = true)
 	private String nome;
-	@OneToMany
-	@Column(nullable = false)
+	@ManyToMany
+	@JoinTable(name = "grupo_autorizacao", joinColumns = {@JoinColumn(name = "grupo")},
+			inverseJoinColumns = {@JoinColumn(name = "autorizacao")})
 	private List<Autorizacao> autorizacoes;
 
 	@Override
