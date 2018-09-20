@@ -26,12 +26,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		//controla o acesso à página
 		http.authorizeRequests()
+				//bloqueia o acesso à página de funcionários
+				.and().authorizeRequests().antMatchers("/funcionarios/**").hasAuthority("editar_usuarios")
+				//bloqueia o acesso à página de admin
+				.and().authorizeRequests().antMatchers("/funcionarios/admin").hasAuthority("editar_admin")
 				//libera o acesso à pasta CSS e JS
 				.antMatchers("/css/**", "/js/**").permitAll()
 				//só autoriza o acesso se estiver logado
 				.anyRequest().authenticated()
+
 				//redireciona para a página de login
-				.and().formLogin().loginPage("/login").permitAll();
+				.and().formLogin().loginPage("/login").permitAll()
+				//após o login
+				.successHandler(new CustomAuthenticationSuccessHandler());
 	}
 }
 

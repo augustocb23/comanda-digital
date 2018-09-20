@@ -29,7 +29,9 @@
   <section layout:fragment="content"></section>
 
   <!-- rodapé  -->
-  <footer th:replace="fragments/footer :: footer"></footer>
+  <section layout:fragment="footer">
+    <footer th:replace="fragments :: footer"></footer>
+  </section>
 
   <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -51,5 +53,7 @@
   <script src="https://unpkg.com/promise-polyfill@8.0.0/dist/polyfill.min.js"></script>
   <!-- funções de uso geral -->
   <script th:src="@{js/utilities.min.js}"></script>
+  <!-- funções específicas -->
+  <section layout:fragment="scripts"></section>
 </body>
 </html>

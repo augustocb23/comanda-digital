@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <div th:fragment="links">
+    <a class="btn btn-block btn-dark" href="/funcionarios"><i class="fas fa-arrow-left"
+    ></i><span class="text-center">&nbsp;Gerenciar funcionários</span></a>
+    <a class="btn btn-block btn-secondary text-center" href="/funcionarios/editar"><i class="fas fa-plus"
+    ></i>&nbsp;Cadastrar funcionário</a>
+  </div>
+</body>
+</html>

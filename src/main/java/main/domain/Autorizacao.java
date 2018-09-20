@@ -11,7 +11,8 @@ import javax.persistence.Table;
 @Table(name = "autorizacao")
 public class Autorizacao extends AbstractEntity<Integer> implements GrantedAuthority {
 	@Column(nullable = false, unique = true)
-	private String autorizacao;
+	public String autorizacao;
+
 	@Override
 	public String getAuthority() {
 		return autorizacao;

@@ -31,13 +31,19 @@
             </div>
             <input class="form-control" type="password" name="password" placeholder="Senha" required/>
           </div>
-          <button class="btn btn-primary float-right" type="submit">
-            <i class="fas fa-sign-in-alt"></i>
-            Entrar
+          <button class="btn btn-dark float-right" type="submit">
+            <i class="fas fa-sign-in-alt"></i>&nbsp;Entrar
           </button>
         </form>
       </div>
     </div>
+  </section>
+
+  <section layout:fragment="scripts">
+    <script th:if="${error}" type="text/javascript">
+        history.replaceState({}, 'Comanda Digital', '/login');
+        toast({title: 'Usuário ou senha inválidos', type: 'error'});
+    </script>
   </section>
 </body>
 </html>

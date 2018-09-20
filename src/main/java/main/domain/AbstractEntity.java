@@ -39,4 +39,8 @@ public abstract class AbstractEntity<Codigo extends Serializable> implements Ser
 	public String toString() {
 		return String.valueOf(codigo);
 	}
+
+	public Codigo getCodigo() {
+		return codigo;
+	}
 }

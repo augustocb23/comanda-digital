@@ -13,6 +13,11 @@ public class FuncionarioUserDetails implements UserDetails {
 	}
 
 	@Override
+	public String toString() {
+		return getUsername();
+	}
+
+	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return funcionario.getAutorizacoes();
 	}

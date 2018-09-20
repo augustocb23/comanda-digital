@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <section layout:fragment="content">
+    <div class="container">
+      <div class="border border-dark p-2 rounded">
+        <div class="row">
+          <!-- barra lateral -->
+          <div class="col-md-3">
+            <div>
+              <a class="btn btn-block btn-dark" href="/funcionarios/"><i class="fas fa-arrow-left"
+              ></i><span class="text-center">&nbsp;Cancelar</span></a>
+              <button type="submit" form="form" class="btn btn-block btn-secondary text-center"
+                      href="/funcionarios/editar"><i class="fas fa-save"
+              ></i>&nbsp;Salvar
+              </button>
+            </div>
+          </div>
+
+          <!-- conteúdo -->
+          <div class="col-md-9">
+            <h4 class="titulo-pagina"><span th:text="${funcionario.codigo}==null?'Novo':'Editar'"></span> funcionário
+            </h4>
+            <form id="form" th:action="@{/funcionarios/salvar}" method="POST" th:object="${funcionario}">
+              <input type="hidden" th:field="*{codigo}">
+              <div class="row">
+                <div class="input-group col-md-6">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="nome">Nome</label>
+                  </div>
+                  <input id="nome" class="form-control" type="text" th:field="*{nome}">
+                </div>
+                <div class="input-group col-md-6">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="login">Login</label>
+                  </div>
+                  <input id="login" class="form-control" type="text" th:field="*{login}">
+                </div>
+              </div>
+
+              <div class="row pt-2">
+                <div class="input-group col-md-6">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="senha">Senha</label>
+                  </div>
+                  <input id="senha" class="form-control" type="password" th:field="*{senha}">
+                </div>
+                <div class="input-group col-md-6">
+                  <div class="input-group-prepend">
+                    <label class="input-group-text" for="senha_conf">Confirme</label>
+                  </div>
+                  <input id="senha_conf" class="form-control" type="password">
+                </div>
+              </div>
+
+              <div class="row pt-2">
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <label class="input-group-text" for="grupo">Grupo</label>
+                    </div>
+                    <select id="grupo" class="custom-select" th:field="*{grupo}">
+                      <option th:value="${null}" hidden selected readonly>Selecione</option>
+                      <option th:each="grupo :${grupos}" th:value="${grupo.codigo}" th:text="${grupo.nome}"></option>
+                    </select>
+                  </div>
+                  <label for="grupo" class="small text-muted">O grupo definirá as <a href="#" class="active"
+                  >permissões</a> do usuário</label>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <div class="input-group-text">
+                        <input id="ativo" type="checkbox" th:field="*{ativo}">
+                      </div>
+                    </div>
+                    <div class="input-group-append">
+                      <label class="input-group-text" for="ativo">Usuário ativo</label>
+                    </div>
+                  </div>
+                  <label for="ativo" class="small text-muted">Desativar o funcionário para impedir que faça
+                    login</label>
+                </div>
+              </div>
+
+              <div class="row pt-2">
+
+              </div>
+
+              <!--              <div class="d-flex flex-row mt-2">
+                              <div class="input-group col-md-3 px-0">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text">
+                                  </div>
+                                </div>
+                                <div class="input-group-append">
+                                  <label class="input-group-text" for="ativo">Usuário ativo</label>
+                                </div>
+                              </div>
+                              <p class="text-muted">Desativar o usuário para impedir que faça login no sistema</p>
+                            </div>-->
+
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>
