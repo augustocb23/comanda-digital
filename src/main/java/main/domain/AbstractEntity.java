@@ -10,7 +10,6 @@ import java.util.Objects;
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class AbstractEntity<Codigo extends Serializable> implements Serializable {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	Codigo codigo;
@@ -42,5 +41,9 @@ public abstract class AbstractEntity<Codigo extends Serializable> implements Ser
 
 	public Codigo getCodigo() {
 		return codigo;
+	}
+
+	public void setCodigo(Codigo codigo) {
+		this.codigo = codigo;
 	}
 }

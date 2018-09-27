@@ -5,7 +5,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,7 +14,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
-										Authentication authentication) throws IOException, ServletException {
+										Authentication authentication) throws IOException {
 		//verifica se ainda é possível redirecionar
 		if (httpServletResponse.isCommitted()) {
 			System.out.println("Response already committed from server. Unable to redirect");
@@ -30,7 +29,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 			//redireciona para a página inicial
 			redirectStrategy.sendRedirect(httpServletRequest, httpServletResponse, "/");
 
-		//FIXME corrigir links
 		System.out.println("Usuário conectado: " + authentication.getPrincipal());
 	}
 }

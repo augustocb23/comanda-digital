@@ -38,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//redireciona para a página de login
 				.and().formLogin().loginPage("/login").permitAll()
 				//após o login
-				.successHandler(new CustomAuthenticationSuccessHandler());
+				.successHandler(new CustomAuthenticationSuccessHandler())
+				//url para logout
+				.and().logout().logoutSuccessUrl("/login");
 	}
 }
 

@@ -47,13 +47,13 @@
                   <div class="input-group-prepend">
                     <label class="input-group-text" for="senha">Senha</label>
                   </div>
-                  <input id="senha" class="form-control" type="password" th:field="*{senha}">
+                  <input id="senha" class="form-control" type="password" th:field="*{senhaNova}">
                 </div>
                 <div class="input-group col-md-6">
                   <div class="input-group-prepend">
                     <label class="input-group-text" for="senha_conf">Confirme</label>
                   </div>
-                  <input id="senha_conf" class="form-control" type="password">
+                  <input id="senha_conf" class="form-control" type="password" th:field="*{senhaConfirma}">
                 </div>
               </div>
 
@@ -86,25 +86,6 @@
                     login</label>
                 </div>
               </div>
-
-              <div class="row pt-2">
-
-              </div>
-
-              <!--              <div class="d-flex flex-row mt-2">
-                              <div class="input-group col-md-3 px-0">
-                                <div class="input-group-prepend">
-                                  <div class="input-group-text">
-                                  </div>
-                                </div>
-                                <div class="input-group-append">
-                                  <label class="input-group-text" for="ativo">Usuário ativo</label>
-                                </div>
-                              </div>
-                              <p class="text-muted">Desativar o usuário para impedir que faça login no sistema</p>
-                            </div>-->
-
-
             </form>
           </div>
 
