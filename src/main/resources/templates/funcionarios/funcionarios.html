@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <head>
@@ -21,8 +21,48 @@
             ></i>&nbsp;Administrador</a>
           </div>
         </div>
+
+        <div class="col-md-9">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Nome</th>
+                <th>Login</th>
+                <th>Grupo</th>
+                <th>Ativo</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="f :${funcionarios}">
+                <td th:text="${f.codigo}"></td>
+                <td>
+                  <a href="javascript:void(0)" th:onclick="'editar('+${f.codigo}+')'" class="active"
+                     th:text="${f.nome}"></a>
+                </td>
+                <td th:text="${f.login}"></td>
+                <td th:text="${f.grupo}"></td>
+                <td><i th:if="${f.ativo}" class="far fa-check-square"></i><i th:if="!${f.ativo}"
+                                                                             class="far fa-square"></i></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
+
+    <form id="formEdit" th:action="@{/funcionarios/editar}" method="post">
+      <input name="codigo" type="hidden" id="codFunc">
+    </form>
+
+    <script type="text/javascript">
+        function editar(codigo) {
+            $('#codFunc').val(codigo);
+            $('#formEdit').submit();
+        }
+    </script>
   </section>
 </body>
 </html>

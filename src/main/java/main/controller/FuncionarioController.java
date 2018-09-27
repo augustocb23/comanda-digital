@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
@@ -32,7 +29,8 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("")
-	public String funcionarios() {
+	public String funcionarios(ModelMap model) {
+		model.addAttribute("funcionarios", funcionarioService.buscarTodos());
 		return "/funcionarios/funcionarios";
 	}
 
@@ -68,7 +66,7 @@ public class FuncionarioController {
 		funcionarioService.editar(admin);
 
 		attributes.addFlashAttribute("success", "Administrador alterado");
-		return "redirect:/funcionarios/funcionarios";
+		return "redirect:/funcionarios";
 	}
 
 	@PostMapping("/salvar")
@@ -97,6 +95,21 @@ public class FuncionarioController {
 
 		attributes.addFlashAttribute("success", "Funcionário cadastrado");
 		return "redirect:/funcionarios";
+	}
+
+	@PostMapping("/editar")
+	public String formEditar(@RequestParam(name = "codigo") String codigo, ModelMap model,
+							 RedirectAttributes attributes) {
+		if (!codigo.matches("[0-9]+")) {
+			attributes.addFlashAttribute("error", "Funcionário inválido");
+			return "redirect:/funcionarios";
+		}
+		Funcionario funcionario = funcionarioService.buscarPorId(Long.valueOf(codigo));
+		if (funcionario.getLogin().contentEquals("admin"))
+			return "redirect:/funcionarios/admin";
+		model.addAttribute("funcionario", funcionario);
+		return "/funcionarios/editar";
+
 	}
 
 	@GetMapping("/editar")
