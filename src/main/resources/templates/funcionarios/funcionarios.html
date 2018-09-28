@@ -6,51 +6,44 @@
   <meta charset="UTF-8">
 </head>
 <body>
-  <section layout:fragment="content">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 border border-dark p-2 rounded">
-          <h4 class="titulo-pagina">Funcionários</h4>
-          <div>
-            <a class="btn btn-block btn-dark" href="/funcionarios/"><i class="fas fa-sync-alt"
-            ></i><span class="text-center">&nbsp;Atualizar</span></a>
-            <a class="btn btn-block btn-secondary text-center" href="/funcionarios/editar"><i class="fas fa-plus"
-            ></i>&nbsp;Cadastrar funcionário</a>
-            <a sec:authorize="hasAuthority('editar_admin')" class="btn btn-block btn-secondary text-center"
-               href="/funcionarios/admin"><i class="fas fa-user-tie"
-            ></i>&nbsp;Administrador</a>
-          </div>
-        </div>
+  <nav layout:fragment="sidebar">
+    <a class="list-group-item list-group-item-action list-group-item-dark text-center" th:href="@{/funcionarios/}"><i
+        class="fas fa-sync-alt"></i>&nbsp;Atualizar</a>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/editar}"><i
+        class="fas fa-plus"
+    ></i>&nbsp;Cadastrar</a>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/admin}"
+       sec:authorize="hasAuthority('editar_admin')"><i class="fas fa-user-tie"></i>&nbsp;Administrador</a>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/grupos}"
+       sec:authorize="hasAuthority('editar_permissoes')"><i class="fas fa-user-lock"></i>&nbsp;Permissões</a>
+  </nav>
 
-        <div class="col-md-9">
-          <div class="table-responsive">
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th>#</th>
-                <th>Nome</th>
-                <th>Login</th>
-                <th>Grupo</th>
-                <th>Ativo</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr th:each="f :${funcionarios}">
-                <td th:text="${f.codigo}"></td>
-                <td>
-                  <a href="javascript:void(0)" th:onclick="'editar('+${f.codigo}+')'" class="active"
-                     th:text="${f.nome}"></a>
-                </td>
-                <td th:text="${f.login}"></td>
-                <td th:text="${f.grupo}"></td>
-                <td><i th:if="${f.ativo}" class="far fa-check-square"></i><i th:if="!${f.ativo}"
-                                                                             class="far fa-square"></i></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+  <section layout:fragment="content">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Login</th>
+          <th>Grupo</th>
+          <th>Ativo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f :${funcionarios}">
+          <td th:text="${f.codigo}"></td>
+          <td>
+            <a href="javascript:void(0)" th:onclick="'editar('+${f.codigo}+')'" class="active"
+               th:text="${f.nome}"></a>
+          </td>
+          <td th:text="${f.login}"></td>
+          <td th:text="${f.grupo}"></td>
+          <td><i th:if="${f.ativo}" class="far fa-check-square"></i><i th:if="!${f.ativo}"
+                                                                       class="far fa-square"></i></td>
+        </tr>
+        </tbody>
+      </table>
     </div>
 
     <form id="formEdit" th:action="@{/funcionarios/editar}" method="post">

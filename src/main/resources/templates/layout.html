@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <!-- meta tags obrigatorias -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title th:fragment="title">Comanda Digital</title>
+  <title th:fragment="title">Comanda Virtual</title>
   <!-- CSS do Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -22,11 +23,31 @@
 </head>
 <body>
   <header>
-    <div>Hello world</div>
+    <nav class="nav navbar navbar-inverse navbar-dark bg-dark fixed-top navbar-customizada">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" th:href="@{/}"><span class="btn btn-outline-light border-0 navbar-toggle py-0 mb-1"><i
+              class="fas fa-utensils"></i></span>&nbsp;Comanda Virtual</a>
+        </div>
+        <div sec:authorize="isAuthenticated()" class="ml-auto">
+          <a class="btn btn-outline-danger border-0" th:href="@{/logout}"><i
+              class="fas fa-sign-out-alt span-tam_fixo"></i>&nbsp;Sair
+          </a>
+        </div>
+      </div>
+    </nav>
   </header>
 
-  <!-- conteúdo -->
-  <section layout:fragment="content"></section>
+  <div class="container">
+    <div class="row">
+      <!-- sidebar -->
+      <div class="col-md-3">
+        <nav class="list-group sidebar sidebar-open" layout:fragment="sidebar"></nav>
+      </div>
+      <!-- conteúdo -->
+      <section class="col-md-9 my-1 pt-2 content rounded" layout:fragment="content"></section>
+    </div>
+  </div>
 
   <!-- rodapé  -->
   <section layout:fragment="footer">

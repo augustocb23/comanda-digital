@@ -32,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().authorizeRequests().antMatchers("/funcionarios/admin").hasAuthority("editar_admin")
 				//libera o acesso à pasta CSS e JS
 				.antMatchers("/css/**", "/js/**").permitAll()
+				//permite o acesso para a página de comandas
+				.antMatchers("/comandas").permitAll()
 				//só autoriza o acesso se estiver logado
 				.anyRequest().authenticated()
 

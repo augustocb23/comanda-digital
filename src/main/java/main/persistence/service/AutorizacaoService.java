@@ -1,17 +1,17 @@
 package main.persistence.service;
 
-import main.domain.Autorizacao;
+import main.domain.Permissao;
 
 import java.util.List;
 
 public interface AutorizacaoService {
-	void salvar(Autorizacao autorizacao);
+	void salvar(Permissao permissao);
 
-	void editar(Autorizacao autorizacao);
+	void editar(Permissao permissao);
 
 	void excluir(Long id);
 
-	Autorizacao buscarPorId(Long id);
+	Permissao buscarPorId(Long id);
 
-	List<Autorizacao> buscarTodos();
+	List<Permissao> buscarTodos();
 }

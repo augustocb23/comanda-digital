@@ -1,17 +1,17 @@
 package main.persistence.dao;
 
-import main.domain.Autorizacao;
+import main.domain.Permissao;
 
 import java.util.List;
 
 public interface AutorizacaoDao {
-	void save(Autorizacao autorizacao);
+	void save(Permissao permissao);
 
-	void update(Autorizacao autorizacao);
+	void update(Permissao permissao);
 
 	void delete(Long id);
 
-	Autorizacao findById(Long id);
+	Permissao findById(Long id);
 
-	List<Autorizacao> findAll();
+	List<Permissao> findAll();
 }

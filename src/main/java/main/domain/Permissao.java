@@ -8,13 +8,13 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "autorizacao")
-public class Autorizacao extends AbstractEntity<Integer> implements GrantedAuthority {
+@Table(name = "permissao")
+public class Permissao extends AbstractEntity<Integer> implements GrantedAuthority {
 	@Column(nullable = false, unique = true)
-	public String autorizacao;
+	public String nome;
 
 	@Override
 	public String getAuthority() {
-		return autorizacao;
+		return nome;
 	}
 }

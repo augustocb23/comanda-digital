@@ -12,13 +12,24 @@
 body {
     max-width: 100%;
     overflow-x: hidden;
+    padding-top: 52px;
     padding-bottom: 15px;
+    background-color: #d1ecf1;
+}
+
+.content {
+    background-color: #fefefe;
 }
 
 .navbar-customizada {
     padding: 0 10px;
-    margin: 0 0 10px 0;
     min-height: 50px;
+}
+
+.sidebar ul li a {
+    display: block;
+    margin: 2px 4px;
+    white-space: nowrap;
 }
 
 .div-form {
@@ -39,31 +50,12 @@ body {
 
 .rodape {
     background-color: #eeeef5;
-    padding-top: 3px;
+    padding-top: 4px;
     margin-top: 10px;
-}
-
-.botao-inferior {
-    margin: 5px 0;
-    max-height: 38px;
-}
-
-.botao-superior {
-    margin: 0 5px;
-    max-height: 38px;
-}
-
-.botao-tam_fixo {
-    max-height: 38px;
 }
 
 .conteudo-com-rodape {
     padding-bottom: 5em;
-}
-
-.day {
-    min-height: 40px;
-    font-weight: lighter;
 }
 
 .span-tam_fixo {

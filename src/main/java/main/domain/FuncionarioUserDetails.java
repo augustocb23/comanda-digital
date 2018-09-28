@@ -19,7 +19,7 @@ public class FuncionarioUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return funcionario.getAutorizacoes();
+		return funcionario.getPermissoes();
 	}
 
 	@Override

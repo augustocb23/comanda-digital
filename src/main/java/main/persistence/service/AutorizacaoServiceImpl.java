@@ -1,6 +1,6 @@
 package main.persistence.service;
 
-import main.domain.Autorizacao;
+import main.domain.Permissao;
 import main.persistence.dao.AutorizacaoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,14 @@ public class AutorizacaoServiceImpl implements AutorizacaoService {
 
 	@Override
 	@Transactional
-	public void salvar(Autorizacao autorizacao) {
-		dao.save(autorizacao);
+	public void salvar(Permissao permissao) {
+		dao.save(permissao);
 	}
 
 	@Override
 	@Transactional
-	public void editar(Autorizacao autorizacao) {
-		dao.update(autorizacao);
+	public void editar(Permissao permissao) {
+		dao.update(permissao);
 	}
 
 	@Override
@@ -38,13 +38,13 @@ public class AutorizacaoServiceImpl implements AutorizacaoService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Autorizacao buscarPorId(Long id) {
+	public Permissao buscarPorId(Long id) {
 		return dao.findById(id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Autorizacao> buscarTodos() {
+	public List<Permissao> buscarTodos() {
 		return dao.findAll();
 	}
 }

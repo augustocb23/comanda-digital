@@ -63,8 +63,8 @@ public class Funcionario extends AbstractEntity<Long> {
 		this.ativo = ativo;
 	}
 
-	public List<Autorizacao> getAutorizacoes() {
-		return grupo.getAutorizacoes();
+	public List<Permissao> getPermissoes() {
+		return grupo.getPermissoes();
 	}
 
 	public Grupo getGrupo() {

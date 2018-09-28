@@ -2,46 +2,41 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
       xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <body>
-  <section layout:fragment="content">
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-customizada">
-      <div class="container">
-        <div class="largura-max mx-auto">
-          <a class="navbar-brand fonte-titulo">Comanda Digital</a>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container">
-      <div class="mx-auto div-form div-login">
-        <h5 class="fonte-titulo titulo-pagina">Acesso para funcionários</h5>
-        <form method="post" th:action="@{/login}">
-          <div class="input-group padding-form">
-            <div class="input-group-prepend">
+  <section layout:fragment="sidebar">
+    <div class="mx-auto div-form bg-light mt-1 p-2 pb-4 border border-secondary rounded">
+      <h5 class="fonte-titulo titulo-pagina">Acesso para funcionários</h5>
+      <form method="post" th:action="@{/login}">
+        <div class="input-group padding-form">
+          <div class="input-group-prepend">
             <span class="input-group-text">
               <i class="fas fa-user"></i>
             </span>
-            </div>
-            <input class="form-control" type="text" name="username" placeholder="Usuário" autofocus required/>
           </div>
-          <div class="input-group padding-form">
-            <div class="input-group-prepend">
+          <input class="form-control" type="text" name="username" placeholder="Usuário" autofocus required/>
+        </div>
+        <div class="input-group padding-form">
+          <div class="input-group-prepend">
             <span class="input-group-text">
               <i class="fas fa-key"></i>
             </span>
-            </div>
-            <input class="form-control" type="password" name="password" placeholder="Senha" required/>
           </div>
-          <button class="btn btn-dark float-right" type="submit">
-            <i class="fas fa-sign-in-alt"></i>&nbsp;Entrar
-          </button>
-        </form>
-      </div>
+          <input class="form-control" type="password" name="password" placeholder="Senha" required/>
+        </div>
+        <button class="btn btn-dark float-right" type="submit">
+          <i class="fas fa-sign-in-alt"></i>&nbsp;Entrar
+        </button>
+      </form>
     </div>
+  </section>
+
+  <section layout:fragment="content" style="background-color: transparent">
+    <h4 class="titulo-pagina">Visualizar comandas</h4>
+    <p class="text-muted">Para acessar sua comanda, <a class="active" th:href="@{/comandas}">clique aqui</a></p>
   </section>
 
   <section layout:fragment="scripts">
     <script th:if="${error}" type="text/javascript">
-        history.replaceState({}, 'Comanda Digital', '/login');
+        history.replaceState({}, 'Comanda Virtual', '/login');
         toast({title: 'Usuário ou senha inválidos', type: 'error'});
     </script>
   </section>
