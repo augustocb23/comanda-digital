@@ -1,7 +1,7 @@
 package main.domain;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @SuppressWarnings("serial")
 @Entity
@@ -12,14 +12,14 @@ public class Grupo extends AbstractEntity<Long> {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "grupo_permissao", joinColumns = {@JoinColumn(name = "grupo")},
 			inverseJoinColumns = {@JoinColumn(name = "permissao")})
-	private List<Permissao> permissoes;
+	private Set<Permissao> permissoes;
 
 	@Override
 	public String toString() {
 		return getNome();
 	}
 
-	List<Permissao> getPermissoes() {
+	Set<Permissao> getPermissoes() {
 		return permissoes;
 	}
 

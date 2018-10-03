@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
+      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <nav layout:fragment="sidebar">
+    <a class="list-group-item list-group-item-action list-group-item-dark text-center" th:href="@{/produtos/}"><i
+        class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
+    <button type="submit" form="form" class="list-group-item list-group-item-action text-center"><i
+        class="fas fa-save"></i>&nbsp;Salvar
+    </button>
+  </nav>
+
+  <h1 layout:fragment="title"><span th:text="${produto.codigo}==null?'Novo':'Editar'"></span> produto</h1>
+
+  <section layout:fragment="content">
+    <form id="form" th:action="@{/produtos/salvar}" method="POST" th:object="${produto}">
+      <input type="hidden" th:field="*{codigo}">
+      <div class="row">
+        <div class="input-group col-md-6">
+          <div class="input-group-prepend">
+            <label class="input-group-text" for="nome">Nome</label>
+          </div>
+          <input id="nome" class="form-control" type="text" th:field="*{nome}" required>
+        </div>
+      </div>
+
+      <div class="row pt-2">
+        <div class="col-md-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="estoque">Estoque</label>
+            </div>
+            <input id="estoque" class="form-control" type="number" th:field="*{estoque}" required
+                   th:disabled="*{estoque==null}">
+          </div>
+          <label for="estoque" class="small text-muted">Para produtos a pronta entrega</label>
+        </div>
+        <div class="col-md-6">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input id="ativo" type="checkbox" th:field="*{estoqueNull}"
+                       onchange="$('#estoque').attr('disabled', $(this).prop('checked')).val(null).focus()">
+              </div>
+            </div>
+            <div class="input-group-append">
+              <label class="input-group-text" for="ativo">Estoque nulo</label>
+            </div>
+          </div>
+          <label for="ativo" class="small text-muted">Para produtos preparados no momento do pedido</label>
+        </div>
+      </div>
+    </form>
+  </section>
+</body>
+</html>

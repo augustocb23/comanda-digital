@@ -55,7 +55,7 @@ public class FuncionarioController {
 				//codifica a nova senha
 				admin.encodeSenha(admin.getSenhaNova());
 		} else
-			//restaura dados padrões a partir da Sessão
+			//restaura senha padrão a partir da sessão
 			admin.setSenha((String) session.getAttribute("senhaAdmin"));
 		admin.setGrupo((Grupo) session.getAttribute("grupoAdmin"));
 
@@ -71,13 +71,16 @@ public class FuncionarioController {
 
 	@PostMapping("/salvar")
 	public String salvar(@ModelAttribute Funcionario funcionario, BindingResult result,
-						 RedirectAttributes attributes, ModelMap model) {
-		//verifica se as senhas coincidem
-		if (!funcionario.getSenhaNova().contentEquals(funcionario.getSenhaConfirma()))
-			result.addError(new FieldError("senhaNova", "senhaNaoCoincide",
-					"Senhas não coincidem"));
-		else //codifica a senha
-			funcionario.encodeSenha(funcionario.getSenhaNova());
+						 RedirectAttributes attributes, ModelMap model, HttpSession session) {
+		if (!funcionario.getSenhaNova().isEmpty() && !funcionario.getSenhaConfirma().isEmpty())
+			//verifica se as senhas coincidem
+			if (!funcionario.getSenhaNova().contentEquals(funcionario.getSenhaConfirma()))
+				result.addError(new FieldError("senhaNova", "senhaNaoCoincide",
+						"Senhas não coincidem"));
+			else //codifica a senha
+				funcionario.encodeSenha(funcionario.getSenhaNova());
+		else //restaura a senha
+			funcionario.setSenha((String) session.getAttribute("senha"));
 
 		if (result.hasErrors()) {
 			model.addAttribute("funcionario", new Funcionario());
@@ -85,13 +88,10 @@ public class FuncionarioController {
 		}
 
 		//novo
-		if (funcionario.getCodigo() != null) {
+		if (funcionario.getCodigo() == null)
 			funcionarioService.salvar(funcionario);
-		}
-		//editar
-		else {
+		else //editar
 			funcionarioService.editar(funcionario);
-		}
 
 		attributes.addFlashAttribute("success", "Funcionário cadastrado");
 		return "redirect:/funcionarios";
@@ -99,7 +99,7 @@ public class FuncionarioController {
 
 	@PostMapping("/editar")
 	public String formEditar(@RequestParam(name = "codigo") String codigo, ModelMap model,
-							 RedirectAttributes attributes) {
+							 RedirectAttributes attributes, HttpSession session) {
 		if (!codigo.matches("[0-9]+")) {
 			attributes.addFlashAttribute("error", "Funcionário inválido");
 			return "redirect:/funcionarios";
@@ -108,8 +108,9 @@ public class FuncionarioController {
 		if (funcionario.getLogin().contentEquals("admin"))
 			return "redirect:/funcionarios/admin";
 		model.addAttribute("funcionario", funcionario);
+		//salva a senha na sessão
+		session.setAttribute("senha", Objects.requireNonNull(funcionario).getSenha());
 		return "/funcionarios/editar";
-
 	}
 
 	@GetMapping("/editar")

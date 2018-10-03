@@ -26,6 +26,8 @@
     </section>
   </nav>
 
+  <h1 layout:fragment="title">Administrador</h1>
+
   <section layout:fragment="content" style="max-height: 215px">
     <h4 class="titulo-pagina">Administrador</h4>
     <form id="form" th:action="@{/funcionarios/salvarAdmin}" method="post" th:object="${admin}">

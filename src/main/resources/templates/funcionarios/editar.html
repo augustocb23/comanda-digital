@@ -13,9 +13,9 @@
     </button>
   </nav>
 
+  <h1 layout:fragment="title"><span th:text="${funcionario.codigo}==null?'Novo':'Editar'"></span> funcionário</h1>
+
   <section layout:fragment="content">
-    <h4 class="titulo-pagina"><span th:text="${funcionario.codigo}==null?'Novo':'Editar'"></span> funcionário
-    </h4>
     <form id="form" th:action="@{/funcionarios/salvar}" method="POST" th:object="${funcionario}">
       <input type="hidden" th:field="*{codigo}">
       <div class="row">

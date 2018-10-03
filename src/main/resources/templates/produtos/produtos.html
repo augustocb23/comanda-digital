@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <nav layout:fragment="sidebar">
+    <a class="list-group-item list-group-item-action list-group-item-dark text-center" th:href="@{/produtos/}"><i
+        class="fas fa-sync-alt"></i>&nbsp;Atualizar</a>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/produtos/editar}"><i
+        class="fas fa-plus"
+    ></i>&nbsp;Cadastrar</a>
+  </nav>
+
+  <h1 layout:fragment="title">Produtos</h1>
+
+  <section layout:fragment="content">
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Nome</th>
+          <th>Estoque</th>
+          <!--<th>Imagem</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="f :${produtos}">
+          <td th:text="${f.codigo}"></td>
+          <td>
+            <a th:attr="href=${#authorization.expression('hasAuthority(''editar_produtos'')')?'javascript:void(0)':null}"
+               th:onclick="'editar('+${f.codigo}+')'" class="active" th:text="${f.nome}"></a>
+          </td>
+          <td th:text="${f.estoque}"></td>
+          <!--<td><button type="button" class="btn-link" th:disabled="!${f.imagem}"><i class="far fa-image"></i></button></td>-->
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div sec:authorize="hasAuthority('editar_produtos')">
+      <form id="formEdit" th:action="@{/produtos/editar}" method="post">
+        <input name="codigo" type="hidden" id="codProd">
+      </form>
+      <script type="text/javascript">
+          function editar(codigo) {
+              $('#codProd').val(codigo);
+              $('#formEdit').submit();
+          }
+      </script>
+    </div>
+  </section>
+</body>
+</html>
