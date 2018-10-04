@@ -18,8 +18,11 @@ public class Produto extends AbstractEntity<Long> {
 			joinColumns = {@JoinColumn(name = "produto")},
 			inverseJoinColumns = {@JoinColumn(name = "ingrediente")})
 	private List<Ingrediente> ingredientes;
-	@Column(name = "imagem")
+	@Column
 	private String imagem;
+	@Column(nullable = false, columnDefinition = "CHAR(2)")
+	@Enumerated(EnumType.STRING)
+	private Unidade unidade;
 
 	@Override
 	public String toString() {
@@ -56,6 +59,14 @@ public class Produto extends AbstractEntity<Long> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Unidade getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
 	}
 
 	public boolean isEstoqueNull() {

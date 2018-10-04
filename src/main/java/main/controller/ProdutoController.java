@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.domain.Produto;
+import main.domain.Unidade;
 import main.persistence.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,5 +43,10 @@ public class ProdutoController {
 		else //editar
 			produtoService.editar(produto);
 		return "redirect:/produtos";
+	}
+
+	@ModelAttribute("unidades")
+	public Unidade[] getUnidades() {
+		return Unidade.values();
 	}
 }
