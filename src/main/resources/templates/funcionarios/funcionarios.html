@@ -49,15 +49,8 @@
     </div>
 
     <form id="formEdit" th:action="@{/funcionarios/editar}" method="post">
-      <input name="codigo" type="hidden" id="codFunc">
+      <input name="codigo" type="hidden" id="codObj">
     </form>
-
-    <script type="text/javascript">
-        function editar(codigo) {
-            $('#codFunc').val(codigo);
-            $('#formEdit').submit();
-        }
-    </script>
   </section>
 </body>
 </html>

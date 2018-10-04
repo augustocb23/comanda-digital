@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="pt-br"
       xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <head>
@@ -15,21 +14,21 @@
     </button>
     <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/editar}"
     ><i class="fas fa-plus"></i>&nbsp;Cadastrar</a>
-
-    <section class="pb-2 mt-2">
-      <div class="alert alert-primary">
-        <h4 class="alert-heading"><i>admin</i></h4>
-        <hr>
-        <p>Utilize esta página para alterar a senha ou desativar o acesso à conta</p><br/>
-        <p>Usuário atual: <span sec:authentication="name"></span>
-      </div>
-    </section>
   </nav>
 
   <h1 layout:fragment="title">Administrador</h1>
 
+  <section layout:fragment="alerts">
+    <div class="pb-1 alert alert-primary alert-dismissible fade show">
+      <h4 class="alert-heading"><i>admin</i></h4>
+      <p>Utilize esta página para alterar a senha ou desativar o acesso à conta</p>
+      <button type="button" class="close" data-dismiss="alert">
+        <span><i class="fas fa-times"></i></span>
+      </button>
+    </div>
+  </section>
+
   <section layout:fragment="content" style="max-height: 215px">
-    <h4 class="titulo-pagina">Administrador</h4>
     <form id="form" th:action="@{/funcionarios/salvarAdmin}" method="post" th:object="${admin}">
       <input type="hidden" th:field="*{codigo}">
       <div class="row">
@@ -82,8 +81,8 @@
               <option selected>Administrador</option>
             </select>
           </div>
-          <label for="grupo" class="small text-muted">O grupo definirá as <a href="#" class="active"
-          >permissões</a> do usuário</label>
+          <label for="grupo" class="small text-muted">O grupo definirá as <a
+              th:href="@{funcionarios/grupos}" class="active">permissões</a> do usuário</label>
         </div>
         <div class="col-md-6">
           <div class="input-group">

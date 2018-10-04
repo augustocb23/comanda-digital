@@ -42,47 +42,9 @@ function erroAjaxQuery(header, voltar) {
         });
 }
 
-function digitarData(title = 'Data de nascimento', destino = '#nasc', modal = '#modal_atleta') {
-    const modal_ = $(modal);
-    modal_.modal('hide');
-    swal({
-        title: title,
-        input: 'text',
-        inputAttributes: {
-            id: 'data_swal'
-        },
-        inputAutoTrim: true,
-        inputPlaceholder: 'DD/MM/AAAA',
-        inputValidator: (value) => {
-            return new Promise((resolve) => {
-                if (value) {
-                    let data = value.split('/');
-                    if (data[0] > 31 || data[1] > 12 || data[2].length < 4)
-                        resolve('Insira uma data válida');
-                    else
-                        resolve()
-                } else {
-                    resolve('Insira uma data')
-                }
-            })
-        },
-        onOpen: () => {
-            $('#data_swal').mask('00/00/0000');
-        },
-        onClose: () => {
-            modal_.modal('show');
-        },
-        showCloseButton: true,
-        allowOutsideClick: false,
-        allowEscapeKey: false
-    }).then(function (input) {
-        if (input.value) {
-            const destino_ = $(destino);
-            destino_[0].type = 'date';
-            let data = input.value.split('/');
-            destino_.val(data[2] + '-' + data[1] + '-' + data[0]);
-        }
-    });
+function editar(codigo) {
+    $('#codObj').val(codigo);
+    $('#formEdit').submit();
 }
 
 const toast = swal.mixin({

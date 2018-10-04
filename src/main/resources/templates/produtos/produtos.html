@@ -43,14 +43,8 @@
 
     <div sec:authorize="hasAuthority('editar_produtos')">
       <form id="formEdit" th:action="@{/produtos/editar}" method="post">
-        <input name="codigo" type="hidden" id="codProd">
+        <input name="codigo" type="hidden" id="codObj">
       </form>
-      <script type="text/javascript">
-          function editar(codigo) {
-              $('#codProd').val(codigo);
-              $('#formEdit').submit();
-          }
-      </script>
     </div>
   </section>
 </body>

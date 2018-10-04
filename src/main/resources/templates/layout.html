@@ -23,19 +23,30 @@
 </head>
 <body>
   <header>
-    <nav class="nav navbar navbar-inverse navbar-dark bg-dark fixed-top navbar-customizada">
+    <nav class="nav navbar navbar-dark bg-dark navbar-customizada navbar-expand-md fixed-top">
       <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" th:href="@{/}"><span class="btn btn-outline-light border-0 navbar-toggle py-0 mb-1"><i
-              class="fas fa-utensils"></i></span>&nbsp;Comanda Digital</a>
-        </div>
-        <div class="ml-auto" sec:authorize="isAuthenticated()">
-          <a class="btn btn-outline-light border-0" th:href="@{/produtos}"><i
-              class="fas fa-box span-tam_fixo"></i>&nbsp;Produtos</a>
-          <a class="btn btn-outline-light border-0" th:href="@{/funcionarios}"><i
-              class="fas fa-users span-tam_fixo"></i>&nbsp;Funcionários</a>
-          <a class="btn btn-outline-danger border-0" th:href="@{/logout}"><i
-              class="fas fa-sign-out-alt span-tam_fixo"></i>&nbsp;Sair</a>
+        <a class="btn btn-outline-light border-secondary" th:href="@{/}"><i
+            class="fas fa-utensils"></i>&nbsp;Comandas</a>
+        <button class="ml-auto navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+                sec:authorize="isAuthenticated()">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbar">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/produtos}"><i
+                class="fas fa-box span-tam_fixo"></i>&nbsp;Produtos</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/funcionarios}"><i
+                class="fas fa-users span-tam_fixo"></i>&nbsp;Funcionários</a></li>
+          </ul>
+          <div class="dropdown-divider"></div>
+          <ul class="navbar-nav">
+            <li class="nav-item"><a class="btn btn-outline-danger border-0" th:href="@{/logout}"><i
+                class="fas fa-sign-out-alt span-tam_fixo"></i>&nbsp;Sair</a></li>
+          </ul>
         </div>
       </div>
     </nav>
@@ -46,10 +57,18 @@
 
   <div class="container">
     <div class="row">
-      <!-- conteúdo -->
-      <section class="col-md-9 my-1 pt-2 content rounded" layout:fragment="content"></section>
+      <div class="col-md-9">
+        <!-- notificações -->
+        <div class="row">
+          <section class="col-12 pl-4" layout:fragment="alerts"></section>
+        </div>
+        <!-- conteúdo -->
+        <div class="row">
+          <section class="col-12 my-1 py-2 content rounded" layout:fragment="content"></section>
+        </div>
+      </div>
       <!-- sidebar -->
-      <div class="col-md-3">
+      <div class="col-md-3 pt-2">
         <nav class="list-group sidebar sidebar-open" layout:fragment="sidebar"></nav>
       </div>
     </div>
@@ -57,7 +76,42 @@
 
   <!-- rodapé  -->
   <section layout:fragment="footer">
-    <footer th:replace="fragments :: footer"></footer>
+    <footer class="container-fluid fixed-bottom rodape" th:fragment="footer">
+      <div class="container">
+        <nav class="navbar d-md-none navbar-light p-0 pb-1">
+          <div class="navbar-brand pb-0">
+            <h5><i class="fab fa-github span-tam_fixo"></i>&nbsp;<a
+                href="https://github.com/augustocb23/comanda-digital"
+                class="active">Repositório</a></h5>
+          </div>
+          <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#footer">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="footer">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <h5><i class="fas fa-file-alt span-tam_fixo"></i>&nbsp;<a
+                    href="https://docs.google.com/document/d/1N29tnpA0BOTXBQ6RXQDhlWgOqm1buFdwWkRjxUVgqNg/edit?usp=sharing"
+                    class="active">Documento visão</a></h5>
+              </li>
+              <li class="nav-item">
+                <h5><i class="fab fa-trello span-tam_fixo"></i>&nbsp;<a
+                    href="https://trello.com/b/abeQ1h3C" class="active">Backlog</a></h5>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="container d-none d-md-flex flex-row flex-wrap justify-content-around">
+        <h5><i class="fab fa-github"></i>&nbsp;<a href="https://github.com/augustocb23/comanda-digital"
+                                                  class="active">Repositório</a></h5>
+        <h5><i class="fas fa-file-alt"></i>&nbsp;<a
+            href="https://docs.google.com/document/d/1N29tnpA0BOTXBQ6RXQDhlWgOqm1buFdwWkRjxUVgqNg/edit?usp=sharing"
+            class="active">Documento visão</a></h5>
+        <h5><i class="fab fa-trello"></i>&nbsp;<a href="https://trello.com/b/abeQ1h3C" class="active">Backlog</a></h5>
+      </div>
+    </footer>
   </section>
 
   <!-- jQuery -->
@@ -71,7 +125,7 @@
           integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
           crossorigin="anonymous"></script>
   <!-- JQuery Mask Plugin -->
-  <script th:src="@{js/jquery.mask.min.js}"></script>
+  <script th:src="@{/js/jquery.mask.min.js}"></script>
   <!-- JQuery UI -->
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <!-- Sweet Alert 2 -->
@@ -79,7 +133,7 @@
   <!-- Promise Polyfill -->
   <script src="https://unpkg.com/promise-polyfill@8.0.0/dist/polyfill.min.js"></script>
   <!-- funções de uso geral -->
-  <script th:src="@{js/utilities.min.js}"></script>
+  <script th:src="@{/js/utilities.min.js}"></script>
   <!-- funções específicas -->
   <section layout:fragment="scripts"></section>
 </body>
