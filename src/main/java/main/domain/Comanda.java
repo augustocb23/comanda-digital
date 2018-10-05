@@ -1,5 +1,7 @@
 package main.domain;
 
+import main.domain.enumerator.StatusComanda;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;

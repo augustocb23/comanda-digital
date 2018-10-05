@@ -29,6 +29,6 @@ public class LoginController extends HandlerInterceptorAdapter {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
 		model.addAttribute("logout", true);
-		return "login";
+		return "redirect:/login";
 	}
 }

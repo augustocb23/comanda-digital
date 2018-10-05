@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
 <head>
   <!-- meta tags obrigatorias -->
   <meta charset="utf-8">
@@ -69,7 +71,7 @@
       </div>
       <!-- sidebar -->
       <div class="col-md-3 pt-2">
-        <nav class="list-group sidebar sidebar-open" layout:fragment="sidebar"></nav>
+        <nav class="list-group" layout:fragment="sidebar"></nav>
       </div>
     </div>
   </div>

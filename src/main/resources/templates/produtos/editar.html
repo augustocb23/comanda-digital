@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
-      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
 <head>
   <meta charset="UTF-8">
 </head>
@@ -19,7 +22,7 @@
     <form id="form" th:action="@{/produtos/salvar}" method="POST" th:object="${produto}">
       <input type="hidden" th:field="*{codigo}">
       <div class="row">
-        <div class="input-group col-md-6">
+        <div class="input-group col-md-6 pt-2">
           <div class="input-group-prepend">
             <label class="input-group-text" for="nome">Nome</label>
           </div>
@@ -27,8 +30,8 @@
         </div>
       </div>
 
-      <div class="row pt-2">
-        <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <label class="input-group-text" for="estoque">Estoque</label>
@@ -42,7 +45,7 @@
           </div>
           <label for="estoque" class="small text-muted">Para produtos a pronta entrega</label>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">
