@@ -1,4 +1,4 @@
-package main.domain;
+package main.domain.enumerator;
 
 public enum StatusComanda {
 	A("Aberta"), F("Fechada"), P("Paga"), C("Cancelada");

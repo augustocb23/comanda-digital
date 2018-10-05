@@ -26,5 +26,6 @@ INSERT IGNORE INTO grupo_permissao(grupo, permissao)
 VALUES (@grupo, @permissoes);
 INSERT IGNORE INTO grupo_permissao(grupo, permissao)
 VALUES (@grupo, @produto);
+-- insere o admin
 INSERT IGNORE INTO funcionario(login, nome, senha, grupo)
 VALUES ('admin', 'Administrador', '$2a$10$eVJzLDv.T5B9WIL46VsDK.9Vmq1xPzeICesGWUDHriHf.Xxq2v4ti', @grupo);

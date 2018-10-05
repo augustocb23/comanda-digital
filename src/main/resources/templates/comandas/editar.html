@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <nav layout:fragment="sidebar">
+    <div class="list-group-item list-group-item-primary">
+      <div class="btn-group btn-block">
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-primary dropdown-toggle btn-block" data-toggle="dropdown">Mesa
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item text-primary" href="#">Mesa 1</a>
+            <a class="dropdown-item text-primary" href="#">Mesa 2</a>
+            <a class="dropdown-item text-success" href="#"><i class="fas fa-plus"></i>&nbsp;Adicionar</a>
+          </div>
+        </div>
+        <div class="btn-group btn-block">
+          <button type="button" class="btn btn-outline-primary dropdown-toggle btn-block disabled"
+                  data-toggle="dropdown">Comanda
+          </button>
+          <div class="dropdown-menu">
+            <a class="dropdown-item text-primary" href="#">Comanda 1</a>
+            <a class="dropdown-item text-primary" href="#">Comanda 2</a>
+            <a class="dropdown-item text-success" href="#"><i class="fas fa-plus"></i>&nbsp;Adicionar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="list-group-item list-group-item-action list-group-item-dark text-center" th:href="@{/funcionarios/}"><i
+        class="fas fa-sync-alt"></i>&nbsp;Atualizar</a>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/editar}"><i
+        class="fas fa-plus"
+    ></i>&nbsp;Cadastrar</a>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/admin}"
+       sec:authorize="hasAuthority('editar_admin')"><i class="fas fa-user-tie"></i>&nbsp;Administrador</a>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/grupos}"
+       sec:authorize="hasAuthority('editar_permissoes')"><i class="fas fa-user-lock"></i>&nbsp;Permissões</a>
+  </nav>
+
+  <h1 layout:fragment="title">Comandas</h1>
+
+  <section layout:fragment="content">
+    <!-- adicionar -->
+    <div class="w-100 p-2 alert-success rounded">
+      <div class="row">
+        <div class="input-group col-md-7">
+          <div class="input-group-prepend">
+            <label class="input-group-text bg-light border-success" for="produto">Produto</label>
+          </div>
+          <input id="produto" class="form-control border-success" type="text">
+        </div>
+        <div class="input-group col-md-3">
+          <div class="input-group-prepend">
+            <label class="input-group-text bg-light border-success" for="quant">Quantidade</label>
+          </div>
+          <input id="quant" class="form-control border-success" type="number" value="1">
+        </div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-block btn-light border-success"
+          ><i class="fas fa-plus"></i>&nbsp;Adicionar
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- pedidos -->
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Produto</th>
+          <th>Quantidade</th>
+          <th>Situação</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p:${pedidos}">
+          <td th:text="${p.codigo}"></td>
+          <td>
+            <p th:text="${f.nome}"></p>
+          </td>
+          <td th:text="${f.quantidade}"></td>
+          <td th:text="${f.status}"></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</body>
+</html>

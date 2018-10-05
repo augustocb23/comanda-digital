@@ -1,7 +1,7 @@
 package main.controller;
 
 import main.domain.Produto;
-import main.domain.Unidade;
+import main.domain.enumerator.Unidade;
 import main.persistence.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

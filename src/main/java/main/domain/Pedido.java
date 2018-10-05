@@ -1,5 +1,7 @@
 package main.domain;
 
+import main.domain.enumerator.StatusPedido;
+
 import javax.persistence.*;
 
 @SuppressWarnings("serial")

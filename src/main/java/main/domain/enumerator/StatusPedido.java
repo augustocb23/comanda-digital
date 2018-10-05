@@ -1,4 +1,4 @@
-package main.domain;
+package main.domain.enumerator;
 
 public enum StatusPedido {
 	S("Solicitado"), P("Preparando"), R("Pronto"), E("Entregue"), C("Cancelado");

@@ -1,5 +1,7 @@
 package main.domain;
 
+import main.domain.enumerator.Unidade;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -20,7 +22,7 @@ public class Produto extends AbstractEntity<Long> {
 	private List<Ingrediente> ingredientes;
 	@Column
 	private String imagem;
-	@Column(nullable = false, columnDefinition = "CHAR(2)")
+	@Column(columnDefinition = "CHAR(2)")
 	@Enumerated(EnumType.STRING)
 	private Unidade unidade;
 

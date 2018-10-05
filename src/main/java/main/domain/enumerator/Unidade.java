@@ -1,4 +1,4 @@
-package main.domain;
+package main.domain.enumerator;
 
 public enum Unidade {
 	un("unidades"), kg("quilos"), lt("litros");
