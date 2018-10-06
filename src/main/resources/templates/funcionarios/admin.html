@@ -9,11 +9,12 @@
 </head>
 <body>
   <nav layout:fragment="sidebar">
-    <a class="list-group-item list-group-item-action list-group-item-dark text-center" th:href="@{/funcionarios}"><i
-        class="fas fa-arrow-left"></i>&nbsp;Gerenciar</a>
-    <button type="submit" form="form" class="list-group-item list-group-item-action text-center"><i
+    <button type="submit" form="form"
+            class="list-group-item list-group-item-success list-group-item-action text-center"><i
         class="fas fa-save"></i>&nbsp;Salvar
     </button>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios}"><i
+        class="fas fa-arrow-left"></i>&nbsp;Gerenciar</a>
     <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/editar}"
     ><i class="fas fa-plus"></i>&nbsp;Cadastrar</a>
   </nav>

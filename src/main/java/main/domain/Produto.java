@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "produto")
 public class Produto extends AbstractEntity<Long> {
-	@Column(name = "nome", nullable = false)
+	@Column(name = "nome", nullable = false, unique = true)
 	private String nome;
 	@Column(name = "estoque")
 	private Integer estoque;

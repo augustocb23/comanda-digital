@@ -11,13 +11,16 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController extends HandlerInterceptorAdapter {
 	@GetMapping("/login")
-	public String login(@RequestParam(name = "error", required = false) String error, ModelMap model,
-						HttpSession session) {
+	public String login(@RequestParam(name = "error", required = false) String error, ModelMap model) {
+		//redireciona para a página inicial se já estiver autenticado (não é anônimo)
+		String user = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+		if (!user.contentEquals("anonymousUser"))
+			return "redirect:/";
+		//retorna o template
 		model.addAttribute("error", error != null);
 		return "login";
 	}

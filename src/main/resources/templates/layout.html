@@ -36,16 +36,13 @@
 
         <div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbar">
           <ul class="navbar-nav ml-auto">
+            <li class="dropdown-divider"></li>
             <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/produtos}"><i
                 class="fas fa-box span-tam_fixo"></i>&nbsp;Produtos</a>
             </li>
-          </ul>
-          <ul class="navbar-nav">
             <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/funcionarios}"><i
                 class="fas fa-users span-tam_fixo"></i>&nbsp;Funcionários</a></li>
-          </ul>
-          <div class="dropdown-divider"></div>
-          <ul class="navbar-nav">
+            <li class="dropdown-divider"></li>
             <li class="nav-item"><a class="btn btn-outline-danger border-0" th:href="@{/logout}"><i
                 class="fas fa-sign-out-alt span-tam_fixo"></i>&nbsp;Sair</a></li>
           </ul>
@@ -69,16 +66,18 @@
           <section class="col-12 my-1 py-2 content rounded" layout:fragment="content"></section>
         </div>
       </div>
-      <!-- sidebar -->
       <div class="col-md-3 pt-2">
+        <!-- sidebar -->
         <nav class="list-group" layout:fragment="sidebar"></nav>
+        <!-- informações -->
+        <div layout:fragment="info"></div>
       </div>
     </div>
   </div>
 
   <!-- rodapé  -->
-  <section layout:fragment="footer">
-    <footer class="container-fluid fixed-bottom rodape" th:fragment="footer">
+  <section>
+    <footer class="container-fluid fixed-bottom rodape">
       <div class="container">
         <nav class="navbar d-md-none navbar-light p-0 pb-1">
           <div class="navbar-brand pb-0">
