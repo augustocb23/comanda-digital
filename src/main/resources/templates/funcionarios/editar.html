@@ -1,16 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
-      xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
 <head>
   <meta charset="UTF-8">
 </head>
 <body>
   <nav layout:fragment="sidebar">
-    <a class="list-group-item list-group-item-action list-group-item-dark text-center" th:href="@{/funcionarios/}"><i
-        class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
-    <button type="submit" form="form" class="list-group-item list-group-item-action text-center"><i
+    <button type="submit" form="form"
+            class="list-group-item list-group-item-action list-group-item-success text-center"><i
         class="fas fa-save"></i>&nbsp;Salvar
     </button>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/funcionarios/}"><i
+        class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
   </nav>
 
   <h1 layout:fragment="title"><span th:text="${funcionario.codigo}==null?'Novo':'Editar'"></span> funcionário</h1>

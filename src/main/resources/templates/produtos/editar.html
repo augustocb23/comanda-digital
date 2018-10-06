@@ -9,11 +9,12 @@
 </head>
 <body>
   <nav layout:fragment="sidebar">
-    <a class="list-group-item list-group-item-action list-group-item-dark text-center" th:href="@{/produtos/}"><i
-        class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
-    <button type="submit" form="form" class="list-group-item list-group-item-action text-center"><i
+    <button type="submit" form="form"
+            class="list-group-item list-group-item-success list-group-item-action text-center"><i
         class="fas fa-save"></i>&nbsp;Salvar
     </button>
+    <a class="list-group-item list-group-item-action text-center" th:href="@{/produtos/}"><i
+        class="fas fa-arrow-left"></i>&nbsp;Cancelar</a>
   </nav>
 
   <h1 layout:fragment="title"><span th:text="${produto.codigo}==null?'Novo':'Editar'"></span> produto</h1>

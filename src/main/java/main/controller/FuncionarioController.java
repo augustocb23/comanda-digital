@@ -31,7 +31,7 @@ public class FuncionarioController {
 	@GetMapping("")
 	public String funcionarios(ModelMap model) {
 		model.addAttribute("funcionarios", funcionarioService.buscarTodos());
-		return "/funcionarios/funcionarios";
+		return "/funcionarios/listar";
 	}
 
 	@GetMapping("/admin")

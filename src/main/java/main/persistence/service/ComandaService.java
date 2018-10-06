@@ -3,6 +3,8 @@ package main.persistence.service;
 import main.domain.Comanda;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface ComandaService {
 	void salvar(Comanda comanda);
@@ -14,4 +16,8 @@ public interface ComandaService {
 	Comanda buscarPorId(Long id);
 
 	List<Comanda> buscarTodos();
+
+	Map<Long, String> buscarPorMesa(Integer mesa);
+
+	Set<Integer> buscarMesas();
 }

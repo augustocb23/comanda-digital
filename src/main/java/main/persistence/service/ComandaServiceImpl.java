@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -46,5 +48,17 @@ public class ComandaServiceImpl implements ComandaService {
 	@Transactional(readOnly = true)
 	public List<Comanda> buscarTodos() {
 		return dao.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Map<Long, String> buscarPorMesa(Integer mesa) {
+		return dao.findByTable(mesa);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Set<Integer> buscarMesas() {
+		return dao.findTables();
 	}
 }

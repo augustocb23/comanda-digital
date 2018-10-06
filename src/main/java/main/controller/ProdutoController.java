@@ -21,7 +21,7 @@ public class ProdutoController {
 	@GetMapping("")
 	public String funcionarios(ModelMap model) {
 		model.addAttribute("produtos", produtoService.buscarTodos());
-		return "/produtos/produtos";
+		return "/produtos/listar";
 	}
 
 	@GetMapping("/editar")
