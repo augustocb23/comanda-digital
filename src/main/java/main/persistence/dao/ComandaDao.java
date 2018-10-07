@@ -1,10 +1,9 @@
 package main.persistence.dao;
 
 import main.domain.Comanda;
+import main.domain.enumerator.StatusComanda;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public interface ComandaDao {
 	void save(Comanda comanda);
@@ -17,7 +16,7 @@ public interface ComandaDao {
 
 	List<Comanda> findAll();
 
-	Set<Integer> findTables();
+	List<Comanda> findByStatus(StatusComanda status);
 
-	Map<Long, String> findByTable(Integer table);
+	List<Comanda> findByMesa(Integer mesa);
 }
