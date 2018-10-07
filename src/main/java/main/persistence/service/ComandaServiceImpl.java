@@ -1,14 +1,13 @@
 package main.persistence.service;
 
 import main.domain.Comanda;
+import main.domain.enumerator.StatusComanda;
 import main.persistence.dao.ComandaDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @Transactional
@@ -53,12 +52,16 @@ public class ComandaServiceImpl implements ComandaService {
 	@Override
 	@Transactional(readOnly = true)
 	public Map<Long, String> buscarPorMesa(Integer mesa) {
-		return dao.findByTable(mesa);
+		Map<Long, String> result = new HashMap<>();
+		dao.findByMesa(mesa).forEach((c) -> result.put(c.getCodigo(), c.getNome()));
+		return result;
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Set<Integer> buscarMesas() {
-		return dao.findTables();
+		Set<Integer> result = new TreeSet<>();
+		dao.findByStatus(StatusComanda.A).forEach((c) -> result.add(c.getMesa()));
+		return result;
 	}
 }
