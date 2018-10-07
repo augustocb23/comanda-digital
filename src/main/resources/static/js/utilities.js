@@ -11,14 +11,20 @@ $(document).ready(function () {
   $(document).ajaxError(function (event, jqXHR, settings) {
     console.log(jqXHR);
     console.log(settings);
-    //extraia a mensagem (se for JSON)
-    /** @var jqXHR.responseJSON */
-    const response = jqXHR.responseJSON;
+    let title = 'Erro ao processar requisição';
+    let message = jqXHR.statusText;
+    //se for json
+    if (settings.dataType === 'json') {
+      /** @var jqXHR.responseJSON */
+      const response = jqXHR.responseJSON;
+      title = 'Erro: ' + response.error;
+      message = response.message;
+    }
     //testa se não foi apenas cancelada (status 0)
     if (jqXHR.status)
       swal({
-        title: 'Erro: ' + response.error,
-        text: 'HTTP ' + response.status + ': ' + response.message,
+        title: title,
+        text: 'HTTP ' + jqXHR.status + ': ' + message,
         type: 'error',
         showCancelButton: false,
         confirmButtonColor: "#DD6B55",
