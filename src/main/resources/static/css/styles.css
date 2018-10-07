@@ -104,3 +104,7 @@ input::-webkit-inner-spin-button {
     max-height: 425px;
     overflow-y: auto;
 }
+
+button.dropdown-item {
+    cursor: pointer;
+}

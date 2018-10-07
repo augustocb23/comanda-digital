@@ -58,7 +58,7 @@ public class ComandaController {
 			comandaService.salvar(comanda);
 		} else
 			comandaService.editar(comanda);
-		//remove dados do atendente antes de retornar
+		//remove dados do atendente antes de retornar o objeto
 		comanda.removeAtendente();
 		return comanda;
 	}
