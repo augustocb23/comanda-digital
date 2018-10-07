@@ -1,11 +1,15 @@
 //CONFIGURAÇÕES PARA AJAX
 $(document).ready(function () {
-  //salva o token de autenticação
-  const token = $("meta[name='_csrf']").attr("content");
-  const header = $("meta[name='_csrf_header']").attr("content");
-  $(document).ajaxSend(function (e, xhr) {
-    xhr.setRequestHeader(header, token);
-    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  $(document).ajaxSend(function (e, xhr, settings) {
+    if (settings.type === 'POST') {
+      //salva o token de autenticação
+      const token = $("meta[name='_csrf']").attr("content");
+      const header = $("meta[name='_csrf_header']").attr("content");
+      xhr.setRequestHeader(header, token);
+      xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    } else if (settings.dataType === 'html') {
+      toast_carregando({title: 'Carregando...'});
+    }
   });
   //mensagens de erro
   $(document).ajaxError(function (event, jqXHR, settings) {
@@ -43,7 +47,7 @@ function salvaComanda() {
   const form = modal.find('form');
   const btnSalvar = modal.find('.btn-success').attr('disabled', true);
   const btnCancel = modal.find('.btn-light');
-  const ajax = $.post('/comandas/salvar', JSON.stringify(getFormData(form)), function (data) {
+  const ajax = $.post('/comandas/salvar', getFormData(form), function (data) {
     toast({title: 'Comanda salva', type: 'success'})
   }, 'json').always(function () {
     btnSalvar.removeAttr('disabled');
@@ -55,6 +59,24 @@ function salvaComanda() {
   });
   toast_carregando({title: 'Salvando...'});
   return false;
+}
+
+function atualizaMesas() {
+  $('#div-mesas').load('/mesas', function () {
+    swal.close()
+  });
+}
+
+function buscaComandas(mesa) {
+  $('#div-comandas').load('/comandas/' + mesa, function () {
+    $('#mesa').text('Mesa ' + mesa);
+    $('#btn-comandas').removeClass('disabled');
+    swal.close()
+  });
+}
+
+function atualizaComandas() {
+  buscaComandas($('#mesa').text().split(' ')[1])
 }
 
 function removeAcentos(stringComAcento) {
@@ -82,6 +104,7 @@ function removeAcentos(stringComAcento) {
   return string;
 }
 
+//extrai todos os campos de um formulário
 function getFormData(form) {
   const array = form.serializeArray();
   let indexed_array = {};
@@ -92,9 +115,10 @@ function getFormData(form) {
     //indexa o vetor
     indexed_array[n['name']] = n['value'];
   });
-  return indexed_array;
+  return JSON.stringify(indexed_array);
 }
 
+//SWEET ALERTS
 const toast = swal.mixin({
   toast: true,
   position: 'top',

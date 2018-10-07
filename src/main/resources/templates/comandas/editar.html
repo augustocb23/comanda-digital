@@ -9,29 +9,40 @@
 </head>
 <body>
   <nav layout:fragment="sidebar">
+    <div id="mesa" class="list-group-item list-group-item-light small text-center py-1">Selecione a mesa</div>
     <div class="list-group-item list-group-item-primary">
       <div class="btn-group btn-block flex-md-wrap flex-xl-nowrap">
         <div class="btn-group w-100">
           <button type="button" class="btn btn-outline-primary dropdown-toggle btn-block" data-toggle="dropdown">Mesa
           </button>
-          <div id="div-mesas" class="dropdown-menu" th:fragment="mesas">
-            <a class="dropdown-item text-primary" th:each="m:${mesas}" th:text="${'Mesa '+m}">Mesa</a>
-            <div class="dropdown-divider" th:if="!${mesas.isEmpty()}"></div>
-            <a class="dropdown-item text-success" href="#" data-toggle="modal" data-target="#mdl-editar"><i
-                class="fas fa-plus"></i>&nbsp;Adicionar</a>
-            <a class="dropdown-item text-secondary" href="#"><i class="fas fa-sync-alt"></i>&nbsp;Atualizar</a>
+          <div id="div-mesas" class="dropdown-menu">
+            <section th:fragment="mesas">
+              <button type="button" class="dropdown-item text-primary" th:onclick="${'buscaComandas('+m+')'}"
+                      th:each="m:${mesas}" th:text="${'Mesa '+m}">Mesa
+              </button>
+              <div class="dropdown-divider" th:if="!${mesas.isEmpty()}"></div>
+              <a class="dropdown-item text-success" href="#" data-toggle="modal" data-target="#mdl-editar"><i
+                  class="fas fa-plus"></i>&nbsp;Adicionar</a>
+              <button type="button" class="dropdown-item text-secondary" onclick="atualizaMesas()"><i
+                  class="fas fa-sync-alt"></i>&nbsp;Atualizar
+              </button>
+            </section>
           </div>
         </div>
         <div class="btn-group w-100">
-          <button type="button" class="btn btn-outline-primary dropdown-toggle btn-block"
+          <button type="button" id="btn-comandas" class="btn btn-outline-primary dropdown-toggle btn-block"
                   th:classappend="${comandas==null}?'disabled':null" data-toggle="dropdown">Comanda
           </button>
-          <div id="div-comandas" class="dropdown-menu" th:if="${comandas!=null}" th:fragment="comandas">
-            <a class="dropdown-item text-primary" th:each="c:${comandas.entrySet()}"
-               th:text="${c.getValue()==null?'Comanda '+c.getKey():c.getValue()}">Comanda</a>
-            <div class="dropdown-divider" th:if="!${comandas.isEmpty()}"></div>
-            <a class="dropdown-item text-success" href="#"><i class="fas fa-plus"></i>&nbsp;Adicionar</a>
-            <a class="dropdown-item text-secondary" href="#"><i class="fas fa-sync-alt"></i>&nbsp;Atualizar</a>
+          <div id="div-comandas" class="dropdown-menu">
+            <section th:fragment="comandas" th:if="${comandas!=null}">
+              <a class="dropdown-item text-primary" th:each="c:${comandas.entrySet()}"
+                 th:text="${c.getValue()==null?'Comanda '+c.getKey():c.getValue()}">Comanda</a>
+              <div class="dropdown-divider" th:if="!${comandas.isEmpty()}"></div>
+              <a class="dropdown-item text-success" href="#"><i class="fas fa-plus"></i>&nbsp;Adicionar</a>
+              <button type="button" class="dropdown-item text-secondary" onclick="atualizaComandas()"><i
+                  class="fas fa-sync-alt"></i>&nbsp;Atualizar
+              </button>
+            </section>
           </div>
         </div>
       </div>
