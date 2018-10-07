@@ -29,6 +29,10 @@ public class Comanda extends AbstractEntity<Long> {
 		return Objects.hash(data);
 	}
 
+	public void removeAtendente() {
+		atendente = null;
+	}
+
 	public Funcionario getAtendente() {
 		return atendente;
 	}
@@ -76,6 +80,4 @@ public class Comanda extends AbstractEntity<Long> {
 	public void setStatus(StatusComanda status) {
 		this.status = status;
 	}
-
-	;
 }

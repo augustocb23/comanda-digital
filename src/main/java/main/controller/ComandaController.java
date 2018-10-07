@@ -1,24 +1,28 @@
 package main.controller;
 
 import main.domain.Comanda;
+import main.domain.enumerator.StatusComanda;
 import main.persistence.service.ComandaService;
+import main.security.AuthenticationFacadeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/")
 public class ComandaController {
+	final private AuthenticationFacadeImpl authenticationFacade;
 	final private ComandaService comandaService;
 
 	@Autowired
-	public ComandaController(ComandaService comandaService) {
+	public ComandaController(ComandaService comandaService, AuthenticationFacadeImpl authenticationFacade) {
 		this.comandaService = comandaService;
+		this.authenticationFacade = authenticationFacade;
 	}
 
 	@GetMapping("")
@@ -41,10 +45,21 @@ public class ComandaController {
 		return "/comandas/editar::comandas";
 	}
 
-/*	@GetMapping(value = "/comandas/{mesa}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = "/comandas/salvar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public Map<Long, String> buscaPorMesa(@PathVariable String mesa) {
-		Map<Long, String> longStringMap = comandaService.buscarPorMesa(Integer.valueOf(mesa));
-		return longStringMap;
-	}*/
+	public Comanda salvaComanda(@RequestBody Comanda comanda) {
+		if (comanda.getCodigo() == null) {
+			//define os valores padrão
+			comanda.setData(new Date());
+			comanda.setStatus(StatusComanda.A);
+			comanda.setAtendente(authenticationFacade.getFuncionario());
+			//salva os dados
+			comandaService.salvar(comanda);
+		} else
+			comandaService.editar(comanda);
+		//remove dados do atendente antes de retornar
+		comanda.removeAtendente();
+		return comanda;
+	}
 }

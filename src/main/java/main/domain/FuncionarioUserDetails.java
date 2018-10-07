@@ -22,6 +22,10 @@ public class FuncionarioUserDetails implements UserDetails {
 		return funcionario.getPermissoes();
 	}
 
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+
 	@Override
 	public String getPassword() {
 		return funcionario.getSenha();
