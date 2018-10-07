@@ -22,6 +22,9 @@
   <!-- Fonte Awesome (ícones) -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
         integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+  <!-- CSRF -->
+  <meta name="_csrf" th:content="${_csrf.token}"/>
+  <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
   <header>
@@ -73,6 +76,8 @@
         <div layout:fragment="info"></div>
       </div>
     </div>
+    <!-- modais -->
+    <section layout:fragment="modals"></section>
   </div>
 
   <!-- rodapé  -->

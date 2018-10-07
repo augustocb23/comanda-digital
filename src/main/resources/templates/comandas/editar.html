@@ -10,14 +10,15 @@
 <body>
   <nav layout:fragment="sidebar">
     <div class="list-group-item list-group-item-primary">
-      <div class="btn-group btn-block flex-md-wrap flex-lg-nowrap">
+      <div class="btn-group btn-block flex-md-wrap flex-xl-nowrap">
         <div class="btn-group w-100">
           <button type="button" class="btn btn-outline-primary dropdown-toggle btn-block" data-toggle="dropdown">Mesa
           </button>
           <div id="div-mesas" class="dropdown-menu" th:fragment="mesas">
             <a class="dropdown-item text-primary" th:each="m:${mesas}" th:text="${'Mesa '+m}">Mesa</a>
             <div class="dropdown-divider" th:if="!${mesas.isEmpty()}"></div>
-            <a class="dropdown-item text-success" href="#"><i class="fas fa-plus"></i>&nbsp;Adicionar</a>
+            <a class="dropdown-item text-success" href="#" data-toggle="modal" data-target="#mdl-editar"><i
+                class="fas fa-plus"></i>&nbsp;Adicionar</a>
             <a class="dropdown-item text-secondary" href="#"><i class="fas fa-sync-alt"></i>&nbsp;Atualizar</a>
           </div>
         </div>
@@ -81,7 +82,7 @@
     <div
         class="bg-light rounded-top border border-success d-flex justify-content-between text-dark px-2 py-1">
       <div>Comanda&nbsp;<span id="comanda" th:text="${comanda.getCodigo()}"></span></div>&nbsp;
-      <div class="text-md-right">Senha&nbsp;<span th:text="${comanda.senhaComanda()}"></span></div>
+      <div>Senha&nbsp;<span th:text="${comanda.senhaComanda()}"></span></div>
     </div>
     <form onsubmit="return false" class="w-100 p-2 alert-success rounded-bottom mb-2">
       <input type="hidden" id="codigo" name="codigo">
@@ -129,5 +130,55 @@
       </table>
     </div>
   </section>
+  <section layout:fragment="modals">
+    <div id="mdl-editar" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="titulo-editar">Nova comanda</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span class="fas fa-times"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="form-editar" onsubmit="return salvaComanda()">
+              <input type="hidden" name="codigo" value="null">
+              <!-- nome -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="editar-nome">Nome</label>
+                </div>
+                <input id="editar-nome" class="form-control" title="Nome do cliente" type="text" name="nome">
+              </div>
+              <div class="d-flex justify-content-end">
+                <label for="editar-nome" class="small text-muted">Opcional</label>
+              </div>
+              <!-- mesa -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="editar-mesa">Mesa</label>
+                </div>
+                <input id="editar-mesa" class="form-control" type="number" name="mesa" title="Número da mesa"
+                       required>
+              </div>
+              <!-- atendente -->
+              <div class="input-group pt-2">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="editar-atendente">Atendente</label>
+                </div>
+                <input id="editar-atendente" class="form-control" type="text" th:value="${#authentication.name}"
+                       readonly>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+            <button type="submit" form="form-editar" class="btn btn-success">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </body>
+<script src="/static/js/utilities.js"></script>
 </html>
