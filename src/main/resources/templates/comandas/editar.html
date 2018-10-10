@@ -35,9 +35,11 @@
           </button>
           <div id="div-comandas" class="dropdown-menu">
             <section th:fragment="comandas" th:if="${comandas!=null}">
-              <a class="dropdown-item text-primary" th:each="c:${comandas.entrySet()}"
-                 th:text="${c.getValue()==null?'Comanda '+c.getKey():c.getValue()}">Comanda</a>
-              <div class="dropdown-divider" th:if="!${comandas.isEmpty()}"></div>
+              <button type="button" class="dropdown-item text-primary" th:onclick="${'buscaComanda('+c.getKey()+')'}"
+                      th:each="c:${comandas.entrySet()}"
+                      th:text="${c.getValue()==null?'Comanda '+c.getKey():c.getValue()}">Comanda
+              </button>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item text-success" href="#"><i class="fas fa-plus"></i>&nbsp;Adicionar</a>
               <button type="button" class="dropdown-item text-secondary" onclick="atualizaComandas()"><i
                   class="fas fa-sync-alt"></i>&nbsp;Atualizar
@@ -79,7 +81,7 @@
   </div>
 
   <section id="div-alerts" layout:fragment="alerts" th:if="${comanda.getCodigo()==null}">
-    <div class="pb-1 alert alert-primary alert-dismissible fade show">
+    <div class="pb-1 alert alert-primary alert-dismissible">
       <h4 class="alert-heading">Informe a comanda</h4>
       <p>Utilize o menu para escolher ou adicionar mesa e comanda</p>
       <button type="button" class="close" data-dismiss="alert">
@@ -88,57 +90,61 @@
     </div>
   </section>
 
-  <section layout:fragment="content" th:if="${comanda.getCodigo()!=null}">
-    <!-- adicionar pedido -->
-    <div
-        class="bg-light rounded-top border border-success d-flex justify-content-between text-dark px-2 py-1">
-      <div>Comanda&nbsp;<span id="comanda" th:text="${comanda.getCodigo()}"></span></div>&nbsp;
-      <div>Senha&nbsp;<span th:text="${comanda.senhaComanda()}"></span></div>
-    </div>
-    <form onsubmit="return false" class="w-100 p-2 alert-success rounded-bottom mb-2">
-      <input type="hidden" id="codigo" name="codigo">
-      <div class="row">
-        <div class="input-group col-md-7 col-lg-6 pb-lg-0 pb-1 flex-nowrap">
-          <div class="input-group-prepend">
-            <label class="input-group-text bg-light border-success" for="produto">Produto</label>
-          </div>
-          <input type="text" id="produto" class="form-control border-success" placeholder="Buscar..." required>
-        </div>
-        <div class="input-group col-md-5 col-lg-4 pb-lg-0 pb-1 flex-nowrap">
-          <div class="input-group-prepend">
-            <label class="input-group-text bg-light border-success" for="quant">Quantidade</label>
-          </div>
-          <input id="quant" name="quantidade" class="form-control border-success" type="number" value="1" required>
-        </div>
-        <div class="col-lg-2 pb-lg-0 pb-1 flex-nowrap">
-          <button type="submit" id="btn-addProd" class="btn btn-block btn-light border-success" disabled
-          ><i id="fa-addProd" class="fas fa-plus"></i><span class="d-lg-none d-xl-inline-block">&nbsp;Adicionar</span>
-          </button>
-        </div>
+  <section id="content" layout:fragment="content" th:classappend="${comanda.getCodigo()==null}?'d-none':null">
+    <div id="div-comanda" th:fragment="comanda">
+      <!-- adicionar pedido -->
+      <div class="bg-light rounded-top border border-success d-flex justify-content-between text-dark px-2 py-1">
+        <div>Comanda&nbsp;<span id="comanda" th:text="${comanda.getCodigo()}"></span></div>&nbsp;
+        <div th:text="${comanda.getNome()}"></div>&nbsp;
+        <div>Senha&nbsp;<span th:text="${comanda.senhaComanda()}"></span></div>
       </div>
-    </form>
-    <!-- pedidos -->
-    <div class="table-responsive">
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th>#</th>
-          <th>Produto</th>
-          <th>Quantidade</th>
-          <th>Situação</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="p:${comanda.getPedidos()}">
-          <td th:text="${p.codigo}"></td>
-          <td>
-            <p th:text="${f.nome}"></p>
-          </td>
-          <td th:text="${f.quantidade}"></td>
-          <td th:text="${f.status}"></td>
-        </tr>
-        </tbody>
-      </table>
+      <form onsubmit="return false" class="w-100 p-2 alert-success rounded-bottom mb-2">
+        <input type="hidden" id="cod-prod" name="codigo">
+        <div class="row">
+          <div class="input-group col-md-7 col-lg-6 pb-lg-0 pb-1 flex-nowrap">
+            <div class="input-group-prepend">
+              <label class="input-group-text bg-light border-success" for="produto">Produto</label>
+            </div>
+            <input type="text" id="produto" class="form-control border-success" placeholder="Buscar..." required
+                   onblur="blurProduto()">
+          </div>
+          <div class="input-group col-md-5 col-lg-4 pb-lg-0 pb-1 flex-nowrap">
+            <div class="input-group-prepend">
+              <label class="input-group-text bg-light border-success" for="quant">Quantidade</label>
+            </div>
+            <input id="quant" name="quantidade" class="form-control border-success" type="number" value="1" required>
+          </div>
+          <div class="col-lg-2 pb-lg-0 pb-1 flex-nowrap">
+            <button type="submit" id="btn-addProd" class="btn btn-block btn-light border-success"
+                    onclick="adicionaProduto()" disabled
+            ><i id="fa-addProd" class="fas fa-plus"></i><span class="d-lg-none d-xl-inline-block">&nbsp;Adicionar</span>
+            </button>
+          </div>
+        </div>
+      </form>
+      <!-- pedidos -->
+      <div class="table-responsive">
+        <table id="tbl-pedidos" class="table table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Situação</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="p:${comanda.getPedidos()}">
+            <td th:text="${p.codigo}"></td>
+            <td>
+              <p th:text="${f.nome}"></p>
+            </td>
+            <td th:text="${f.quantidade}"></td>
+            <td th:text="${f.status}"></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </section>
   <section layout:fragment="modals">

@@ -14,4 +14,6 @@ public interface ProdutoDao {
 	Produto findById(Long id);
 
 	List<Produto> findAll();
+
+	List<Produto> findByName(String name);
 }

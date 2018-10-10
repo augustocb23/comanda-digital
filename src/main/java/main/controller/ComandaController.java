@@ -39,10 +39,16 @@ public class ComandaController {
 		return "/comandas/editar::mesas";
 	}
 
-	@GetMapping("/comandas/{mesa}")
+	@GetMapping("/mesas/{mesa}")
 	public String fragmentComandas(ModelMap model, @PathVariable String mesa) {
 		model.addAttribute("comandas", comandaService.buscarPorMesa(Integer.valueOf(mesa)));
 		return "/comandas/editar::comandas";
+	}
+
+	@GetMapping("/comandas/{comanda}")
+	public String fragmentContent(ModelMap model, @PathVariable String comanda) {
+		model.addAttribute("comanda", comandaService.buscarPorId(Long.valueOf(comanda)));
+		return "/comandas/editar::comanda";
 	}
 
 	@PostMapping(value = "/comandas/salvar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
