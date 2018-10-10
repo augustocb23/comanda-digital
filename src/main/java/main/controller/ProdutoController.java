@@ -1,12 +1,16 @@
 package main.controller;
 
+import main.domain.AutoComplete;
 import main.domain.Produto;
 import main.domain.enumerator.Unidade;
 import main.persistence.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/produtos")
@@ -28,6 +32,12 @@ public class ProdutoController {
 	public String editar(ModelMap model) {
 		model.addAttribute("produto", new Produto());
 		return "/produtos/editar";
+	}
+
+	@GetMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public List<AutoComplete> autocomplete(@RequestParam String term) {
+		return AutoComplete.toList(produtoService.buscarPorNome(term));
 	}
 
 	@PostMapping("/editar")

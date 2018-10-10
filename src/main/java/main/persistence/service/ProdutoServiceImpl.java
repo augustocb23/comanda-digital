@@ -47,4 +47,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public List<Produto> buscarTodos() {
 		return dao.findAll();
 	}
+
+	@Override
+	public List<Produto> buscarPorNome(String nome) {
+		return dao.findByName(nome);
+	}
 }

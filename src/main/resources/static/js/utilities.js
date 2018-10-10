@@ -35,6 +35,20 @@ $(document).ready(function () {
         confirmButtonText: "OK"
       });
   });
+  //erros do DataTables
+  $.fn.dataTable.ext.errMode = 'none';
+  $('table').on('error.dt', function (e, settings, techNote, message) {
+    $('.dataTables_empty').html('Erro ao obter dados');
+    swal({
+      title: 'Erro ao obter dados',
+      text: 'DataTables error ' + techNote,
+      type: 'error',
+      showCancelButton: false,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "OK"
+    });
+    console.log(message);
+  });
 });
 
 function editar(codigo) {
@@ -68,15 +82,97 @@ function atualizaMesas() {
 }
 
 function buscaComandas(mesa) {
-  $('#div-comandas').load('/comandas/' + mesa, function () {
-    $('#mesa').text('Mesa ' + mesa);
+  $('#div-comandas').load('/mesas/' + mesa, function () {
+    $('#mesa').text('Mesa ' + mesa).addClass('list-group-item-primary').removeClass('list-group-item-light');
     $('#btn-comandas').removeClass('disabled');
     swal.close()
   });
 }
 
+function buscaComanda(comanda) {
+  $('#div-comanda').load('/comandas/' + comanda, function () {
+    $('#content').removeClass('d-none');
+    $('.alert').alert('close');
+    autoCompleteProduto();
+    swal.close();
+    $('#tbl-pedidos').DataTable({
+      dom: 't',
+      //tradução
+      language: {
+        url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json'
+      },
+      paging: false,
+      columnDefs: [{
+        targets: 0,
+        type: 'num'
+      }]
+    });
+  });
+}
+
 function atualizaComandas() {
   buscaComandas($('#mesa').text().split(' ')[1])
+}
+
+function autoCompleteProduto() {
+  const btn = $('#btn-addProd');
+  const codigo = $('#cod-prod');
+  $('#produto').autocomplete({
+    delay: 400,
+    source: function (request, response) {
+      const fa = $('#fa-addProd');
+      codigo.val(null);
+      fa.removeClass('fa-plus').addClass('fa-hourglass-half');
+      btn.attr('disabled', true);
+      jQuery.ajax({
+        url: "produtos/buscar",
+        data: {term: removeAcentos(request.term)},
+        dataType: "json",
+        success: function (data) {
+          response(data);
+          fa.addClass('fa-plus').removeClass('fa-hourglass-half');
+        }
+      })
+    },
+    select: function (e, ui) {
+      /** o código do item, recebido através do JSON
+       * @property {int} item.codigo
+       */
+      $('#quant').focus();
+      codigo.val(ui.item.codigo);
+      btn.removeAttr('disabled');
+    }
+  });
+}
+
+function blurProduto() {
+  if (!$('#cod-prod').val()) {
+    $('#produto').val(null);
+    $('#btn-addProd').attr('disabled', true);
+  }
+}
+
+function adicionaProduto() {
+  let dt = $('#tbl-pedidos').DataTable();
+  let produto = $('#cod-prod');
+  let desc = $('#produto');
+  let quant = $('#quant');
+  let data = {quantidade: quant.val(), produto: produto.val(), comanda: $('#comanda').text()};
+  //adiciona na tabela
+  let row = dt.row.add([null, desc.val(), quant.val(), 'S']).draw();
+  row.node().classList.add("font-italic");
+  swal_carregando({title: 'Salvando...'});
+  //envia os dados
+  $.post('/pedidos/adicionar', JSON.stringify(data), function (data) {
+    row.cell.data(data.codigo);
+    row.node().classList.remove("font-italic");
+    toast({title: 'Pedido salvo', type: 'success'});
+  }, 'json').always(function () {
+    produto.val(null);
+    desc.val(null);
+    quant.val(1);
+    $('#btn-addProd').attr('disabled', true);
+  });
 }
 
 function removeAcentos(stringComAcento) {
@@ -104,7 +200,7 @@ function removeAcentos(stringComAcento) {
   return string;
 }
 
-//extrai todos os campos de um formulário
+//serializa todos os campos de um formulário
 function getFormData(form) {
   const array = form.serializeArray();
   let indexed_array = {};

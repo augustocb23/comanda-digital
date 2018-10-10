@@ -14,4 +14,6 @@ public interface ProdutoService {
 	Produto buscarPorId(Long id);
 
 	List<Produto> buscarTodos();
+
+	List<Produto> buscarPorNome(String term);
 }
