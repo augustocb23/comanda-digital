@@ -8,4 +8,8 @@ public enum StatusPedido {
 	StatusPedido(String desc) {
 		this.desc = desc;
 	}
+
+	public String getDesc() {
+		return desc;
+	}
 }

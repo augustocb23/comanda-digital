@@ -13,7 +13,7 @@ body {
     max-width: 100%;
     overflow-x: hidden;
     padding-top: 52px;
-    padding-bottom: 15px;
+    padding-bottom: 5em;
     background-color: #d1ecf1;
 }
 
@@ -52,10 +52,6 @@ body {
     background-color: #eeeef5;
     padding-top: 4px;
     margin-top: 10px;
-}
-
-.conteudo-com-rodape {
-    padding-bottom: 5em;
 }
 
 .span-tam_fixo {
@@ -105,6 +101,6 @@ input::-webkit-inner-spin-button {
     overflow-y: auto;
 }
 
-button.dropdown-item {
+button.dropdown-item, .list-group-item-action {
     cursor: pointer;
 }

@@ -40,7 +40,9 @@
                       th:text="${c.getValue()==null?'Comanda '+c.getKey():c.getValue()}">Comanda
               </button>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item text-success" href="#"><i class="fas fa-plus"></i>&nbsp;Adicionar</a>
+              <a class="dropdown-item text-success" href="#" data-toggle="modal" data-target="#mdl-editar"
+                 data-mesa="true"><i
+                  class="fas fa-plus"></i>&nbsp;Adicionar</a>
               <button type="button" class="dropdown-item text-secondary" onclick="atualizaComandas()"><i
                   class="fas fa-sync-alt"></i>&nbsp;Atualizar
               </button>
@@ -49,56 +51,60 @@
         </div>
       </div>
     </div>
-    <a class="list-group-item list-group-item-action list-group-item-success text-center d-none"
-       th:href="@{/funcionarios/}"><i class="fas fa-save"></i>&nbsp;Salvar</a>
-    <a class="list-group-item list-group-item-action list-group-item-danger text-center d-none"
-       th:href="@{/funcionarios/}"><i class="fas fa-check"></i>&nbsp;Finalizar</a>
     <a class="list-group-item list-group-item-action text-center text-nowrap"
-       th:href="@{/funcionarios/}"><i class="far fa-list-alt"></i>&nbsp;Ver todas</a>
+       th:href="@{/comandas/}"><i class="far fa-list-alt"></i>&nbsp;Ver todas</a>
   </nav>
 
   <h1 layout:fragment="title">Comandas</h1>
 
-  <div th:if="${comanda.getCodigo()!=null}" layout:fragment="info">
-    <div class="mt-3 card border border-dark">
-      <div class="card-header font-weight-bold">Comanda&nbsp;<span th:text="${comanda.getCodigo()}"></span></div>
-      <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Mesa&nbsp;<span class="text-black-50" th:text="${comanda.getMesa()}"></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Nome&nbsp;<span class="text-black-50" th:text="${comanda.getNome()}"></span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-          Data&nbsp;<span class="text-black-50" th:text="${comanda.getData()}"></span>
-        </li>
-        <li style="list-style: none">
-          <a class="list-group-item list-group-item-action list-group-item-secondary text-center"
-             th:href="@{/funcionarios/}"><i class="fas fa-pencil-alt"></i>&nbsp;Editar</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <section id="div-alerts" layout:fragment="alerts" th:if="${comanda.getCodigo()==null}">
+  <section id="div-alerts" layout:fragment="alerts" th:if="${comanda.codigo==null}">
     <div class="pb-1 alert alert-primary alert-dismissible">
       <h4 class="alert-heading">Informe a comanda</h4>
       <p>Utilize o menu para escolher ou adicionar mesa e comanda</p>
-      <button type="button" class="close" data-dismiss="alert">
-        <span><i class="fas fa-times"></i></span>
-      </button>
     </div>
   </section>
 
-  <section id="content" layout:fragment="content" th:classappend="${comanda.getCodigo()==null}?'d-none':null">
+  <div layout:fragment="info">
+    <div id="div-info" th:fragment="info" th:classappend="${comanda.codigo==null}?'d-none':null">
+      <div class="mt-3 card border border-dark">
+        <div class="card-header font-weight-bold d-flex justify-content-between align-items-center">
+          <div class="align-middle">Comanda&nbsp;<span th:text="${comanda.codigo}"></span></div>
+          <button class="btn btn-sm btn-outline-dark" th:onclick="${'buscaComanda('+comanda.codigo+')'}"
+                  title="Atualizar"><span class="fas fa-sync"></span></button>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Mesa&nbsp;<span class="text-black-50" th:text="${comanda.mesa}"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Nome&nbsp;<span class="text-black-50" th:text="${comanda.nome}"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Data&nbsp;<span class="text-black-50"
+                            th:text="${#calendars.format(comanda.data,'dd/MM/yyyy HH:mm')}"></span>
+          </li>
+          <li class="list-group-item list-group-item-action list-group-item-secondary text-center pointer"
+              data-toggle="modal" data-target="#mdl-editar"
+              th:attr="data-nome=${comanda.nome},data-mesa=${comanda.mesa},data-codigo=${comanda.codigo}"><i
+              class="fas fa-pencil-alt"></i>&nbsp;Editar
+          </li>
+          <li class="list-group-item list-group-item-action list-group-item-danger text-center pointer"
+              th:href="@{/funcionarios/}"><i class="fas fa-check"></i>&nbsp;Finalizar
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <section id="content" layout:fragment="content" th:classappend="${comanda.codigo==null}?'d-none':null">
     <div id="div-comanda" th:fragment="comanda">
       <!-- adicionar pedido -->
       <div class="bg-light rounded-top border border-success d-flex justify-content-between text-dark px-2 py-1">
-        <div>Comanda&nbsp;<span id="comanda" th:text="${comanda.getCodigo()}"></span></div>&nbsp;
+        <div>Comanda&nbsp;<span id="comanda" th:text="${comanda.codigo}"></span></div>&nbsp;
         <div th:text="${comanda.getNome()}"></div>&nbsp;
         <div>Senha&nbsp;<span th:text="${comanda.senhaComanda()}"></span></div>
       </div>
-      <form onsubmit="return false" class="w-100 p-2 alert-success rounded-bottom mb-2">
+      <form id="form-produto" onsubmit="return false" class="w-100 p-2 alert-success rounded-bottom mb-2">
         <input type="hidden" id="cod-prod" name="codigo">
         <div class="row">
           <div class="input-group col-md-7 col-lg-6 pb-lg-0 pb-1 flex-nowrap">
@@ -116,7 +122,7 @@
           </div>
           <div class="col-lg-2 pb-lg-0 pb-1 flex-nowrap">
             <button type="submit" id="btn-addProd" class="btn btn-block btn-light border-success"
-                    onclick="adicionaProduto()" disabled
+                    onclick="adicionaPedido()" disabled
             ><i id="fa-addProd" class="fas fa-plus"></i><span class="d-lg-none d-xl-inline-block">&nbsp;Adicionar</span>
             </button>
           </div>
@@ -124,23 +130,44 @@
       </form>
       <!-- pedidos -->
       <div class="table-responsive">
-        <table id="tbl-pedidos" class="table table-hover">
+        <table id="tbl-pedidos" class="table table-hover compact">
           <thead>
           <tr>
             <th>#</th>
             <th>Produto</th>
             <th>Quantidade</th>
-            <th>Situação</th>
+            <th class="text-right">Situação</th>
           </tr>
           </thead>
           <tbody>
-          <tr th:each="p:${comanda.getPedidos()}">
+          <tr th:each="p:${comanda.getPedidos()}" th:attr="data-pedido=${p.codigo}">
             <td th:text="${p.codigo}"></td>
             <td>
-              <p th:text="${f.nome}"></p>
+              <p th:text="${p.produto.nome}"></p>
             </td>
-            <td th:text="${f.quantidade}"></td>
-            <td th:text="${f.status}"></td>
+            <td th:text="${p.quantidade}"></td>
+            <td class="text-right">
+              <div class="btn-group dropleft">
+                <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                        th:text="${p.status.desc}"
+                        th:classappend="${p.status}=='C'?'btn-outline-danger':(p.status=='E'?'btn-outline-success':'btn-outline-dark')">
+                </button>
+                <div class="dropdown-menu py-1">
+                  <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'S')">Solicitado
+                  </button>
+                  <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'P')">Preparando
+                  </button>
+                  <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'R')">Pronto
+                  </button>
+                  <button type="button" class="px-2 btn-sm dropdown-item text-success"
+                          onclick="atualizaPedido(this,'E')">Entregue
+                  </button>
+                  <button type="button" class="px-2 btn-sm dropdown-item text-danger"
+                          onclick="atualizaPedido(this,'C')">Cancelado
+                  </button>
+                </div>
+              </div>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -152,14 +179,14 @@
       <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="titulo-editar">Nova comanda</h5>
+            <h5 class="modal-title">Nova comanda</h5>
             <button type="button" class="close" data-dismiss="modal">
               <span class="fas fa-times"></span>
             </button>
           </div>
           <div class="modal-body">
             <form id="form-editar" onsubmit="return salvaComanda()">
-              <input type="hidden" name="codigo" value="null">
+              <input id="editar-codigo" type="hidden" name="codigo" value="null">
               <!-- nome -->
               <div class="input-group">
                 <div class="input-group-prepend">
@@ -198,4 +225,7 @@
   </section>
 </body>
 <script src="/static/js/utilities.js"></script>
+<section layout:fragment="scripts">
+  <script th:src="@{/js/comandas.min.js}"></script>
+</section>
 </html>

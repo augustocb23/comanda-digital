@@ -12,6 +12,10 @@ public interface ComandaDao {
 
 	void delete(Long id);
 
+	void updateMesa(Comanda comanda);
+
+	void updateNome(Comanda comanda);
+
 	Comanda findById(Long id);
 
 	List<Comanda> findAll();

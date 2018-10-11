@@ -17,9 +17,8 @@ public class StringToGrupoConverter implements Converter<String, Grupo> {
 
 	@Override
 	public Grupo convert(String string) {
-		Long codigo;
 		if (!string.isEmpty()) {
-			codigo = Long.valueOf(string);
+			Long codigo = Long.valueOf(string);
 			return service.buscarPorId(codigo);
 		} else
 			return null;

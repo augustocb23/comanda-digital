@@ -31,17 +31,17 @@
     </div>
   </section>
 
-  <section layout:fragment="content" style="max-height: 215px">
+  <section layout:fragment="content" style="max-height: 23em">
     <form id="form" th:action="@{/funcionarios/salvarAdmin}" method="post" th:object="${admin}">
       <input type="hidden" th:field="*{codigo}">
       <div class="row">
-        <div class="input-group col-md-6">
+        <div class="input-group col-md-6 pt-2">
           <div class="input-group-prepend">
             <label class="input-group-text" for="nome">Nome</label>
           </div>
           <input id="nome" class="form-control" type="text" th:field="*{nome}" readonly>
         </div>
-        <div class="input-group col-md-6">
+        <div class="input-group col-md-6 pt-2">
           <div class="input-group-prepend">
             <label class="input-group-text" for="login">Login</label>
           </div>
@@ -49,8 +49,8 @@
         </div>
       </div>
 
-      <div class="row pt-2">
-        <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <label class="input-group-text" for="senha_nova">Nova senha</label>
@@ -61,7 +61,7 @@
             <span th:errors="*{senhaNova}"></span>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <label class="input-group-text" for="senha_conf">Confirme</label>
@@ -74,8 +74,8 @@
         </div>
       </div>
 
-      <div class="row pt-2">
-        <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <label class="input-group-text" for="grupo">Grupo</label>
@@ -87,7 +87,7 @@
           <label for="grupo" class="small text-muted">O grupo definirá as <a
               th:href="@{funcionarios/grupos}" class="active">permissões</a> do usuário</label>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">
