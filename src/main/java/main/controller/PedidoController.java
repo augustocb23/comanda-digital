@@ -1,6 +1,7 @@
 package main.controller;
 
 import main.domain.Pedido;
+import main.domain.enumerator.StatusPedido;
 import main.persistence.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,9 +25,8 @@ public class PedidoController {
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
 	public Pedido salvaPedido(@RequestBody Pedido pedido) {
-		//todo
-		//define os valores padrão
-		//pedido.setStatus(StatusPedido.S);
+		//busca os dados dos produtos
+		pedido.setStatus(StatusPedido.S);
 		//salva os dados
 		pedidoService.salvar(pedido);
 		return pedido;

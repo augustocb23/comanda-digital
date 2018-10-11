@@ -51,6 +51,12 @@ public class ComandaController {
 		return "/comandas/editar::comanda";
 	}
 
+	@GetMapping("/comandas/info/{comanda}")
+	public String fragmentInfo(ModelMap model, @PathVariable String comanda) {
+		model.addAttribute("comanda", comandaService.buscarPorId(Long.valueOf(comanda)));
+		return "/comandas/editar::info";
+	}
+
 	@PostMapping(value = "/comandas/salvar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
@@ -62,8 +68,9 @@ public class ComandaController {
 			comanda.setAtendente(authenticationFacade.getFuncionario());
 			//salva os dados
 			comandaService.salvar(comanda);
-		} else
-			comandaService.editar(comanda);
+		} else {
+			comandaService.editarNomeEMesa(comanda);
+		}
 		//remove dados do atendente antes de retornar o objeto
 		comanda.removeAtendente();
 		return comanda;

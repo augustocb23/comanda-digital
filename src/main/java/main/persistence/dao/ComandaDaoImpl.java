@@ -12,6 +12,18 @@ public class ComandaDaoImpl extends AbstractDao<Comanda, Long> implements Comand
 		return createQuery("FROM Comanda WHERE mesa = ?1", mesa);
 	}
 
+	@Override
+	public void updateMesa(Comanda comanda) {
+		Comanda upd = findById(comanda.getCodigo());
+		upd.setMesa(comanda.getMesa());
+	}
+
+	@Override
+	public void updateNome(Comanda comanda) {
+		Comanda upd = findById(comanda.getCodigo());
+		upd.setNome(comanda.getNome());
+	}
+
 	public List<Comanda> findByStatus(StatusComanda status) {
 		return createQuery("FROM Comanda WHERE status = ?1", status);
 	}

@@ -19,4 +19,36 @@ public class Pedido extends AbstractEntity<Integer> {
 	@Column(nullable = false, columnDefinition = "CHAR(1)")
 	@Enumerated(EnumType.STRING)
 	private StatusPedido status = StatusPedido.S;
+
+	public Comanda getComanda() {
+		return comanda;
+	}
+
+	public void setComanda(Comanda comanda) {
+		this.comanda = comanda;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+
+	public StatusPedido getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusPedido status) {
+		this.status = status;
+	}
 }

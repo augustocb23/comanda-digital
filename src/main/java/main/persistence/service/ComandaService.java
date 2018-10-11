@@ -20,4 +20,6 @@ public interface ComandaService {
 	Map<Long, String> buscarPorMesa(Integer mesa);
 
 	Set<Integer> buscarMesas();
+
+	void editarNomeEMesa(Comanda comanda);
 }

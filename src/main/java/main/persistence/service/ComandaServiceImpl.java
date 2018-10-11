@@ -64,4 +64,10 @@ public class ComandaServiceImpl implements ComandaService {
 		dao.findByStatus(StatusComanda.A).forEach((c) -> result.add(c.getMesa()));
 		return result;
 	}
+
+	@Override
+	public void editarNomeEMesa(Comanda comanda) {
+		dao.updateNome(comanda);
+		dao.updateMesa(comanda);
+	}
 }
