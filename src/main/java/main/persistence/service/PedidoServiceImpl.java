@@ -47,4 +47,9 @@ public class PedidoServiceImpl implements PedidoService {
 	public List<Pedido> buscarTodos() {
 		return dao.findAll();
 	}
+
+	@Override
+	public void editarStatus(Pedido pedido) {
+		dao.setStatus(pedido);
+	}
 }

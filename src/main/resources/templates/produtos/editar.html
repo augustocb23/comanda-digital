@@ -29,8 +29,15 @@
           </div>
           <input id="nome" class="form-control" type="text" th:field="*{nome}" required>
         </div>
+        <div class="col-md-6 pt-2">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="estoque">Preço</label>
+            </div>
+            <input id="preco" class="form-control monetario" type="text" th:field="*{preco}">
+          </div>
+        </div>
       </div>
-
       <div class="row">
         <div class="col-md-6 pt-2">
           <div class="input-group">
@@ -62,6 +69,7 @@
           <label for="ativo" class="small text-muted">Para produtos preparados no momento do pedido</label>
         </div>
       </div>
+
     </form>
   </section>
 </body>

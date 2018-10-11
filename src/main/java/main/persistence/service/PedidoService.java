@@ -14,4 +14,6 @@ public interface PedidoService {
 	Pedido buscarPorId(Long id);
 
 	List<Pedido> buscarTodos();
+
+	void editarStatus(Pedido pedido);
 }

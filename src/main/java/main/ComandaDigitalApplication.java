@@ -5,9 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
-import javax.servlet.Filter;
+import java.util.Locale;
 
 @SpringBootApplication
 public class ComandaDigitalApplication extends SpringBootServletInitializer {
@@ -21,10 +22,7 @@ public class ComandaDigitalApplication extends SpringBootServletInitializer {
 	}
 
 	@Bean
-	public Filter getCharacterEncodingFilter() {
-		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-		encodingFilter.setEncoding("UTF-8");
-		encodingFilter.setForceEncoding(true);
-		return encodingFilter;
+	public LocaleResolver localeResolver() {
+		return new FixedLocaleResolver(new Locale("pt", "BR"));
 	}
 }

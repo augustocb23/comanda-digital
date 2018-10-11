@@ -7,7 +7,7 @@ import javax.persistence.*;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "pedido")
-public class Pedido extends AbstractEntity<Integer> {
+public class Pedido extends AbstractEntity<Long> {
 	@ManyToOne
 	@JoinColumn(name = "comanda", nullable = false)
 	private Comanda comanda;

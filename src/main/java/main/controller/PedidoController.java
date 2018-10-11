@@ -24,11 +24,19 @@ public class PedidoController {
 	@PostMapping(value = "/adicionar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	@ResponseBody
-	public Pedido salvaPedido(@RequestBody Pedido pedido) {
-		//busca os dados dos produtos
+	public Pedido salvar(@RequestBody Pedido pedido) {
 		pedido.setStatus(StatusPedido.S);
 		//salva os dados
 		pedidoService.salvar(pedido);
+		return pedido;
+	}
+
+	@PostMapping(value = "/status", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public Pedido setStatus(@RequestBody Pedido pedido) {
+		//salva os dados
+		pedidoService.editarStatus(pedido);
 		return pedido;
 	}
 }

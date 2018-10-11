@@ -148,16 +148,14 @@
             <td th:text="${p.quantidade}"></td>
             <td class="text-right">
               <div class="btn-group dropleft">
-                <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                <button class="btn btn-sm dropdown-toggle" type="button" data-toggle="dropdown" id="btn-status"
                         th:text="${p.status.desc}"
-                        th:classappend="${p.status}=='C'?'btn-outline-danger':(p.status=='E'?'btn-outline-success':'btn-outline-dark')">
+                        th:classappend="${p.status.name()=='C'}?'btn-outline-danger':(${p.status.name()=='E'}?'btn-outline-success':'btn-outline-dark')">
                 </button>
                 <div class="dropdown-menu py-1">
                   <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'S')">Solicitado
                   </button>
                   <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'P')">Preparando
-                  </button>
-                  <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'R')">Pronto
                   </button>
                   <button type="button" class="px-2 btn-sm dropdown-item text-success"
                           onclick="atualizaPedido(this,'E')">Entregue
@@ -225,6 +223,7 @@
   </section>
 </body>
 <script src="/static/js/utilities.js"></script>
+<script src="/static/js/comandas.js"></script>
 <section layout:fragment="scripts">
   <script th:src="@{/js/comandas.min.js}"></script>
 </section>

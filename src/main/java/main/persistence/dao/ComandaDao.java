@@ -12,9 +12,9 @@ public interface ComandaDao {
 
 	void delete(Long id);
 
-	void updateMesa(Comanda comanda);
+	void setMesa(Comanda comanda);
 
-	void updateNome(Comanda comanda);
+	void setNome(Comanda comanda);
 
 	Comanda findById(Long id);
 

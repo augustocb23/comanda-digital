@@ -1,6 +1,7 @@
 package main.domain;
 
 import main.domain.enumerator.Unidade;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import java.util.List;
@@ -25,6 +26,9 @@ public class Produto extends AbstractEntity<Long> {
 	@Column(columnDefinition = "CHAR(2)")
 	@Enumerated(EnumType.STRING)
 	private Unidade unidade;
+	@Column(columnDefinition = "DECIMAL(6,2)")
+	@NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "###0.00")
+	private Double preco;
 
 	@Override
 	public String toString() {
@@ -61,6 +65,14 @@ public class Produto extends AbstractEntity<Long> {
 
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+
+	public Double getPreco() {
+		return preco;
+	}
+
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 
 	public Unidade getUnidade() {

@@ -13,13 +13,13 @@ public class ComandaDaoImpl extends AbstractDao<Comanda, Long> implements Comand
 	}
 
 	@Override
-	public void updateMesa(Comanda comanda) {
+	public void setMesa(Comanda comanda) {
 		Comanda upd = findById(comanda.getCodigo());
 		upd.setMesa(comanda.getMesa());
 	}
 
 	@Override
-	public void updateNome(Comanda comanda) {
+	public void setNome(Comanda comanda) {
 		Comanda upd = findById(comanda.getCodigo());
 		upd.setNome(comanda.getNome());
 	}
