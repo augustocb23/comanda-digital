@@ -26,6 +26,7 @@
         <tr>
           <th>#</th>
           <th>Nome</th>
+          <th>Preço</th>
           <th>Estoque</th>
           <!--<th>Imagem</th>-->
         </tr>
@@ -37,6 +38,7 @@
             <a th:attr="href=${#authorization.expression('hasAuthority(''editar_produtos'')')?'javascript:void(0)':null}"
                th:onclick="'editar('+${f.codigo}+')'" class="active" th:text="${f.nome}"></a>
           </td>
+          <td th:text="${f.preco==null?null:#numbers.formatDecimal(f.preco,1,2)}"></td>
           <td th:text="${f.estoque==null?null:f.estoque+' '+f.unidade}"></td>
           <!--<td><button type="button" class="btn-link" th:disabled="!${f.imagem}"><i class="far fa-image"></i></button></td>-->
         </tr>

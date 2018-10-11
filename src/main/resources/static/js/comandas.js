@@ -83,6 +83,9 @@ function buscaComanda(comanda) {
       columnDefs: [{
         targets: 0,
         type: 'num'
+      }, {
+        targets: 3,
+        className: 'text-right'
       }]
     });
   });
@@ -128,6 +131,8 @@ function blurProduto() {
 }
 
 function adicionaPedido() {
+  const btnStatus = '<div class="btn-group dropleft">\n  <button class="btn btn-sm dropdown-toggle btn-outline-dark"' +
+    ' type="button" data-toggle="dropdown"\n          id="btn-status">Solicitado\n  </button>\n  <div class="dropdown-menu py-1">\n    <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,\'S\')">Solicitado\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,\'P\')">Preparando\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,\'R\')">Pronto\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item text-success"\n            onclick="atualizaPedido(this,\'E\')">Entregue\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item text-danger"\n            onclick="atualizaPedido(this,\'C\')">Cancelado\n    </button>\n  </div>\n</div>';
   let dt = $('#tbl-pedidos').DataTable();
   let form = $('#form-produto');
   let produto = form.find('#cod-prod');
@@ -135,8 +140,8 @@ function adicionaPedido() {
   let quant = form.find('#quant');
   let data = {quantidade: quant.val(), produto: {codigo: produto.val()}, comanda: {codigo: $('#comanda').text()}};
   //adiciona na tabela
-  let row = dt.row.add([null, desc.val(), quant.val(), 'Solicitado']).draw();
-  row.node().classList.add("font-italic");
+  let row = dt.row.add([null, desc.val(), quant.val(), btnStatus]).draw();
+  row.node().classList.add('font-italic');
   toast_carregando({title: 'Salvando...'});
   //envia os dados
   return $.post({
@@ -146,9 +151,11 @@ function adicionaPedido() {
     row: row,
     form: form[0]
   }).done(function (data) {
-    this.row.cell().data(data.codigo);
-    this.row.node().classList.remove("font-italic");
     this.form.reset();
+    this.row.cell().data(data.codigo).draw();
+    let node = this.row.node();
+    node.classList.remove("font-italic");
+    node.dataset.pedido = data.codigo;
     toast({title: 'Pedido salvo', type: 'success'});
   }).always(function () {
     $('#btn-addProd').attr('disabled', true);
@@ -156,8 +163,37 @@ function adicionaPedido() {
 }
 
 function atualizaPedido(button, status) {
-  //todo
-  const item = $(button);
-  const row = item.closest('tr');
-  console.log(row.data('pedido'));
+  function converteStatus(key) {
+    switch (key) {
+      case 'S':
+        return {desc: 'Solicitado', class: 'btn-outline-dark'};
+      case 'P':
+        return {desc: 'Preparando', class: 'btn-outline-dark'};
+      case 'E':
+        return {desc: 'Entregue', class: 'btn-outline-success'};
+      case 'C':
+        return {desc: 'Cancelado', class: 'btn-outline-danger'};
+    }
+  }
+
+  const div = $(button);
+  const btn = div.closest('.btn-group').find('#btn-status').attr('disabled', true);
+  const row = div.closest('tr');
+  row.addClass('font-italic');
+  toast_carregando({title: 'Salvando...'});
+  //envia os dados
+  return $.post({
+    url: '/pedidos/status',
+    data: JSON.stringify({codigo: row.data('pedido'), status: status}),
+    dataType: 'json',
+    row: row,
+    btn: btn
+  }).done(function (data) {
+    this.row.removeClass('font-italic');
+    const situacao = converteStatus(data.status);
+    this.btn.removeClass('btn-outline-dark btn-outline-success btn-outline-danger').addClass(situacao.class).removeAttr('disabled').html(situacao.desc);
+    toast({title: 'Pedido atualizado', type: 'success'});
+  }).always(function () {
+    this.btn.removeAttr('disabled');
+  });
 }

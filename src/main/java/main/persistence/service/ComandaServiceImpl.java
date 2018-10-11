@@ -67,7 +67,7 @@ public class ComandaServiceImpl implements ComandaService {
 
 	@Override
 	public void editarNomeEMesa(Comanda comanda) {
-		dao.updateNome(comanda);
-		dao.updateMesa(comanda);
+		dao.setNome(comanda);
+		dao.setMesa(comanda);
 	}
 }

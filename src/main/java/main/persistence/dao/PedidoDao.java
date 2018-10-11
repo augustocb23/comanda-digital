@@ -14,4 +14,6 @@ public interface PedidoDao {
 	Pedido findById(Long id);
 
 	List<Pedido> findAll();
+
+	void setStatus(Pedido pedido);
 }
