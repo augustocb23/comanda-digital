@@ -22,4 +22,6 @@ public interface ComandaService {
 	Set<Integer> buscarMesas();
 
 	void editarNomeEMesa(Comanda comanda);
+
+	void alterarStatus(Comanda comanda);
 }

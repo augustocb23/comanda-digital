@@ -17,8 +17,8 @@
           </button>
           <div id="div-mesas" class="dropdown-menu">
             <section th:fragment="mesas">
-              <button type="button" class="dropdown-item text-primary" th:onclick="${'buscaComandas('+m+')'}"
-                      th:each="m:${mesas}" th:text="${'Mesa '+m}">Mesa
+              <button type="button" class="dropdown-item text-primary" onclick="buscaComandas(this.dataset.mesa)"
+                      th:attr="data-mesa=${m}" th:each="m:${mesas}" th:text="${'Mesa '+m}">Mesa
               </button>
               <div class="dropdown-divider" th:if="!${mesas.isEmpty()}"></div>
               <a class="dropdown-item text-success" href="#" data-toggle="modal" data-target="#mdl-editar"><i
@@ -34,9 +34,10 @@
                   th:classappend="${comandas==null}?'disabled':null" data-toggle="dropdown">Comanda
           </button>
           <div id="div-comandas" class="dropdown-menu">
-            <section th:fragment="comandas" th:if="${comandas!=null}">
-              <button type="button" class="dropdown-item text-primary" th:onclick="${'buscaComanda('+c.getKey()+')'}"
-                      th:each="c:${comandas.entrySet()}"
+            <section th:fragment="comandas" th:if="${comandas!=null}"
+                     th:attr="data-comanda=${comandas.size()==1?comandas.entrySet().iterator().next().getKey():null}">
+              <button type="button" class="dropdown-item text-primary" onclick="buscaComanda(this.dataset.codigo)"
+                      th:each="c:${comandas.entrySet()}" th:attr="data-codigo=${c.getKey()}"
                       th:text="${c.getValue()==null?'Comanda '+c.getKey():c.getValue()}">Comanda
               </button>
               <div class="dropdown-divider"></div>
@@ -64,20 +65,20 @@
     </div>
   </section>
 
-  <div layout:fragment="info">
+  <section layout:fragment="info">
     <div id="div-info" th:fragment="info" th:classappend="${comanda.codigo==null}?'d-none':null">
       <div class="mt-3 card border border-dark">
         <div class="card-header font-weight-bold d-flex justify-content-between align-items-center">
           <div class="align-middle">Comanda&nbsp;<span th:text="${comanda.codigo}"></span></div>
-          <button class="btn btn-sm btn-outline-dark" th:onclick="${'buscaComanda('+comanda.codigo+')'}"
-                  title="Atualizar"><span class="fas fa-sync"></span></button>
+          <button class="btn btn-sm btn-outline-dark" onclick="buscaComanda(this.dataset.codigo)"
+                  th:attr="data-codigo=${comanda.codigo}" title="Atualizar"><span class="fas fa-sync"></span></button>
         </div>
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Mesa&nbsp;<span class="text-black-50" th:text="${comanda.mesa}"></span>
+            Nome&nbsp;<span class="text-black-50" th:text="${comanda.nome}"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
-            Nome&nbsp;<span class="text-black-50" th:text="${comanda.nome}"></span>
+            Mesa&nbsp;<span class="text-black-50" th:text="${comanda.mesa}"></span>
           </li>
           <li class="list-group-item d-flex justify-content-between align-items-center">
             Data&nbsp;<span class="text-black-50"
@@ -89,12 +90,13 @@
               class="fas fa-pencil-alt"></i>&nbsp;Editar
           </li>
           <li class="list-group-item list-group-item-action list-group-item-danger text-center pointer"
-              th:href="@{/funcionarios/}"><i class="fas fa-check"></i>&nbsp;Finalizar
+              data-toggle="modal" data-target="#mdl-finalizar" th:attr="data-codigo=${comanda.codigo}"><i
+              class="fas fa-check"></i>&nbsp;Finalizar
           </li>
         </ul>
       </div>
     </div>
-  </div>
+  </section>
 
   <section id="content" layout:fragment="content" th:classappend="${comanda.codigo==null}?'d-none':null">
     <div id="div-comanda" th:fragment="comanda">
@@ -153,16 +155,9 @@
                         th:classappend="${p.status.name()=='C'}?'btn-outline-danger':(${p.status.name()=='E'}?'btn-outline-success':'btn-outline-dark')">
                 </button>
                 <div class="dropdown-menu py-1">
-                  <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'S')">Solicitado
-                  </button>
-                  <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,'P')">Preparando
-                  </button>
-                  <button type="button" class="px-2 btn-sm dropdown-item text-success"
-                          onclick="atualizaPedido(this,'E')">Entregue
-                  </button>
-                  <button type="button" class="px-2 btn-sm dropdown-item text-danger"
-                          onclick="atualizaPedido(this,'C')">Cancelado
-                  </button>
+                  <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this)"
+                          th:each="s:${statusPedido}" th:attr="data-status=${s}" th:text="${s.desc}"
+                          th:classappend="${s.name()=='C'}?'text-danger':(${s.name()=='E'}?'text-success':null)"></button>
                 </div>
               </div>
             </td>
@@ -216,6 +211,41 @@
           <div class="modal-footer">
             <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
             <button type="submit" form="form-editar" class="btn btn-success">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="mdl-finalizar" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Finalizar comanda</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span class="fas fa-times"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Para reabrir a comanda, utilize a opção <a th:href="@{/comandas/}" class="active">Ver todas</a>.</p>
+            <form id="form-finalizar" onsubmit="return finalizaComanda()">
+              <input id="finalizar-codigo" type="hidden" name="codigo" value="null">
+              <!-- status -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="finalizar-status">Situação</label>
+                </div>
+                <select id="finalizar-status" class="custom-select" title="Situação da comanda" name="status">
+                  <option th:each="s:${statusComanda}" th:value="${s}" th:selected="${s.name()=='A'}"
+                          th:disabled="${s.name()=='A'}" th:text="${s.desc}"></option>
+                </select>
+              </div>
+              <div class="d-flex justify-content-end">
+                <label for="finalizar-status" class="small text-muted">Só é possível alterar comandas abertas</label>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+            <button type="submit" form="form-finalizar" class="btn btn-danger">Salvar</button>
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ public class ComandaServiceImpl implements ComandaService {
 	@Transactional(readOnly = true)
 	public Map<Long, String> buscarPorMesa(Integer mesa) {
 		Map<Long, String> result = new HashMap<>();
-		dao.findByMesa(mesa).forEach((c) -> result.put(c.getCodigo(), c.getNome()));
+		dao.findAbertasByMesa(mesa).forEach((c) -> result.put(c.getCodigo(), c.getNome()));
 		return result;
 	}
 
@@ -69,5 +69,10 @@ public class ComandaServiceImpl implements ComandaService {
 	public void editarNomeEMesa(Comanda comanda) {
 		dao.setNome(comanda);
 		dao.setMesa(comanda);
+	}
+
+	@Override
+	public void alterarStatus(Comanda comanda) {
+		dao.setStatus(comanda);
 	}
 }
