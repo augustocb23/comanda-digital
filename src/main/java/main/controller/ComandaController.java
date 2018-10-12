@@ -2,6 +2,7 @@ package main.controller;
 
 import main.domain.Comanda;
 import main.domain.enumerator.StatusComanda;
+import main.domain.enumerator.StatusPedido;
 import main.persistence.service.ComandaService;
 import main.security.AuthenticationFacadeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,4 +76,24 @@ public class ComandaController {
 		comanda.removeAtendente();
 		return comanda;
 	}
+
+	@PostMapping(value = "/comandas/status", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
+			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@ResponseBody
+	public Comanda finalizaComanda(@RequestBody Comanda comanda) {
+		comandaService.alterarStatus(comanda);
+		return comanda;
+	}
+
+
+	@ModelAttribute("statusComanda")
+	public StatusComanda[] getStatusComanda() {
+		return StatusComanda.values();
+	}
+
+	@ModelAttribute("statusPedido")
+	public StatusPedido[] getStatusPedido() {
+		return StatusPedido.values();
+	}
+
 }

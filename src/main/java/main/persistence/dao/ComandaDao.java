@@ -12,6 +12,8 @@ public interface ComandaDao {
 
 	void delete(Long id);
 
+	List<Comanda> findAbertasByMesa(Integer mesa);
+
 	void setMesa(Comanda comanda);
 
 	void setNome(Comanda comanda);
@@ -22,5 +24,5 @@ public interface ComandaDao {
 
 	List<Comanda> findByStatus(StatusComanda status);
 
-	List<Comanda> findByMesa(Integer mesa);
+	void setStatus(Comanda comanda);
 }

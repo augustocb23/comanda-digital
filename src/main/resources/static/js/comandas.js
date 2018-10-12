@@ -20,7 +20,18 @@ $(document).ready(function () {
       modal.find('.btn-success').removeAttr('disabled');
       modal.find('form')[0].reset();
     }
-  })
+  });
+  $('#mdl-finalizar').on({
+    'show.bs.modal': function (event) {
+      const modal = $(this);
+      modal.find('#finalizar-codigo').val(event.relatedTarget.dataset.codigo);
+    },
+    'hidden.bs.modal': function () {
+      const modal = $(this);
+      modal.find('.btn-success').removeAttr('disabled');
+      modal.find('form')[0].reset();
+    }
+  });
 });
 
 function salvaComanda() {
@@ -53,10 +64,31 @@ function atualizaMesas() {
   });
 }
 
+function flash(obj, classNew, classOld) {
+  const promises = [];
+  for (let i = 4; i !== 0; i--) {
+    promises[i] = setTimeout(function () {
+      if (i % 2 === 0)
+        obj.addClass(classNew).removeClass(classOld);
+      else
+        obj.addClass(classOld).removeClass(classNew);
+    }, i * 350);
+  }
+  return Promise.all(promises);
+}
+
 function buscaComandas(mesa) {
   return $('#div-comandas').load('/mesas/' + mesa, function () {
     $('#mesa').text('Mesa ' + mesa).addClass('list-group-item-primary').removeClass('list-group-item-light');
-    $('#btn-comandas').removeClass('disabled');
+    const btn = $('#btn-comandas').removeClass('disabled');
+    //se só tiver uma única comanda
+    const comanda = $(this).find('section').data('comanda');
+    if (comanda)
+    //carrega
+      buscaComanda(comanda);
+    else
+    //destaca o botão
+      flash(btn, 'btn-outline-primary', 'btn-primary');
     swal.close()
   });
 }
@@ -66,7 +98,9 @@ function atualizaComandas() {
 }
 
 function buscaComanda(comanda) {
-  let promises = [];
+  if (comanda === null)
+    return;
+  const promises = [];
   promises[0] = $('#div-info').load('/comandas/info/' + comanda, function () {
     $(this).removeClass('d-none')
   });
@@ -132,7 +166,7 @@ function blurProduto() {
 
 function adicionaPedido() {
   const btnStatus = '<div class="btn-group dropleft">\n  <button class="btn btn-sm dropdown-toggle btn-outline-dark"' +
-    ' type="button" data-toggle="dropdown"\n          id="btn-status">Solicitado\n  </button>\n  <div class="dropdown-menu py-1">\n    <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,\'S\')">Solicitado\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,\'P\')">Preparando\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item" onclick="atualizaPedido(this,\'R\')">Pronto\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item text-success"\n            onclick="atualizaPedido(this,\'E\')">Entregue\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item text-danger"\n            onclick="atualizaPedido(this,\'C\')">Cancelado\n    </button>\n  </div>\n</div>';
+    ' type="button" data-toggle="dropdown" id="btn-status">\n    Solicitado\n  </button>\n  <div class="dropdown-menu py-1">\n    <button type="button" class="px-2 btn-sm dropdown-item" data-status="S" onclick="atualizaPedido(this)">\n      Solicitado\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item" data-status="P" onclick="atualizaPedido(this)">Preparando\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item text-success" data-status="E" onclick="atualizaPedido(this)">\n      Entregue\n    </button>\n    <button type="button" class="px-2 btn-sm dropdown-item text-danger" data-status="C" onclick="atualizaPedido(this)">\n      Cancelado\n    </button>\n  </div>\n</div>';
   let dt = $('#tbl-pedidos').DataTable();
   let form = $('#form-produto');
   let produto = form.find('#cod-prod');
@@ -162,7 +196,7 @@ function adicionaPedido() {
   });
 }
 
-function atualizaPedido(button, status) {
+function atualizaPedido(button) {
   function converteStatus(key) {
     switch (key) {
       case 'S':
@@ -176,6 +210,7 @@ function atualizaPedido(button, status) {
     }
   }
 
+  const status = button.dataset.status;
   const div = $(button);
   const btn = div.closest('.btn-group').find('#btn-status').attr('disabled', true);
   const row = div.closest('tr');
@@ -196,4 +231,31 @@ function atualizaPedido(button, status) {
   }).always(function () {
     this.btn.removeAttr('disabled');
   });
+}
+
+function finalizaComanda() {
+  const modal = $('#mdl-finalizar');
+  modal.find('.btn-success').attr('disabled', true);
+  const btnCancel = modal.find('.btn-light');
+  const form = modal.find('#form-finalizar');
+  const ajax = $.post('/comandas/status', getFormData(form), 'json')
+    .done(function () {
+      Promise.resolve(atualizaMesas()).then(function () {
+        //espera atualiza as mesas (evita problemas no modal)
+        setTimeout(function () {
+          $('.modal').modal('hide');
+          $('#mesa').text('Selecione a mesa').addClass('list-group-item-light').removeClass('list-group-item-primary');
+          $('#btn-comandas').addClass('disabled');
+          $('#content').addClass('d-none');
+          $('#div-info').addClass('d-none');
+          toast({title: 'Comanda finalizada', type: 'success'});
+        }, 250);
+      })
+    });
+  btnCancel.click(function () {
+    ajax.abort();
+    swal.close();
+  });
+  toast_carregando({title: 'Salvando...'});
+  return false;
 }
