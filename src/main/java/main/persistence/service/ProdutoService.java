@@ -16,4 +16,6 @@ public interface ProdutoService {
 	List<Produto> buscarTodos();
 
 	List<Produto> buscarPorNome(String term);
+
+	void atualizaEstoque(Produto produto, Integer quantidade);
 }

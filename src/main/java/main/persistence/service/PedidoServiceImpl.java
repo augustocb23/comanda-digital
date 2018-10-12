@@ -49,7 +49,11 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
-	public void editarStatus(Pedido pedido) {
-		dao.setStatus(pedido);
+	public boolean editarStatus(Pedido pedido) {
+		Pedido upd = dao.findById(pedido.getCodigo());
+		if (pedido.getStatus() == upd.getStatus())
+			return false;
+		upd.setStatus(pedido.getStatus());
+		return true;
 	}
 }

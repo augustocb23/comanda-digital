@@ -15,5 +15,5 @@ public interface PedidoService {
 
 	List<Pedido> buscarTodos();
 
-	void editarStatus(Pedido pedido);
+	boolean editarStatus(Pedido pedido);
 }

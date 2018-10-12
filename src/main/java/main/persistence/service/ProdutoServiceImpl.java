@@ -52,4 +52,12 @@ public class ProdutoServiceImpl implements ProdutoService {
 	public List<Produto> buscarPorNome(String nome) {
 		return dao.findByName(nome);
 	}
+
+	@Override
+	public void atualizaEstoque(Produto produto, Integer quantidade) {
+		Produto upd = dao.findById(produto.getCodigo());
+		if (upd.isEstoqueNull())
+			return;
+		upd.setEstoque(upd.getEstoque() - quantidade);
+	}
 }
