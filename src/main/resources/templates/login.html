@@ -8,7 +8,7 @@
   <section layout:fragment="sidebar">
     <div class="mx-auto div-form bg-light mt-1 p-2 pb-4 border border-secondary rounded">
       <h5 class="fonte-titulo titulo-pagina">Acesso para funcionários</h5>
-      <form method="post" th:action="@{/login}">
+      <form method="post" th:action="@{/login}" onsubmit="$(this).find('.btn').attr('disabled',true)">
         <div class="input-group padding-form">
           <div class="input-group-prepend">
             <span class="input-group-text">
@@ -40,7 +40,6 @@
 
   <section layout:fragment="scripts">
     <script th:if="${error}" type="text/javascript">
-        history.replaceState({}, 'Comanda Virtual', '/login');
         toast({title: 'Usuário ou senha inválidos', type: 'error'});
     </script>
   </section>

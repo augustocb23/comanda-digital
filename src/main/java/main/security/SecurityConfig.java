@@ -41,6 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and().formLogin().loginPage("/login").permitAll()
 				//após o login
 				.successHandler(new CustomAuthenticationSuccessHandler())
+				//em caso de erro
+				.failureHandler(new CustomAuthenticationFailureHandler())
 				//url para logout
 				.and().logout().logoutSuccessUrl("/login");
 	}

@@ -6,22 +6,24 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController extends HandlerInterceptorAdapter {
 	@GetMapping("/login")
-	public String login(@RequestParam(name = "error", required = false) String error, ModelMap model) {
+	public String login(ModelMap model, HttpSession session) {
 		//redireciona para a página inicial se já estiver autenticado (não é anônimo)
 		String user = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
 		if (!user.contentEquals("anonymousUser"))
 			return "redirect:/";
 		//retorna o template
-		model.addAttribute("error", error != null);
+		model.addAttribute("error", session.getAttribute("error") != null);
+		model.addAttribute("exception", session.getAttribute("exception"));
+		model.addAttribute("message", session.getAttribute("message"));
 		return "login";
 	}
 

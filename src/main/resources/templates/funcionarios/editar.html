@@ -63,8 +63,8 @@
               <option th:each="g :${grupos}" th:value="${g.codigo}" th:text="${g.nome}"></option>
             </select>
           </div>
-          <label for="grupo" class="small text-muted">O grupo definirá as <a href="#" class="active"
-          >permissões</a> do usuário</label>
+          <label for="grupo" class="small text-muted">O grupo definirá as <a
+              th:href="@{funcionarios/grupos}" class="active">permissões</a> do usuário</label>
         </div>
         <div class="col-md-6 pt-2">
           <div class="input-group">

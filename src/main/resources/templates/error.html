@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
+<meta charset="UTF-8"/>
+<body>
+  <section layout:fragment="title"><span class="fas fa-exclamation-triangle">&nbsp;</span>
+    <span class="text-nowrap">Erro ao carregar página</span>
+  </section>
+  <section layout:fragment="sidebar">
+    <a class="list-group-item list-group-item-action list-group-item-dark bg-dark text-center text-light" href="/"
+    ><i class="fas fa-utensils"></i>&nbsp;Comandas</a>
+    <a class="list-group-item list-group-item-action text-center" href="javascript:void(0)"
+       onclick="history.back()"><i class="fas fa-arrow-left"></i>&nbsp;Voltar</a>
+  </section>
+
+  <section layout:fragment="content" style="background-color: transparent">
+    <div class="ml-auto div-form bg-light rounded p-2 pb-1">
+      <h3 class="titulo-pagina text-center px-2"><span th:text="${'HTTP '+status}"></span></h3>
+      <h5 class="alert-heading" th:text="${error}"></h5>
+      <code class="text-muted" th:text="${message}"></code>
+    </div>
+  </section>
+</body>
+</html>
