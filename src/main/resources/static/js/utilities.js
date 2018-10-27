@@ -97,6 +97,73 @@ function getFormData(form) {
   return JSON.stringify(indexed_array);
 }
 
+function Grupos() {
+  //ordena os itens de uma lista
+  function ordenaLista(list) {
+    //cria uma lista de itens e ordena
+    const items = list.children('button').get();
+    items.sort(function (a, b) {
+      const keyA = $(a).text();
+      const keyB = $(b).text();
+      if (keyA < keyB) return -1;
+      if (keyA > keyB) return 1;
+      return 0;
+    });
+    //remove os itens e adiciona na ordem correta
+    $.each(items, function (i, child) {
+      list.append(child);
+    });
+  }
+
+  $('#grupo').on('change', function () {
+    editar(this.value);
+    if (getConfirmarSaida())
+      this.value = '';
+  });
+  $('#nome').on('change', function () {
+    setConfirmarSaida(true)
+  });
+  let permissoes = $('#editar-permissoes').val().split(',').map(function (item) {
+    return parseInt(item);
+  }).filter(value => {
+    return Number.isInteger(value)
+  });
+
+  return {
+    ativas: new Set(permissoes), grupo: $('#permissoes-grupo'), todas: $('#permissoes-todas'),
+    alterna: function (item) {
+      setConfirmarSaida(true);
+      const obj = $(item);
+      const codigo = obj.data('codigo');
+      if (this.ativas.has(codigo)) {
+        //está ativa
+        this.ativas.delete(codigo);
+        this.todas.append(obj);
+        ordenaLista(this.todas);
+      } else {
+        //não está ativa
+        this.ativas.add(codigo);
+        this.grupo.append(obj);
+        ordenaLista(this.grupo);
+      }
+    }
+  }
+}
+
+//confirma antes de sair da página
+function getConfirmarSaida() {
+  return window.onbeforeunload != null
+}
+
+function setConfirmarSaida(confirmar) {
+  if (confirmar)
+    window.onbeforeunload = function () {
+      return true;
+    };
+  else
+    window.onbeforeunload = null
+}
+
 //SWEET ALERTS
 const toast = swal.mixin({
   toast: true,
@@ -113,11 +180,6 @@ const toast_carregando = swal.mixin({
     swal.showLoading()
   },
   timer: false
-});
-
-const swal_centro = swal.mixin({
-  showConfirmButton: false,
-  timer: 2500
 });
 
 const swal_carregando = swal.mixin({

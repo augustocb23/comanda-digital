@@ -36,7 +36,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="f :${funcionarios}">
+        <tr th:each="f:${funcionarios}">
           <td th:text="${f.codigo}"></td>
           <td>
             <a href="javascript:void(0)" th:onclick="'editar('+${f.codigo}+')'" class="active"

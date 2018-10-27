@@ -17,6 +17,9 @@ VALUES ('administrador');
 SET @grupo = (SELECT codigo
               FROM grupo
               WHERE nome = 'administrador');
+-- cria o grupo funcionário (sem permissões avançadas)
+INSERT IGNORE INTO grupo(nome)
+VALUES ('atendente');
 -- associa as permissões ao grupo
 INSERT IGNORE INTO grupo_permissao(grupo, permissao)
 VALUES (@grupo, @usuarios);

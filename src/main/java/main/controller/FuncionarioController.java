@@ -83,7 +83,7 @@ public class FuncionarioController {
 			funcionario.setSenha((String) session.getAttribute("senha"));
 
 		if (result.hasErrors()) {
-			model.addAttribute("funcionario", new Funcionario());
+			model.addAttribute("funcionario", funcionario);
 			return "funcionarios/editar";
 		}
 

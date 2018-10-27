@@ -13,17 +13,39 @@ public class Grupo extends AbstractEntity<Long> {
 	@JoinTable(name = "grupo_permissao", joinColumns = {@JoinColumn(name = "grupo")},
 			inverseJoinColumns = {@JoinColumn(name = "permissao")})
 	private Set<Permissao> permissoes;
+	@Transient
+	private String permissoesString;
 
 	@Override
 	public String toString() {
 		return getNome();
 	}
 
-	Set<Permissao> getPermissoes() {
+	public String getNome() {
+		return nome;
+	}
+
+	public Set<Permissao> getPermissoes() {
 		return permissoes;
 	}
 
-	public String getNome() {
-		return nome;
+	public void setPermissoes(Set<Permissao> permissoes) {
+		this.permissoes = permissoes;
+	}
+
+	public String getPermissoesString() {
+		return permissoesString;
+	}
+
+	public void setPermissoesString(String permissoesString) {
+		this.permissoesString = permissoesString;
+	}
+
+	public boolean isEditavel() {
+		return !(nome.contentEquals("administrador") || nome.contentEquals("atendente"));
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome.toLowerCase();
 	}
 }

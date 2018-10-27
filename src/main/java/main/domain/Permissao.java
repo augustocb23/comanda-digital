@@ -9,12 +9,16 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "permissao")
-public class Permissao extends AbstractEntity<Integer> implements GrantedAuthority {
+public class Permissao extends AbstractEntity<Long> implements GrantedAuthority {
 	@Column(nullable = false, unique = true)
 	public String nome;
 
 	@Override
 	public String getAuthority() {
+		return nome;
+	}
+
+	public String getNome() {
 		return nome;
 	}
 }

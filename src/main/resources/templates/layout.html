@@ -42,11 +42,14 @@
         <div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbar">
           <ul class="navbar-nav ml-auto">
             <li class="dropdown-divider"></li>
-            <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/produtos}"><i
+            <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/produtos}"
+                                    sec:authorize="hasAuthority('editar_produtos')"><i
                 class="fas fa-box span-tam_fixo"></i>&nbsp;Produtos</a>
             </li>
-            <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/funcionarios}"><i
-                class="fas fa-users span-tam_fixo"></i>&nbsp;Funcionários</a></li>
+            <li class="nav-item"><a class="btn btn-outline-light border-0" th:href="@{/funcionarios}"
+                                    sec:authorize="hasAuthority('editar_usuarios')"><i
+                class="fas fa-users span-tam_fixo"></i>&nbsp;Funcionários</a>
+            </li>
             <li class="dropdown-divider"></li>
             <li class="nav-item"><a class="btn btn-outline-danger border-0" th:href="@{/logout}"><i
                 class="fas fa-sign-out-alt span-tam_fixo"></i>&nbsp;Sair</a></li>
@@ -85,6 +88,7 @@
   <!-- rodapé  -->
   <section>
     <footer class="container-fluid fixed-bottom rodape">
+      <!-- para dispositivos móveis -->
       <div class="container">
         <nav class="navbar d-md-none navbar-light p-0 pb-1">
           <div class="navbar-brand pb-0">
@@ -110,7 +114,7 @@
           </div>
         </nav>
       </div>
-
+      <!-- para telas maiores -->
       <div class="container d-none d-md-flex flex-row flex-wrap justify-content-around">
         <h5><i class="fab fa-github"></i>&nbsp;<a href="https://github.com/augustocb23/comanda-digital"
                                                   class="active">Repositório</a></h5>
