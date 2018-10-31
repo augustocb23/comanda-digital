@@ -70,14 +70,16 @@ public class GrupoController {
 			return "redirect:/funcionarios/grupos";
 		}
 		//busca as permissões
-		Set<Permissao> permissoes = new HashSet<>();
-		String[] permissoesString = grupo.getPermissoesString().split(",");
-		for (String codigo : permissoesString)
-			try {
-				permissoes.add(permissaoService.buscarPorId(Long.valueOf(codigo)));
-			} catch (Exception ignored) {
-			}
-		grupo.setPermissoes(permissoes);
+		if (grupo.getPermissoesString() != null) {
+			Set<Permissao> permissoes = new HashSet<>();
+			String[] permissoesString = grupo.getPermissoesString().split(",");
+			for (String codigo : permissoesString)
+				try {
+					permissoes.add(permissaoService.buscarPorId(Long.valueOf(codigo)));
+				} catch (Exception ignored) {
+				}
+			grupo.setPermissoes(permissoes);
+		}
 		//novo
 		if (grupo.getCodigo() == null)
 			grupoService.salvar(grupo);
