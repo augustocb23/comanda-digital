@@ -3,14 +3,18 @@ package main.controller;
 import main.domain.Comanda;
 import main.domain.enumerator.StatusComanda;
 import main.domain.enumerator.StatusPedido;
+import main.persistence.service.ComandaDataTables;
 import main.persistence.service.ComandaService;
 import main.security.AuthenticationFacadeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Set;
 
@@ -19,11 +23,14 @@ import java.util.Set;
 public class ComandaController {
 	final private AuthenticationFacadeImpl authenticationFacade;
 	final private ComandaService comandaService;
+	final private ComandaDataTables dataTables;
 
 	@Autowired
-	public ComandaController(ComandaService comandaService, AuthenticationFacadeImpl authenticationFacade) {
+	public ComandaController(ComandaService comandaService, AuthenticationFacadeImpl authenticationFacade,
+							 ComandaDataTables dataTables) {
 		this.comandaService = comandaService;
 		this.authenticationFacade = authenticationFacade;
+		this.dataTables = dataTables;
 	}
 
 	@GetMapping("")
@@ -85,6 +92,16 @@ public class ComandaController {
 		return comanda;
 	}
 
+	@GetMapping("/comandas/todas")
+	public String todas() {
+		return "/comandas/todas";
+	}
+
+	@PostMapping(value = "/comandas/todas/lista")
+	@ResponseBody
+	public DataTablesOutput<Comanda> listaTodas(@Valid @RequestBody DataTablesInput input) {
+		return dataTables.findAll(input);
+	}
 
 	@ModelAttribute("statusComanda")
 	public StatusComanda[] getStatusComanda() {

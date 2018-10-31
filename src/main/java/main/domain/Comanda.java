@@ -1,5 +1,6 @@
 package main.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.domain.enumerator.StatusComanda;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Comanda extends AbstractEntity<Long> {
 	@JoinColumn(name = "atendente")
 	private Funcionario atendente;
 	@OneToMany(mappedBy = "comanda")
+	@JsonIgnore
 	private List<Pedido> pedidos;
 	@Column(nullable = false, columnDefinition = "CHAR(1)")
 	@Enumerated(EnumType.STRING)

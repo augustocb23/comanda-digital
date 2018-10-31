@@ -1,5 +1,6 @@
 package main.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Table(name = "funcionario")
 public class Funcionario extends AbstractEntity<Long> {
 	@Column(nullable = false, length = 60, columnDefinition = "CHAR(60)")
+	@JsonIgnore
 	protected String senha;
 	@NotBlank(message = "Insira o login do usuário")
 	@Size(min = 5, message = "Mínimo de {min} caracteres")
@@ -25,14 +27,18 @@ public class Funcionario extends AbstractEntity<Long> {
 	@NotNull(message = "Informe o grupo do funcionário")
 	@ManyToOne
 	@JoinColumn(name = "grupo", nullable = false)
+	@JsonIgnore
 	private Grupo grupo;
 	@Column(nullable = false, columnDefinition = "BIT(1) DEFAULT TRUE")
+	@JsonIgnore
 	private boolean ativo = true;
 
 	//alteração de senha
 	@Transient
+	@JsonIgnore
 	private String senhaNova;
 	@Transient
+	@JsonIgnore
 	private String senhaConfirma;
 
 	@Override
@@ -63,10 +69,6 @@ public class Funcionario extends AbstractEntity<Long> {
 		this.ativo = ativo;
 	}
 
-	public Set<Permissao> getPermissoes() {
-		return grupo.getPermissoes();
-	}
-
 	public Grupo getGrupo() {
 		return grupo;
 	}
@@ -89,6 +91,11 @@ public class Funcionario extends AbstractEntity<Long> {
 
 	public void setNome(String string) {
 		nome = string;
+	}
+
+	@JsonIgnore
+	public Set<Permissao> getPermissoes() {
+		return grupo.getPermissoes();
 	}
 
 	public String getSenha() {

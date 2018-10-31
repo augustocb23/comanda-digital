@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <nav layout:fragment="sidebar">
+    <a class="list-group-item list-group-item-action text-center text-nowrap"
+       th:href="@{/}"><i class="fas fa-arrow-left"></i>&nbsp;Voltar</a>
+  </nav>
+
+  <h1 layout:fragment="title">Todas as Comandas</h1>
+
+  <section id="div-alerts" layout:fragment="alerts">
+
+  </section>
+
+  <section layout:fragment="info">
+
+  </section>
+
+  <section id="content" layout:fragment="content">
+    <div class="table-responsive">
+      <table class="table table-hover compact" id="tbl-comandas" style="table-layout:fixed;width: 98% !important;">
+        <thead>
+        <tr>
+          <td>Código</td>
+          <td>Mesa</td>
+          <td>Nome</td>
+          <td>Data</td>
+          <td>Atendente</td>
+          <td>Situação</td>
+        </tr>
+        </thead>
+      </table>
+    </div>
+  </section>
+  <section layout:fragment="modals">
+
+  </section>
+</body>
+<script src="/static/js/utilities.js"></script>
+<section layout:fragment="scripts">
+  <script th:src="@{/js/intl.min.js}"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('#tbl-comandas').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+          url: '/comandas/todas/lista',
+          type: 'POST',
+          data: function (data) {
+            return JSON.stringify(data);
+          }
+        },
+        columns: [
+          {data: 'codigo', type: 'num'},
+          {data: 'mesa'},
+          {data: 'nome'}, {
+            data: 'data', type: 'date',
+            render: $.fn.dataTable.render.intlDateTime('pt-BR', {
+              day: '2-digit', month: '2-digit', year: '2-digit',
+              hour: '2-digit', minute: '2-digit'
+            })
+          }, {
+            data: 'atendente', render: function (data) {
+              /** @property data.login */
+              return '<span title="' + data.nome + '">' + data.login + '</span>'
+            }
+          },
+          {
+            data: 'status', render: function (data, type, row) {
+              let status;
+              switch (data) {
+                case 'A':
+                  status = 'Aberta';
+                  break;
+                case 'F':
+                  status = 'Fechada';
+                  break;
+                case 'P':
+                  status = 'Paga';
+                  break;
+                case 'C':
+                  status = 'Cancelada';
+              }
+              return '<a href="javascript:void(0)" title="Clique para alterar" onclick="alterarStatus(' + row + ')">'
+                + status + '</a>'
+            }
+          }
+        ],
+        order: [0, 'desc'],
+        language: dataTablesTranslate
+      })
+      ;
+    });
+  </script>
+</section>
+</html>

@@ -53,7 +53,7 @@
       </div>
     </div>
     <a class="list-group-item list-group-item-action text-center text-nowrap"
-       th:href="@{/comandas/}"><i class="far fa-list-alt"></i>&nbsp;Ver todas</a>
+       th:href="@{/comandas/todas}"><i class="far fa-list-alt"></i>&nbsp;Ver todas</a>
   </nav>
 
   <h1 layout:fragment="title">Comandas</h1>
@@ -225,7 +225,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <p>Para reabrir a comanda, utilize a opção <a th:href="@{/comandas/}" class="active">Ver todas</a>.</p>
+            <p>Para reabrir a comanda, utilize a opção <a th:href="@{/comandas/todas}" class="active">Ver todas</a>.</p>
             <form id="form-finalizar" onsubmit="return finalizaComanda()">
               <input id="finalizar-codigo" type="hidden" name="codigo" value="null">
               <!-- status -->
@@ -233,7 +233,7 @@
                 <div class="input-group-prepend">
                   <label class="input-group-text" for="finalizar-status">Situação</label>
                 </div>
-                <select id="finalizar-status" class="custom-select" title="Situação da comanda" name="status">
+                <select id="finalizar-status" class="custom-select" title="Situação da comanda" name="status" required>
                   <option th:each="s:${statusComanda}" th:value="${s}" th:selected="${s.name()=='A'}"
                           th:disabled="${s.name()=='A'}" th:text="${s.desc}"></option>
                 </select>

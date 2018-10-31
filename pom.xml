@@ -85,6 +85,12 @@
             <groupId>nz.net.ultraq.thymeleaf</groupId>
             <artifactId>thymeleaf-layout-dialect</artifactId>
         </dependency>
+        <!-- DataTables Server-side -->
+        <dependency>
+            <groupId>com.github.darrachequesne</groupId>
+            <artifactId>spring-data-jpa-datatables</artifactId>
+            <version>5.0.0</version>
+        </dependency>
         <!-- compatibilidade com java 9+ -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
