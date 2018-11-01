@@ -104,3 +104,7 @@ input::-webkit-inner-spin-button {
 button.dropdown-item, .list-group-item-action {
     cursor: pointer;
 }
+
+.col-cod {
+    max-width: 4ch
+}

@@ -9,6 +9,8 @@
 </head>
 <body>
   <nav layout:fragment="sidebar">
+    <a class="list-group-item list-group-item-action list-group-item-dark text-center" href="javascript:void(0)"
+       onclick="$('#tbl-comandas').DataTable().ajax.reload()"><i class="fas fa-sync-alt"></i>&nbsp;Atualizar</a>
     <a class="list-group-item list-group-item-action text-center text-nowrap"
        th:href="@{/}"><i class="fas fa-arrow-left"></i>&nbsp;Voltar</a>
   </nav>
@@ -25,15 +27,15 @@
 
   <section id="content" layout:fragment="content">
     <div class="table-responsive">
-      <table id="tbl-comandas" class="table table-hover compact" style="table-layout:fixed;width: 98% !important;">
-        <thead class="font-weight-bold">
+      <table id="tbl-comandas" class="table table-hover compact" style="table-layout:fixed;width: 99% !important;">
+        <thead>
         <tr>
-          <td>#</td>
-          <td>Mesa</td>
-          <td>Nome</td>
-          <td>Data</td>
-          <td>Atendente</td>
-          <td>Situação</td>
+          <th class="col-cod">#</th>
+          <th>Mesa</th>
+          <th>Nome</th>
+          <th>Data</th>
+          <th>Atendente</th>
+          <th>Situação</th>
         </tr>
         </thead>
       </table>

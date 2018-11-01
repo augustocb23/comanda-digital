@@ -21,14 +21,13 @@
 
   <section layout:fragment="content">
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table id="tbl-produtos" class="table table-hover compact">
         <thead>
         <tr>
-          <th>#</th>
+          <th class="col-cod">#</th>
           <th>Nome</th>
           <th>Preço</th>
-          <th>Estoque</th>
-          <!--<th>Imagem</th>-->
+          <th>Estoque</th>          <!--<th>Imagem</th>-->
         </tr>
         </thead>
         <tbody>
@@ -51,6 +50,12 @@
         <input name="codigo" type="hidden" id="codObj">
       </form>
     </div>
+  </section>
+
+  <section layout:fragment="scripts">
+    <script>
+      genericDataTables('#tbl-produtos');
+    </script>
   </section>
 </body>
 </html>

@@ -25,10 +25,10 @@
 
   <section layout:fragment="content">
     <div class="table-responsive">
-      <table class="table table-hover">
+      <table id="tbl-funcionarios" class="table table-hover">
         <thead>
         <tr>
-          <th>#</th>
+          <th class="col-cod">#</th>
           <th>Nome</th>
           <th>Login</th>
           <th>Grupo</th>
@@ -54,6 +54,12 @@
     <form id="formEdit" th:action="@{/funcionarios/editar}" method="post">
       <input name="codigo" type="hidden" id="codObj">
     </form>
+  </section>
+
+  <section layout:fragment="scripts">
+    <script>
+      genericDataTables('#tbl-funcionarios');
+    </script>
   </section>
 </body>
 </html>

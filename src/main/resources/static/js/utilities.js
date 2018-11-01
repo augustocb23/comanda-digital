@@ -181,13 +181,19 @@ function todasComandas() {
     $('#tbl-comandas').DataTable({
       dom: '<"m-1"<"#header.d-flex flex-wrap justify-content-between"f>rt<"d-flex flex-wrap justify-content-between"ip>>',
       initComplete: function () {
+        //buscar por data
         const date = $('<div class="dataTables_filter"><label>Filtrar<input type="date" ' +
           'class="form-control form-control-sm"></label></div>');
         date.find('.form-control').on('change', function () {
           $('#tbl-comandas').DataTable().search(this.value).draw();
           $('#tbl-comandas_wrapper').find('#tbl-comandas_filter').find('.form-control').val(null)
         });
-        $('#tbl-comandas_wrapper').find('#header').prepend(date);
+        const wrapper = $('#tbl-comandas_wrapper');
+        wrapper.find('#header').prepend(date);
+        //limpa o campo ao pesquisar
+        wrapper.find('#tbl-comandas_filter').on('keyup', function () {
+          wrapper.find('.form-control[type="date"]').val(null)
+        });
       },
       processing: true,
       serverSide: true,
@@ -244,9 +250,6 @@ function todasComandas() {
       language: dataTablesTranslate,
       scrollX: true
     });
-    $('#tbl-comandas_wrapper').find('#tbl-comandas_filter').on('keyup', function () {
-      $('#tbl-comandas_wrapper').find('.form-control[type="date"]').val(null)
-    });
   });
   return {
     alterarStatus: function () {
@@ -275,6 +278,13 @@ function todasComandas() {
       mdl.modal('show');
     }
   }
+}
+
+function genericDataTables(selector) {
+  return $(selector).DataTable({
+    dom: '<"m-1"frt<"d-flex flex-wrap justify-content-between"ip>>',
+    language: dataTablesTranslate
+  });
 }
 
 //confirma antes de sair da página
