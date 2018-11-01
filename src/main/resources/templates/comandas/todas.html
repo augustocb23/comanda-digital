@@ -25,10 +25,10 @@
 
   <section id="content" layout:fragment="content">
     <div class="table-responsive">
-      <table class="table table-hover compact" id="tbl-comandas" style="table-layout:fixed;width: 98% !important;">
-        <thead>
+      <table id="tbl-comandas" class="table table-hover compact" style="table-layout:fixed;width: 98% !important;">
+        <thead class="font-weight-bold">
         <tr>
-          <td>Código</td>
+          <td>#</td>
           <td>Mesa</td>
           <td>Nome</td>
           <td>Data</td>
@@ -40,65 +40,50 @@
     </div>
   </section>
   <section layout:fragment="modals">
-
+    <div id="mdl-status" class="modal fade" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Alterar situação</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              <span class="fas fa-times"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="form-status" onsubmit="return comandas.alterarStatus()">
+              <input id="status-codigo" type="hidden" name="codigo" value="null">
+              <!-- status -->
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <label class="input-group-text" for="status-select">Situação</label>
+                </div>
+                <select id="status-select" class="custom-select" title="Situação da comanda" name="status">
+                  <option th:each="s:${statusComanda}" th:value="${s}"
+                          th:selected="${null}" th:text="${s.desc}"></option>
+                </select>
+              </div>
+              <div class="d-flex justify-content-end">
+                <label for="status-select" class="small text-muted">Só é possível alterar comandas abertas</label>
+              </div>
+            </form>
+            <p class="small">Importante: Cancelar a comanda <b>não</b> devolve os produtos ao estoque. Se necessário,
+              cancele os pedidos antes de continuar.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+            <button type="submit" form="form-status" class="btn btn-danger">Salvar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </body>
 <script src="/static/js/utilities.js"></script>
+<script src="/static/js/intl.js"></script>
 <section layout:fragment="scripts">
   <script th:src="@{/js/intl.min.js}"></script>
   <script type="text/javascript">
-    $(document).ready(function () {
-      $('#tbl-comandas').DataTable({
-        processing: true,
-        serverSide: true,
-        ajax: {
-          url: '/comandas/todas/lista',
-          type: 'POST',
-          data: function (data) {
-            return JSON.stringify(data);
-          }
-        },
-        columns: [
-          {data: 'codigo', type: 'num'},
-          {data: 'mesa'},
-          {data: 'nome'}, {
-            data: 'data', type: 'date',
-            render: $.fn.dataTable.render.intlDateTime('pt-BR', {
-              day: '2-digit', month: '2-digit', year: '2-digit',
-              hour: '2-digit', minute: '2-digit'
-            })
-          }, {
-            data: 'atendente', render: function (data) {
-              /** @property data.login */
-              return '<span title="' + data.nome + '">' + data.login + '</span>'
-            }
-          },
-          {
-            data: 'status', render: function (data, type, row) {
-              let status;
-              switch (data) {
-                case 'A':
-                  status = 'Aberta';
-                  break;
-                case 'F':
-                  status = 'Fechada';
-                  break;
-                case 'P':
-                  status = 'Paga';
-                  break;
-                case 'C':
-                  status = 'Cancelada';
-              }
-              return '<a href="javascript:void(0)" title="Clique para alterar" onclick="alterarStatus(' + row + ')">'
-                + status + '</a>'
-            }
-          }
-        ],
-        order: [0, 'desc'],
-        language: dataTablesTranslate
-      })
-      ;
-    });
+    const comandas = todasComandas();
   </script>
 </section>
 </html>

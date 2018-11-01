@@ -59,7 +59,7 @@ function salvaComanda() {
 }
 
 function atualizaMesas() {
-  return $('#div-mesas').load('/mesas', function () {
+  return $('#div-mesas').load('/comandas/mesas', function () {
     swal.close()
   });
 }
@@ -78,7 +78,7 @@ function flash(obj, classNew, classOld) {
 }
 
 function buscaComandas(mesa) {
-  return $('#div-comandas').load('/mesas/' + mesa, function () {
+  return $('#div-comandas').load('/comandas/mesas/' + mesa, function () {
     $('#mesa').text('Mesa ' + mesa).addClass('list-group-item-primary').removeClass('list-group-item-light');
     const btn = $('#btn-comandas').removeClass('disabled');
     //se só tiver uma única comanda

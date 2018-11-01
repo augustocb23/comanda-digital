@@ -41,13 +41,13 @@ public class ComandaController {
 		return "/comandas/editar";
 	}
 
-	@GetMapping("/mesas")
+	@GetMapping("comandas/mesas")
 	public String fragmentMesas(ModelMap model) {
 		model.addAttribute("mesas", comandaService.buscarMesas());
 		return "/comandas/editar::mesas";
 	}
 
-	@GetMapping("/mesas/{mesa}")
+	@GetMapping("comandas/mesas/{mesa}")
 	public String fragmentComandas(ModelMap model, @PathVariable String mesa) {
 		model.addAttribute("comandas", comandaService.buscarPorMesa(Integer.valueOf(mesa)));
 		return "/comandas/editar::comandas";
@@ -79,8 +79,6 @@ public class ComandaController {
 		} else {
 			comandaService.editarNomeEMesa(comanda);
 		}
-		//remove dados do atendente antes de retornar o objeto
-		comanda.removeAtendente();
 		return comanda;
 	}
 
@@ -100,6 +98,13 @@ public class ComandaController {
 	@PostMapping(value = "/comandas/todas/lista")
 	@ResponseBody
 	public DataTablesOutput<Comanda> listaTodas(@Valid @RequestBody DataTablesInput input) {
+		input.getColumns().replaceAll(column -> {
+			switch (column.getData()) {
+				case "atendente":
+					column.setData("atendente.login");
+			}
+			return column;
+		});
 		return dataTables.findAll(input);
 	}
 

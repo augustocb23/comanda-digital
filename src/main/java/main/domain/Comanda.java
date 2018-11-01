@@ -28,7 +28,7 @@ public class Comanda extends AbstractEntity<Long> {
 	private StatusComanda status = StatusComanda.A;
 
 	public int senhaComanda() {
-		return Objects.hash(data);
+		return Math.abs(Objects.hash(data));
 	}
 
 	public void removeAtendente() {

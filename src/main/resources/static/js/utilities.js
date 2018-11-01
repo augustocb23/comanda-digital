@@ -176,6 +176,107 @@ function Grupos() {
   }
 }
 
+function todasComandas() {
+  $(document).ready(function () {
+    $('#tbl-comandas').DataTable({
+      dom: '<"m-1"<"#header.d-flex flex-wrap justify-content-between"f>rt<"d-flex flex-wrap justify-content-between"ip>>',
+      initComplete: function () {
+        const date = $('<div class="dataTables_filter"><label>Filtrar<input type="date" ' +
+          'class="form-control form-control-sm"></label></div>');
+        date.find('.form-control').on('change', function () {
+          $('#tbl-comandas').DataTable().search(this.value).draw();
+          $('#tbl-comandas_wrapper').find('#tbl-comandas_filter').find('.form-control').val(null)
+        });
+        $('#tbl-comandas_wrapper').find('#header').prepend(date);
+      },
+      processing: true,
+      serverSide: true,
+      ajax: {
+        url: '/comandas/todas/lista',
+        type: 'POST',
+        data: function (data) {
+          return JSON.stringify(data);
+        }
+      },
+      columns: [
+        {data: 'codigo', type: 'num'},
+        {data: 'mesa'},
+        {data: 'nome'}, {
+          data: 'data', type: 'date',
+          render: $.fn.dataTable.render.intlDateTime('pt-BR', {
+            day: '2-digit', month: '2-digit', year: '2-digit',
+            hour: '2-digit', minute: '2-digit'
+          })
+        }, {
+          data: 'atendente', render: function (data) {
+            /** @property data.login */
+            return '<span title="' + data.nome + '">' + data.login + '</span>'
+          }
+        },
+        {
+          data: 'status', searchable: false,
+          render: function (data, type, row) {
+            let status, classe;
+            switch (data) {
+              case 'A':
+                status = 'Aberta';
+                classe = 'btn-outline-primary';
+                break;
+              case 'F':
+                status = 'Fechada';
+                classe = 'btn-outline-dark';
+                break;
+              case 'P':
+                status = 'Paga';
+                classe = 'btn-outline-success';
+                break;
+              case 'C':
+                status = 'Cancelada';
+                classe = 'btn-outline-danger';
+            }
+            return '<a href="javascript:void(0)" class="btn btn-sm btn-block ' + classe + '"' +
+              ' title="Clique para alterar" onclick="comandas.status(' + row.codigo + ',\'' + data + '\')">' +
+              status + '</a>'
+          }
+        }
+      ],
+      order: [0, 'desc'],
+      language: dataTablesTranslate,
+      scrollX: true
+    });
+    $('#tbl-comandas_wrapper').find('#tbl-comandas_filter').on('keyup', function () {
+      $('#tbl-comandas_wrapper').find('.form-control[type="date"]').val(null)
+    });
+  });
+  return {
+    alterarStatus: function () {
+      const modal = $('#mdl-status');
+      modal.find('.btn-success').attr('disabled', true);
+      const btnCancel = modal.find('.btn-light');
+      const form = modal.find('#form-status');
+      const ajax = $.post('/comandas/status', getFormData(form), 'json')
+        .done(function () {
+          //atualiza a tabela
+          $('#tbl-comandas').DataTable().ajax.reload();
+          toast({title: 'Comanda atualizada', type: 'success'});
+          $('#mdl-status').modal('hide');
+        });
+      btnCancel.click(function () {
+        ajax.abort();
+        swal.close();
+      });
+      toast_carregando({title: 'Salvando...'});
+      return false;
+    },
+    status: function (comanda, status) {
+      const mdl = $('#mdl-status');
+      mdl.find('#status-codigo').val(comanda);
+      mdl.find('#status-select').val(status);
+      mdl.modal('show');
+    }
+  }
+}
+
 //confirma antes de sair da página
 function getConfirmarSaida() {
   return window.onbeforeunload != null
