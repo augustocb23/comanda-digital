@@ -19,4 +19,9 @@ public class AuthenticationFacadeImpl implements AuthenticationFacade {
 		FuncionarioUserDetails userDetails = (FuncionarioUserDetails) authentication.getPrincipal();
 		return userDetails.getFuncionario();
 	}
+
+	@Override
+	public boolean isAuthenticated() {
+		return !getAuthentication().getName().contentEquals("anonymousUser");
+	}
 }

@@ -40,6 +40,9 @@
         </thead>
       </table>
     </div>
+    <form id="formEdit" th:action="@{/visualizar}" method="post">
+      <input name="codigo" type="hidden" id="codObj">
+    </form>
   </section>
   <section layout:fragment="modals">
     <div id="mdl-status" class="modal fade" tabindex="-1">

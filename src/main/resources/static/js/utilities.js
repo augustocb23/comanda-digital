@@ -179,7 +179,7 @@ function Grupos() {
 function todasComandas() {
   $(document).ready(function () {
     $('#tbl-comandas').DataTable({
-      dom: '<"m-1"<"#header.d-flex flex-wrap justify-content-between"f>rt<"d-flex flex-wrap justify-content-between"ip>>',
+      dom: '<"m-1"<"#header.d-flex flex-wrap justify-content-between"rf>t<"d-flex flex-wrap justify-content-between"ip>>',
       initComplete: function () {
         //buscar por data
         const date = $('<div class="dataTables_filter"><label>Filtrar<input type="date" ' +
@@ -205,7 +205,12 @@ function todasComandas() {
         }
       },
       columns: [
-        {data: 'codigo', type: 'num'},
+        {
+          data: 'codigo', type: 'num',
+          render: function (data) {
+            return `<button class="btn btn-sm btn-outline-dark btn-block border-0" onclick="editar(${data})"  title="Clique para detalhes"><i class="fa fa-plus"></i>&nbsp;${data}</button>`
+          }
+        },
         {data: 'mesa'},
         {data: 'nome'}, {
           data: 'data', type: 'date',
@@ -216,7 +221,7 @@ function todasComandas() {
         }, {
           data: 'atendente', render: function (data) {
             /** @property data.login */
-            return '<span title="' + data.nome + '">' + data.login + '</span>'
+            return `<span title="${data.nome}">${data.login}</span>`
           }
         },
         {
@@ -240,9 +245,7 @@ function todasComandas() {
                 status = 'Cancelada';
                 classe = 'btn-outline-danger';
             }
-            return '<a href="javascript:void(0)" class="btn btn-sm btn-block ' + classe + '"' +
-              ' title="Clique para alterar" onclick="comandas.status(' + row.codigo + ',\'' + data + '\')">' +
-              status + '</a>'
+            return `<a href="javascript:void(0)" class="btn btn-sm btn-block ${classe}" title="Clique para alterar" onclick="comandas.status(${row.codigo},'${data}')">${status}</a>`
           }
         }
       ],
@@ -283,7 +286,8 @@ function todasComandas() {
 function genericDataTables(selector) {
   return $(selector).DataTable({
     dom: '<"m-1"frt<"d-flex flex-wrap justify-content-between"ip>>',
-    language: dataTablesTranslate
+    language: dataTablesTranslate,
+    processing: true
   });
 }
 

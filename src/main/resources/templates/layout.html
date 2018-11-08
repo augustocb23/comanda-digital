@@ -29,7 +29,7 @@
   <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
-  <header>
+  <header class="mb-4">
     <nav class="nav navbar navbar-dark bg-dark navbar-customizada navbar-expand-md fixed-top">
       <div class="container">
         <a class="btn btn-outline-light border-secondary" th:href="@{/}"><i
@@ -57,8 +57,8 @@
         </div>
       </div>
     </nav>
-    <div class="container bg-secondary mb-4 rounded-bottom" sec:authorize="isAuthenticated()">
-      <h1 class="titulo-pagina text-center text-light p1 pb-2" layout:fragment="title">TITULO</h1>
+    <div class="container bg-secondary rounded-bottom" sec:authorize="isAuthenticated()">
+      <h1 class="titulo-pagina text-center text-light p1 pb-2" layout:fragment="title"></h1>
     </div>
   </header>
 

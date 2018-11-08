@@ -7,4 +7,6 @@ public interface AuthenticationFacade {
 	Authentication getAuthentication();
 
 	Funcionario getFuncionario();
+
+	boolean isAuthenticated();
 }

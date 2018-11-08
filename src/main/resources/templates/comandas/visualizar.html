@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layout}"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+  <nav layout:fragment="sidebar">
+    <div class="list-group-item border border-secondary">
+      <form method="post" th:action="@{/visualizar}">
+        <label class="small">Comanda<input type="number" class="form-control" name="codigo" required></label>
+        <label class="small">Senha <input type="number" class="form-control" name="senha"
+                                          required th:disabled="${#authentication.name!='anonymousUser'}"></label>
+        <button type="submit" class="btn btn-dark float-right">Buscar</button>
+      </form>
+    </div>
+    <a class="list-group-item list-group-item-action text-center text-nowrap" style="margin-top: 1px"
+       href="javascript:void(0)" onclick="history.back()"><i class="fas fa-arrow-left"></i>&nbsp;Voltar</a>
+  </nav>
+
+  <h1 layout:fragment="title">Comandas</h1>
+
+  <section id="div-alerts" layout:fragment="alerts" th:if="${comanda.codigo==null}">
+    <div class="pb-1 alert alert-danger alert-dismissible" th:if="${error}!=null">
+      <h4 class="alert-heading" th:text="${error}"></h4>
+      <p>Verifique os dados informados e tente novamente</p>
+      <button type="button" class="close" data-dismiss="alert">
+        <span><i class="fas fa-times"></i></span>
+      </button>
+    </div>
+
+    <div class="pb-1 alert alert-primary alert-dismissible" th:if="${error}==null">
+      <h4 class="alert-heading">Informe a comanda</h4>
+      <p>Utilize o formulário para informar código e senha</p>
+    </div>
+  </section>
+
+  <section layout:fragment="info">
+    <div id="div-info" th:fragment="info" th:classappend="${comanda.codigo==null}?'d-none':null">
+      <div class="mt-3 card border border-dark">
+        <div class="card-header font-weight-bold">
+          <div class="align-middle">Comanda&nbsp;<span th:text="${comanda.codigo}"></span></div>
+        </div>
+        <ul class="list-group">
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Nome&nbsp;<span class="text-black-50" th:text="${comanda.nome}"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Mesa&nbsp;<span class="text-black-50" th:text="${comanda.mesa}"></span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            Data&nbsp;<span class="text-black-50"
+                            th:text="${#calendars.format(comanda.data,'dd/MM/yyyy HH:mm')}"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="content" layout:fragment="content" th:classappend="${comanda.codigo==null}?'d-none':null">
+    <div id="div-comanda" th:fragment="comanda">
+      <div class="bg-light rounded-top border border-success d-flex justify-content-between text-dark px-2 py-1">
+        <div>Comanda&nbsp;<span id="comanda" th:text="${comanda.codigo}"></span></div>&nbsp;
+        <div th:text="${comanda.getNome()}"></div>&nbsp;
+        <div>Senha&nbsp;<span th:text="${comanda.senhaComanda()}"></span></div>
+      </div>
+      <!-- pedidos -->
+      <div class="table-responsive">
+        <table id="tbl-pedidos" class="table table-hover compact">
+          <thead>
+          <tr>
+            <th class="col-cod">#</th>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th class="text-right">Situação</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="p:${comanda.getPedidos()}" th:attr="data-pedido=${p.codigo}">
+            <td th:text="${p.codigo}"></td>
+            <td>
+              <p th:text="${p.produto.nome}"></p>
+            </td>
+            <td th:text="${p.quantidade}"></td>
+            <td class="text-right">
+              <div class="d-inline-block btn-sm border" th:text="${p.status.desc}"
+                   th:classappend="${p.status.name()=='C'}?'border-danger text-danger':(${p.status.name()=='E'}?'border-success text-success':'border-dark text-dark')">
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</body>
+<script src="/static/js/utilities.js"></script>
+<script src="/static/js/comandas.js"></script>
+</html>

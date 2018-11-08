@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//libera o acesso à pasta CSS e JS
 				.antMatchers("/css/**", "/js/**").permitAll()
 				//permite o acesso para a página de comandas
-				.antMatchers("/clientes").permitAll()
+				.antMatchers("/visualizar").permitAll()
 				//só autoriza o acesso se estiver logado
 				.anyRequest().authenticated()
 
