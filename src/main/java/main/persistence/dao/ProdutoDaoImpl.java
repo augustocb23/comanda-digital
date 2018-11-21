@@ -11,4 +11,9 @@ public class ProdutoDaoImpl extends AbstractDao<Produto, Long> implements Produt
 	public List<Produto> findByName(String name) {
 		return createQuery("FROM Produto WHERE nome LIKE ?1", "%" + name + "%");
 	}
+
+	@Override
+	public boolean exists(String name, Long id) {
+		return existsItemWithColumn("nome", name, id);
+	}
 }

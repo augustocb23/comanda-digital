@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,17 +71,27 @@ public class FuncionarioController {
 	}
 
 	@PostMapping("/salvar")
-	public String salvar(@ModelAttribute Funcionario funcionario, BindingResult result,
+	public String salvar(@Valid @ModelAttribute Funcionario funcionario, BindingResult result,
 						 RedirectAttributes attributes, ModelMap model, HttpSession session) {
+		if (funcionario.getCodigo() == null) {
+			if (funcionario.getSenhaNova().isEmpty())
+				result.addError(new FieldError("funcionario", "senhaNova", "Insira a senha"));
+			if (funcionario.getSenhaConfirma().isEmpty())
+				result.addError(new FieldError("funcionario", "senhaConfirma", "Confirme a senha"));
+		}
+
 		if (!funcionario.getSenhaNova().isEmpty() && !funcionario.getSenhaConfirma().isEmpty())
 			//verifica se as senhas coincidem
 			if (!funcionario.getSenhaNova().contentEquals(funcionario.getSenhaConfirma()))
-				result.addError(new FieldError("senhaNova", "senhaNaoCoincide",
-						"Senhas não coincidem"));
+				result.addError(new FieldError("funcionario", "senhaNova", "Senhas não coincidem"));
 			else //codifica a senha
 				funcionario.encodeSenha(funcionario.getSenhaNova());
 		else //restaura a senha
 			funcionario.setSenha((String) session.getAttribute("senha"));
+
+		//verifica se o usuário já existe
+		if (funcionarioService.existe(funcionario.getLogin(), funcionario.getCodigo()))
+			result.addError(new FieldError("funcionario", "login", "Login já está em uso"));
 
 		if (result.hasErrors()) {
 			model.addAttribute("funcionario", funcionario);
@@ -96,6 +107,12 @@ public class FuncionarioController {
 		attributes.addFlashAttribute("success", "Funcionário cadastrado");
 		return "redirect:/funcionarios";
 	}
+
+	@GetMapping("/salvar")
+	public String redirectEditar() {
+		return "redirect:/funcionarios";
+	}
+
 
 	@PostMapping("/editar")
 	public String formEditar(@RequestParam(name = "codigo") String codigo, ModelMap model,

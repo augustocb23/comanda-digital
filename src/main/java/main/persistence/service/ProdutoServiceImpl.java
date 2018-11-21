@@ -60,4 +60,9 @@ public class ProdutoServiceImpl implements ProdutoService {
 			return;
 		upd.setEstoque(upd.getEstoque() - quantidade);
 	}
+
+	@Override
+	public boolean existeProduto(String nome, Long codigo) {
+		return dao.exists(nome, codigo);
+	}
 }

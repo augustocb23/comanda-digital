@@ -53,4 +53,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	public Funcionario buscarPorLogin(String login) {
 		return dao.findByLogin(login);
 	}
+
+	@Override
+	public boolean existe(String login, Long codigo) {
+		return dao.exists(login, codigo);
+	}
 }

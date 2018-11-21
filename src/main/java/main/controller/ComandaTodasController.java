@@ -30,9 +30,8 @@ public class ComandaTodasController {
 	@ResponseBody
 	public DataTablesOutput<Comanda> listaTodas(@Valid @RequestBody DataTablesInput input) {
 		input.getColumns().replaceAll(column -> {
-			switch (column.getData()) {
-				case "atendente":
-					column.setData("atendente.login");
+			if ("atendente".equals(column.getData())) {
+				column.setData("atendente.login");
 			}
 			return column;
 		});

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+<html lang="pt-br" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
       http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
 <head>
   <meta charset="UTF-8">
+  <title>Comanda Digital</title>
 </head>
 <body>
   <nav layout:fragment="sidebar">
-    <button type="submit" form="form"
-            class="list-group-item list-group-item-success list-group-item-action text-center"><i
+    <button class="list-group-item list-group-item-success list-group-item-action text-center" form="form"
+            type="submit"><i
         class="fas fa-save"></i>&nbsp;Salvar
     </button>
     <a class="list-group-item list-group-item-action text-center" th:href="@{/produtos/}"><i
@@ -20,21 +22,25 @@
   <h1 layout:fragment="title"><span th:text="${produto.codigo}==null?'Novo':'Editar'"></span> produto</h1>
 
   <section layout:fragment="content">
-    <form id="form" th:action="@{/produtos/salvar}" method="POST" th:object="${produto}">
-      <input type="hidden" th:field="*{codigo}">
+    <form id="form" method="POST" th:action="@{/produtos/salvar}" th:object="${produto}">
+      <input th:field="*{codigo}" type="hidden">
       <div class="row">
         <div class="input-group col-md-6 pt-2">
           <div class="input-group-prepend">
             <label class="input-group-text" for="nome">Nome</label>
           </div>
-          <input id="nome" class="form-control" type="text" th:field="*{nome}" required>
+          <input class="form-control" id="nome" required th:classappend="${#fields.hasErrors('nome')}?'is-invalid'"
+                 th:field="*{nome}" type="text">
+          <div class="invalid-feedback">
+            <span th:errors="*{nome}"></span>
+          </div>
         </div>
         <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
-              <label class="input-group-text" for="estoque">Preço</label>
+              <label class="input-group-text" for="preco">Preço</label>
             </div>
-            <input id="preco" class="form-control monetario" type="text" th:field="*{preco}">
+            <input class="form-control monetario" id="preco" th:field="*{preco}" type="text">
           </div>
         </div>
       </div>
@@ -44,29 +50,30 @@
             <div class="input-group-prepend">
               <label class="input-group-text" for="estoque">Estoque</label>
             </div>
-            <input id="estoque" class="form-control" type="number" th:field="*{estoque}" required
-                   th:disabled="*{estoque==null}">
-            <select id="unidade" class="custom-select" title="Unidade" th:field="*{unidade}" required
-                    th:disabled="*{estoque==null}">
-              <option th:each="u:${unidades}" th:value="${u}" th:text="${u.desc}"></option>
+            <input class="form-control" id="estoque" required th:disabled="*{estoque==null}" th:field="*{estoque}"
+                   type="number">
+            <select class="custom-select" id="unidade" required th:disabled="*{estoque==null}" th:field="*{unidade}"
+                    title="Unidade">
+              <option th:each="u:${unidades}" th:text="${u.desc}" th:value="${u}"></option>
             </select>
           </div>
-          <label for="estoque" class="small text-muted">Para produtos a pronta entrega</label>
+          <label class="small text-muted" for="estoque">Para produtos a pronta entrega</label>
         </div>
         <div class="col-md-6 pt-2">
           <div class="input-group">
             <div class="input-group-prepend">
               <div class="input-group-text">
-                <input id="ativo" type="checkbox" th:field="*{estoqueNull}"
-                       onchange="$('#unidade').attr('disabled',$(this).prop('checked'));
-                       $('#estoque').attr('disabled',$(this).prop('checked')).val(null).focus()">
+                <input id="ativo" onchange="$('#unidade').attr('disabled',$(this).prop('checked'));
+                       $('#estoque').attr('disabled',$(this).prop('checked')).val(null).focus()"
+                       th:field="*{estoqueNull}"
+                       type="checkbox">
               </div>
             </div>
             <div class="input-group-append">
               <label class="input-group-text" for="ativo">Estoque nulo</label>
             </div>
           </div>
-          <label for="ativo" class="small text-muted">Para produtos preparados no momento do pedido</label>
+          <label class="small text-muted" for="ativo">Para produtos preparados no momento do pedido</label>
         </div>
       </div>
 

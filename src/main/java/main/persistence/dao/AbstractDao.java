@@ -1,8 +1,13 @@
 package main.persistence.dao;
 
+import org.hibernate.Session;
+
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -33,6 +38,23 @@ public class AbstractDao<T, PK extends Serializable> {
 
 	public List<T> findAll() {
 		return entityManager.createQuery("FROM " + entityClass.getSimpleName(), entityClass).getResultList();
+	}
+
+	boolean existsItemWithColumn(@NotNull String column, Object value, @Null PK id) {
+		try {
+			TypedQuery<T> query =
+					getEntityManager().createQuery("FROM " + entityClass.getSimpleName() + " WHERE " + column +
+							" = " + "?1", entityClass);
+			query.setParameter(1, value);
+			T result = query.getSingleResult();
+			//Throws NoResultException
+			Session session = entityManager.unwrap(Session.class);
+			Object entityId = session.getIdentifier(result);
+			//false if is the same object
+			return entityId != id;
+		} catch (NoResultException e) {
+			return false;
+		}
 	}
 
 	List<T> createQuery(String jpql, Object... params) {

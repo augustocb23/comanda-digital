@@ -16,4 +16,6 @@ public interface ProdutoDao {
 	List<Produto> findAll();
 
 	List<Produto> findByName(String name);
+
+	boolean exists(String nome, Long id);
 }

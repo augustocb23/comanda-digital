@@ -82,7 +82,7 @@ public class Funcionario extends AbstractEntity<Long> {
 	}
 
 	public void setLogin(String login) {
-		this.login = login.toLowerCase();
+		this.login = login.trim().toLowerCase();
 	}
 
 	public String getNome() {

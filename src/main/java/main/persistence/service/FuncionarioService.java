@@ -16,4 +16,6 @@ public interface FuncionarioService {
 	List<Funcionario> buscarTodos();
 
 	Funcionario buscarPorLogin(String login);
+
+	boolean existe(String login, Long codigo);
 }

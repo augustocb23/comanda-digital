@@ -16,4 +16,6 @@ public interface FuncionarioDao {
 	List<Funcionario> findAll();
 
 	Funcionario findByLogin(String login);
+
+	boolean exists(String login, Long id);
 }

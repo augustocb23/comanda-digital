@@ -18,4 +18,6 @@ public interface ProdutoService {
 	List<Produto> buscarPorNome(String term);
 
 	void atualizaEstoque(Produto produto, Integer quantidade);
+
+	boolean existeProduto(String nome, Long codigo);
 }

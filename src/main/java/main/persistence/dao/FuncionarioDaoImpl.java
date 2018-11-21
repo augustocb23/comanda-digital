@@ -15,4 +15,9 @@ public class FuncionarioDaoImpl extends AbstractDao<Funcionario, Long> implement
 		else
 			return null;
 	}
+
+	@Override
+	public boolean exists(String login, Long id) {
+		return existsItemWithColumn("login", login, id);
+	}
 }
