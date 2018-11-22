@@ -1,21 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" lang="pt-br"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{layout}"
+<html lang="pt-br" layout:decorate="~{layout}" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
       http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
 <body>
   <section layout:fragment="sidebar">
     <div class="mx-auto div-form bg-light mt-1 p-2 pb-4 border border-secondary rounded">
       <h5 class="fonte-titulo titulo-pagina">Acesso para funcionários</h5>
-      <form method="post" th:action="@{/login}" onsubmit="$(this).find('.btn').attr('disabled',true)">
+      <form method="post" onsubmit="$(this).find('.btn').attr('disabled',true)" th:action="@{/login}">
         <div class="input-group padding-form">
           <div class="input-group-prepend">
             <span class="input-group-text">
               <i class="fas fa-user"></i>
             </span>
           </div>
-          <input class="form-control" type="text" name="username" placeholder="Usuário" autofocus required/>
+          <input autofocus class="form-control" name="username" placeholder="Usuário" required type="text"/>
         </div>
         <div class="input-group padding-form">
           <div class="input-group-prepend">
@@ -23,7 +23,7 @@
               <i class="fas fa-key"></i>
             </span>
           </div>
-          <input class="form-control" type="password" name="password" placeholder="Senha" required/>
+          <input class="form-control" name="password" placeholder="Senha" required type="password"/>
         </div>
         <button class="btn btn-dark float-right" type="submit">
           <i class="fas fa-sign-in-alt"></i>&nbsp;Entrar
@@ -41,7 +41,8 @@
 
   <section layout:fragment="scripts">
     <script th:if="${error}" type="text/javascript">
-        toast({title: 'Usuário ou senha inválidos', type: 'error'});
+      toast({title: 'Usuário ou senha inválidos', type: 'error'});
+      history.replaceState({}, 'Comanda Digital', 'login');
     </script>
   </section>
 </body>

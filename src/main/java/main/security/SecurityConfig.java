@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//após o login
 				.successHandler(new CustomAuthenticationSuccessHandler())
 				//em caso de erro
-				.failureHandler(new CustomAuthenticationFailureHandler())
+				.failureUrl("/login?error=login")
 				//url para logout
 				.and().logout().logoutSuccessUrl("/login");
 	}
