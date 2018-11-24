@@ -43,7 +43,7 @@ public class AbstractDao<T, PK extends Serializable> {
 	boolean existsItemWithColumn(@NotNull String column, Object value, @Null PK id) {
 		try {
 			TypedQuery<T> query =
-					getEntityManager().createQuery("FROM " + entityClass.getSimpleName() + " WHERE " + column +
+					entityManager.createQuery("FROM " + entityClass.getSimpleName() + " WHERE " + column +
 							" = " + "?1", entityClass);
 			query.setParameter(1, value);
 			T result = query.getSingleResult();
@@ -63,9 +63,5 @@ public class AbstractDao<T, PK extends Serializable> {
 			query.setParameter(i + 1, params[i]);
 		}
 		return query.getResultList();
-	}
-
-	protected EntityManager getEntityManager() {
-		return entityManager;
 	}
 }

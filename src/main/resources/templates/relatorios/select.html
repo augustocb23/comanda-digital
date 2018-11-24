@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+      http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
+<head>
+  <meta charset="UTF-8">
+  <title>Comanda Digital</title>
+</head>
+<body>
+  <nav layout:fragment="sidebar">
+    <div class="list-group-item border border-secondary">
+      <form method="post" th:action="@{/relatorios/gerar}">
+        <label class="small" for="relatorios">Relatório</label>
+        <select class="custom-select" id="relatorios" name="tipo" required>
+          <option disabled hidden selected>Selecione</option>
+          <option th:each="t:${tipos}" th:text="${t.desc}" th:value="${t}"></option>
+        </select>
+        <label class="small" for="inicio">Início</label>
+        <input class="form-control" id="inicio" name="inicio" required type="date">
+        <label class="small" for="fim">Fim</label>
+        <input class="form-control" id="fim" name="fim" required type="date">
+        <button class="mt-2 btn btn-dark float-right" type="submit">Buscar</button>
+      </form>
+    </div>
+  </nav>
+
+  <h1 layout:fragment="title">Relatórios</h1>
+
+  <section layout:fragment="alerts">
+    <div class="pb-1 alert alert-primary alert-dismissible">
+      <h4 class="alert-heading">Informe os dados do relatório</h4>
+      <p>Utilize o menu para escolher tipo de relatório e período</p>
+    </div>
+  </section>
+
+  <section layout:fragment="content" th:if="${relatorio!=null}">
+  </section>
+</body>
+</html>

@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class FuncionarioUserDetails implements UserDetails {
-	private Funcionario funcionario;
+	private final Funcionario funcionario;
 
 	public FuncionarioUserDetails(Funcionario funcionario) {
 		this.funcionario = funcionario;

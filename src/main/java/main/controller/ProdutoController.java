@@ -29,13 +29,13 @@ public class ProdutoController {
 	@GetMapping("")
 	public String funcionarios(ModelMap model) {
 		model.addAttribute("produtos", produtoService.buscarTodos());
-		return "/produtos/listar";
+		return "produtos/listar";
 	}
 
 	@GetMapping("/editar")
 	public String editar(ModelMap model) {
 		model.addAttribute("produto", new Produto());
-		return "/produtos/editar";
+		return "produtos/editar";
 	}
 
 	@GetMapping(value = "/buscar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -58,7 +58,7 @@ public class ProdutoController {
 			result.addError(new FieldError("produto", "nome", "Já existe um produto com o mesmo nome"));
 		if (result.hasErrors()) {
 			model.addAttribute("produto", produto);
-			return "/produtos/editar";
+			return "produtos/editar";
 		}
 
 		if (produto.getCodigo() == null) //novo

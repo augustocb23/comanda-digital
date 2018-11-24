@@ -45,6 +45,11 @@
           <ul class="navbar-nav ml-auto">
             <li class="dropdown-divider"></li>
             <li class="nav-item"><a class="btn btn-outline-light border-0"
+                                    sec:authorize="hasAuthority('gerar_relatorios')"
+                                    th:href="@{/relatorios}"><i
+                class="fas fa-file-alt span-tam_fixo"></i>&nbsp;Relatórios</a>
+            </li>
+            <li class="nav-item"><a class="btn btn-outline-light border-0"
                                     sec:authorize="hasAuthority('editar_produtos')"
                                     th:href="@{/produtos}"><i
                 class="fas fa-box span-tam_fixo"></i>&nbsp;Produtos</a>
@@ -73,14 +78,14 @@
         <div class="row">
           <div class="col-12 pl-4">
             <div class="pb-1 alert alert-danger alert-dismissible" th:if="${errorTitle}!=null">
-              <h4 class="alert-heading" th:text="${errorTitle}"></h4>
-              <p th:text="${errorText}"></p>
+              <h4 class="alert-heading" th:text="${errorTitle}"></h4><!--/*@thymesVar id="errorTitle" type="String"*/-->
+              <p th:text="${errorText}"></p><!--/*@thymesVar id="errorText" type="String"*/-->
               <button class="close" data-dismiss="alert" type="button">
                 <span><i class="fas fa-times"></i></span>
               </button>
             </div>
             <div class="pb-1 alert alert-success alert-dismissible" th:if="${success}!=null">
-              <h4 class="alert-heading" th:text="${success}"></h4>
+              <h4 class="alert-heading" th:text="${success}"></h4><!--/*@thymesVar id="success" type="String"*/-->
               <button class="close" data-dismiss="alert" type="button">
                 <span><i class="fas fa-times"></i></span>
               </button>

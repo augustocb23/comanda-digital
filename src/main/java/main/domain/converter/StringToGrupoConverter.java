@@ -4,6 +4,7 @@ import main.domain.Grupo;
 import main.persistence.service.GrupoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,7 +17,7 @@ public class StringToGrupoConverter implements Converter<String, Grupo> {
 	}
 
 	@Override
-	public Grupo convert(String string) {
+	public Grupo convert(@NonNull String string) {
 		if (!string.isEmpty()) {
 			Long codigo = Long.valueOf(string);
 			return service.buscarPorId(codigo);

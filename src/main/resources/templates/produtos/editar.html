@@ -57,7 +57,9 @@
               <option th:each="u:${unidades}" th:text="${u.desc}" th:value="${u}"></option>
             </select>
           </div>
-          <label class="small text-muted" for="estoque">Para produtos a pronta entrega</label>
+          <div class="d-flex flex-row flex-wrap justify-content-between">
+            <label class="small text-muted" for="estoque">Para produtos a pronta entrega</label>
+            <label class="small text-muted text-right" for="unidade">Unidade de medida</label></div>
         </div>
         <div class="col-md-6 pt-2">
           <div class="input-group">

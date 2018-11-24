@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+<html lang="pt-br" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
       http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
 <meta charset="UTF-8"/>
@@ -17,10 +18,10 @@
   </section>
 
   <section layout:fragment="content" style="background-color: transparent">
-    <div class="ml-auto div-form bg-light rounded p-2 pb-1">
+    <div class="ml-auto div-form bg-light rounded p-2 pb-1"><!--/*@thymesVar id="status" type="Integer"*/-->
       <h3 class="titulo-pagina text-center px-2"><span th:text="${'HTTP '+status}"></span></h3>
-      <h5 class="alert-heading" th:text="${error}"></h5>
-      <code class="text-muted" th:text="${message}"></code>
+      <h5 class="alert-heading" th:text="${error}"></h5><!--/*@thymesVar id="error" type="String"*/-->
+      <code class="text-muted" th:text="${message}"></code><!--/*@thymesVar id="message" type="String"*/-->
     </div>
   </section>
 </body>

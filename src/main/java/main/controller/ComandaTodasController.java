@@ -23,7 +23,7 @@ public class ComandaTodasController {
 
 	@GetMapping("")
 	public String todas() {
-		return "/comandas/todas";
+		return "comandas/todas";
 	}
 
 	@PostMapping(value = "/lista")

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 
 @Controller
@@ -28,35 +29,36 @@ public class ComandaController {
 	}
 
 	@GetMapping("")
-	public String funcionarios(ModelMap model) {
+	public String comandas(ModelMap model) {
 		Set<Integer> mesas = comandaService.buscarMesas();
 		model.addAttribute("mesas", mesas);
 		model.addAttribute("comanda", new Comanda());
-		return "/comandas/editar";
+		model.addAttribute("comandas", new HashMap<Long, String>());
+		return "comandas/editar";
 	}
 
 	@GetMapping("comandas/mesas")
 	public String fragmentMesas(ModelMap model) {
 		model.addAttribute("mesas", comandaService.buscarMesas());
-		return "/comandas/editar::mesas";
+		return "comandas/editar::mesas";
 	}
 
 	@GetMapping("comandas/mesas/{mesa}")
 	public String fragmentComandas(ModelMap model, @PathVariable String mesa) {
 		model.addAttribute("comandas", comandaService.buscarPorMesa(Integer.valueOf(mesa)));
-		return "/comandas/editar::comandas";
+		return "comandas/editar::comandas";
 	}
 
 	@GetMapping("/comandas/{comanda}")
 	public String fragmentContent(ModelMap model, @PathVariable String comanda) {
 		model.addAttribute("comanda", comandaService.buscarPorId(Long.valueOf(comanda)));
-		return "/comandas/editar::comanda";
+		return "comandas/editar::comanda";
 	}
 
 	@GetMapping("/comandas/info/{comanda}")
 	public String fragmentInfo(ModelMap model, @PathVariable String comanda) {
 		model.addAttribute("comanda", comandaService.buscarPorId(Long.valueOf(comanda)));
-		return "/comandas/editar::info";
+		return "comandas/editar::info";
 	}
 
 	@PostMapping(value = "/comandas/salvar", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -88,7 +90,7 @@ public class ComandaController {
 	public String visualizaComandaSelect(ModelMap model) {
 		Comanda comanda = new Comanda();
 		model.addAttribute("comanda", comanda);
-		return "/comandas/visualizar";
+		return "comandas/visualizar";
 	}
 
 	@PostMapping("/visualizar")
@@ -105,7 +107,7 @@ public class ComandaController {
 			return "redirect:/visualizar";
 		}
 		model.addAttribute("comanda", comanda);
-		return "/comandas/visualizar";
+		return "comandas/visualizar";
 	}
 
 	@ModelAttribute("statusComanda")

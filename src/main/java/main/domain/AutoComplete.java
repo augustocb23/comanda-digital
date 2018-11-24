@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AutoComplete {
-	private long codigo;
-	private String label;
+	private final long codigo;
+	private final String label;
 
 	private AutoComplete(long codigo, String label) {
 		this.codigo = codigo;

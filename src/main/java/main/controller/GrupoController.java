@@ -30,7 +30,7 @@ public class GrupoController {
 	@GetMapping("")
 	public String formGrupos(ModelMap model) {
 		model.addAttribute("grupo", new Grupo());
-		return "/funcionarios/grupos";
+		return "funcionarios/grupos";
 	}
 
 	@PostMapping("")
@@ -59,7 +59,7 @@ public class GrupoController {
 		grupo.setPermissoesString(permissoesString.toString());
 		//carrega o grupo e permissoes
 		model.addAttribute("grupo", grupo);
-		return "/funcionarios/grupos";
+		return "funcionarios/grupos";
 	}
 
 	@PostMapping("/salvar")

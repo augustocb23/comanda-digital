@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"
-      layout:decorate="~{layout}"
+<html lang="pt-br" layout:decorate="~{layout}"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
       http://www.thymeleaf.org/xsd/thymeleaf-extras-dialect-2.1.xsd">
 <head>
   <meta charset="UTF-8">
+  <title>Comanda Digital</title>
 </head>
 <body>
   <nav layout:fragment="sidebar">
@@ -21,33 +23,37 @@
 
   <section layout:fragment="content">
     <div class="table-responsive">
-      <table id="tbl-produtos" class="table table-hover compact">
+      <table class="table table-hover compact" id="tbl-produtos">
         <thead>
         <tr>
           <th class="col-cod">#</th>
           <th>Nome</th>
           <th>Preço</th>
-          <th>Estoque</th>          <!--<th>Imagem</th>-->
+          <th>Estoque</th>
+          <!--/*<th>Imagem</th>*/-->
         </tr>
         </thead>
         <tbody>
-        <tr th:each="f :${produtos}">
+        <tr th:each="f:${produtos}">
           <td th:text="${f.codigo}"></td>
           <td>
-            <a th:attr="href=${#authorization.expression('hasAuthority(''editar_produtos'')')?'javascript:void(0)':null}"
-               th:onclick="'editar('+${f.codigo}+')'" class="active" th:text="${f.nome}"></a>
+            <a class="active"
+               th:attr="href=${#authorization.expression('hasAuthority(''editar_produtos'')')?'javascript:void(0)':null}"
+               th:onclick="'editar('+${f.codigo}+')'" th:text="${f.nome}"></a>
           </td>
           <td th:text="${f.preco==null?null:#numbers.formatDecimal(f.preco,1,2)}"></td>
           <td th:text="${f.estoque==null?null:f.estoque+' '+f.unidade}"></td>
-          <!--<td><button type="button" class="btn-link" th:disabled="!${f.imagem}"><i class="far fa-image"></i></button></td>-->
+          <!--/*<td>
+            <button class="btn-link" th:disabled="!${f.imagem}" type="button"><i class="far fa-image"></i></button>
+          </td>*/-->
         </tr>
         </tbody>
       </table>
     </div>
 
     <div sec:authorize="hasAuthority('editar_produtos')">
-      <form id="formEdit" th:action="@{/produtos/editar}" method="post">
-        <input name="codigo" type="hidden" id="codObj">
+      <form id="formEdit" method="post" th:action="@{/produtos/editar}">
+        <input id="codObj" name="codigo" type="hidden">
       </form>
     </div>
   </section>

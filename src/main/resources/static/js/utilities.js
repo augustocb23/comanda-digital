@@ -322,13 +322,3 @@ const toast_carregando = swal.mixin({
   },
   timer: false
 });
-
-const swal_carregando = swal.mixin({
-  title: 'Carregando...',
-  onOpen: () => {
-    swal.showLoading()
-  },
-  showConfirmButton: false,
-  allowOutsideClick: false,
-  width: '16em'
-});

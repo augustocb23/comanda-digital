@@ -32,7 +32,7 @@ public class FuncionarioController {
 	@GetMapping("")
 	public String funcionarios(ModelMap model) {
 		model.addAttribute("funcionarios", funcionarioService.buscarTodos());
-		return "/funcionarios/listar";
+		return "funcionarios/listar";
 	}
 
 	@GetMapping("/admin")
@@ -41,7 +41,7 @@ public class FuncionarioController {
 		session.setAttribute("senhaAdmin", Objects.requireNonNull(admin).getSenha());
 		session.setAttribute("grupoAdmin", Objects.requireNonNull(admin).getGrupo());
 		model.addAttribute("admin", admin);
-		return "/funcionarios/admin";
+		return "funcionarios/admin";
 	}
 
 	@PostMapping("/salvarAdmin")
@@ -127,13 +127,13 @@ public class FuncionarioController {
 		model.addAttribute("funcionario", funcionario);
 		//salva a senha na sessão
 		session.setAttribute("senha", Objects.requireNonNull(funcionario).getSenha());
-		return "/funcionarios/editar";
+		return "funcionarios/editar";
 	}
 
 	@GetMapping("/editar")
 	public String editar(ModelMap model) {
 		model.addAttribute("funcionario", new Funcionario());
-		return "/funcionarios/editar";
+		return "funcionarios/editar";
 	}
 
 	@ModelAttribute("grupos")

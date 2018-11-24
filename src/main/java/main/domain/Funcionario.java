@@ -32,7 +32,6 @@ public class Funcionario extends AbstractEntity<Long> {
 	@Column(nullable = false, columnDefinition = "BIT(1) DEFAULT TRUE")
 	@JsonIgnore
 	private boolean ativo = true;
-
 	//alteração de senha
 	@Transient
 	@JsonIgnore
@@ -48,13 +47,6 @@ public class Funcionario extends AbstractEntity<Long> {
 
 	Boolean isAtivo() {
 		return ativo;
-	}
-
-	public Boolean validaSenha(String senha) {
-		if (senha == null || senha.isEmpty())
-			return false;
-
-		return (new BCryptPasswordEncoder()).matches(senha, getSenha());
 	}
 
 	public void encodeSenha(String senha) {
@@ -94,7 +86,7 @@ public class Funcionario extends AbstractEntity<Long> {
 	}
 
 	@JsonIgnore
-	public Set<Permissao> getPermissoes() {
+	Set<Permissao> getPermissoes() {
 		return grupo.getPermissoes();
 	}
 
