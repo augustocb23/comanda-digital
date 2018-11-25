@@ -59,7 +59,7 @@ public class PedidoServiceImpl implements PedidoService {
 	}
 
 	@Override
-	public List<Object[]> relatorioConsumo(LocalDate inicio, LocalDate fim) {
-		return dao.consumptionReport(inicio, fim);
+	public List<Object[]> relatorio(LocalDate inicio, LocalDate fim) {
+		return dao.generateReport(inicio, fim);
 	}
 }

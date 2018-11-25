@@ -41,7 +41,7 @@
                th:attr="href=${#authorization.expression('hasAuthority(''editar_produtos'')')?'javascript:void(0)':null}"
                th:onclick="'editar('+${f.codigo}+')'" th:text="${f.nome}"></a>
           </td>
-          <td th:text="${f.preco==null?null:#numbers.formatDecimal(f.preco,1,2)}"></td>
+          <td th:text="${f.preco==null?null:'R$ '+#numbers.formatDecimal(f.preco,1,2)}"></td>
           <td th:text="${f.estoque==null?null:f.estoque+' '+f.unidade}"></td>
           <!--/*<td>
             <button class="btn-link" th:disabled="!${f.imagem}" type="button"><i class="far fa-image"></i></button>

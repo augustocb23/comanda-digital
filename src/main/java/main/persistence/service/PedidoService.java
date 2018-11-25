@@ -18,5 +18,5 @@ public interface PedidoService {
 
 	boolean editarStatus(Pedido pedido);
 
-	List<Object[]> relatorioConsumo(LocalDate inicio, LocalDate fim);
+	List<Object[]> relatorio(LocalDate inicio, LocalDate fim);
 }

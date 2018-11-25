@@ -1,17 +1,17 @@
 package main.domain.relatorios;
 
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
+import main.domain.enumerator.TipoRelatorio;
+
+import java.util.ArrayList;
 import java.util.List;
 
 abstract class AbstractRelatorio implements Relatorio {
-	LocalDate dataInicio;
-	LocalDate dataFim;
-	private String[] colunas;
+	private final TipoRelatorio tipo;
+	private final String[] colunas;
+	List<Object[]> dados;
 
-	AbstractRelatorio(@NotNull LocalDate dataInicio, @NotNull LocalDate dataFim, String[] colunas) {
-		this.dataInicio = dataInicio;
-		this.dataFim = dataFim;
+	AbstractRelatorio(TipoRelatorio tipo, String[] colunas) {
+		this.tipo = tipo;
 		this.colunas = colunas;
 	}
 
@@ -20,5 +20,12 @@ abstract class AbstractRelatorio implements Relatorio {
 	}
 
 	//linhas x colunas
-	public abstract List<List<String>> getDados();
+	public List<List<String>> getDados() {
+		List<List<String>> result = new ArrayList<>();
+		for (Object[] obj : dados) {
+			Model relatorio = new Model(obj);
+			result.add(relatorio.toString(tipo));
+		}
+		return result;
+	}
 }

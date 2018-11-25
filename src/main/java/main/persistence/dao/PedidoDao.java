@@ -16,5 +16,5 @@ public interface PedidoDao {
 
 	List<Pedido> findAll();
 
-	List<Object[]> consumptionReport(LocalDate inicio, LocalDate fim);
+	List<Object[]> generateReport(LocalDate startDate, LocalDate endDate);
 }

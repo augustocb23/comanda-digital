@@ -37,7 +37,7 @@
     </div>
   </section>
 
-  <section layout:fragment="content" th:if="${relatorio!=null}">
+  <section layout:fragment="content" th:if="${errorTitle==null&&relatorio!=null}">
     <table class="table table-hover compact" id="tbl-comandas">
       <thead>
       <tr>
