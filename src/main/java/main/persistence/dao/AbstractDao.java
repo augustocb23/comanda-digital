@@ -16,7 +16,6 @@ public class AbstractDao<T, PK extends Serializable> {
 	@SuppressWarnings("unchecked")
 	private final Class<T> entityClass =
 			(Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-
 	@PersistenceContext
 	private EntityManager entityManager;
 
@@ -63,5 +62,9 @@ public class AbstractDao<T, PK extends Serializable> {
 			query.setParameter(i + 1, params[i]);
 		}
 		return query.getResultList();
+	}
+
+	EntityManager getEntityManager() {
+		return entityManager;
 	}
 }

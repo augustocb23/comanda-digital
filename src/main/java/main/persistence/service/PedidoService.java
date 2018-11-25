@@ -2,6 +2,7 @@ package main.persistence.service;
 
 import main.domain.Pedido;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface PedidoService {
@@ -16,4 +17,6 @@ public interface PedidoService {
 	List<Pedido> buscarTodos();
 
 	boolean editarStatus(Pedido pedido);
+
+	List<Object[]> relatorioConsumo(LocalDate inicio, LocalDate fim);
 }

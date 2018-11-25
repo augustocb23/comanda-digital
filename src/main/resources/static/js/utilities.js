@@ -305,6 +305,23 @@ function setConfirmarSaida(confirmar) {
     window.onbeforeunload = null
 }
 
+function relatorios() {
+  return $('#tbl-comandas').DataTable({
+    dom: '<"m-1"<"d-flex flex-wrap justify-content-between"Bf>tr<"d-flex flex-wrap justify-content-between"ip>>',
+    language: dataTablesTranslate,
+    buttons: [{
+      text: 'Exportar',
+      extend: 'collection',
+      buttons: ['excel', 'csv', 'pdf', {extend: 'print', text: 'Imprimir', autoPrint: false}],
+      fade: 250,
+      className: 'btn-outline-secondary',
+      autoClose: true
+    }],
+    //ordenar pela segunda coluna
+    order: [[1, "asc"]],
+  });
+}
+
 //SWEET ALERTS
 const toast = swal.mixin({
   toast: true,

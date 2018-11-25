@@ -14,13 +14,15 @@
       <form method="post" th:action="@{/relatorios/gerar}">
         <label class="small" for="relatorios">Relatório</label>
         <select class="custom-select" id="relatorios" name="tipo" required>
-          <option disabled hidden selected>Selecione</option>
-          <option th:each="t:${tipos}" th:text="${t.desc}" th:value="${t}"></option>
+          <option disabled hidden th:selected="${tipo==null}">Selecione</option>
+          <option th:each="t:${tipos}" th:selected="${t==tipo}" th:text="${t.desc}"
+                  th:value="${t}"></option>
         </select>
         <label class="small" for="inicio">Início</label>
-        <input class="form-control" id="inicio" name="inicio" required type="date">
+        <input class="form-control" id="inicio" name="inicio" required th:value="${relatorio!=null?inicio:null}"
+               type="date">
         <label class="small" for="fim">Fim</label>
-        <input class="form-control" id="fim" name="fim" required type="date">
+        <input class="form-control" id="fim" name="fim" required th:value="${relatorio!=null?fim:null}" type="date">
         <button class="mt-2 btn btn-dark float-right" type="submit">Buscar</button>
       </form>
     </div>
@@ -29,13 +31,27 @@
   <h1 layout:fragment="title">Relatórios</h1>
 
   <section layout:fragment="alerts">
-    <div class="pb-1 alert alert-primary alert-dismissible">
+    <div class="pb-1 alert alert-primary alert-dismissible" th:if="${relatorio==null}">
       <h4 class="alert-heading">Informe os dados do relatório</h4>
       <p>Utilize o menu para escolher tipo de relatório e período</p>
     </div>
   </section>
 
   <section layout:fragment="content" th:if="${relatorio!=null}">
+    <table class="table table-hover compact" id="tbl-comandas">
+      <thead>
+      <tr>
+        <th th:each="h:${relatorio.getColunas()}" th:text="${h}"></th>
+      </tr>
+      </thead>
+      <tr th:each="r:${relatorio.getDados()}">
+        <td th:each="d:${r}" th:text="${d}"></td>
+      </tr>
+    </table>
   </section>
 </body>
+
+<section layout:fragment="scripts">
+  <script type="application/javascript">relatorios()</script>
+</section>
 </html>
