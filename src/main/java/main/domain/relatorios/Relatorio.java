@@ -1,6 +1,5 @@
 package main.domain.relatorios;
 
-import main.domain.enumerator.TipoRelatorio;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import javax.validation.constraints.NotNull;
@@ -17,6 +16,20 @@ public interface Relatorio {
 				return new RelatorioFinanceiro(dataInicio, dataFim);
 			default:
 				throw new NotImplementedException();
+		}
+	}
+
+	enum TipoRelatorio {
+		C("Consumo"), F("Financeiro");
+
+		private final String desc;
+
+		TipoRelatorio(String desc) {
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+			return desc;
 		}
 	}
 

@@ -1,7 +1,5 @@
 package main.domain.relatorios;
 
-import main.domain.enumerator.TipoRelatorio;
-
 import java.util.ArrayList;
 import java.util.List;
 

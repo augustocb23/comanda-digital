@@ -1,7 +1,6 @@
 package main.domain.relatorios;
 
 import main.domain.Produto;
-import main.domain.enumerator.TipoRelatorio;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ class Model {
 		this.preco = (Double) obj[2];
 	}
 
-	public List<String> toString(TipoRelatorio tipo) {
+	public List<String> toString(Relatorio.TipoRelatorio tipo) {
 		List<String> list = new ArrayList<>();
 		list.add(String.valueOf(this.produto.getCodigo()));
 		list.add(this.produto.getNome());

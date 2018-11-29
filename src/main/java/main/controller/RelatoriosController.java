@@ -1,6 +1,5 @@
 package main.controller;
 
-import main.domain.enumerator.TipoRelatorio;
 import main.domain.relatorios.Relatorio;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +23,7 @@ public class RelatoriosController {
 	}
 
 	@PostMapping("/gerar")
-	public String gerarRelatorio(@RequestParam(name = "tipo") TipoRelatorio tipo,
+	public String gerarRelatorio(@RequestParam(name = "tipo") Relatorio.TipoRelatorio tipo,
 								 @RequestParam(name = "inicio") String inicio,
 								 @RequestParam(name = "fim") String fim, Model model) {
 		LocalDate dataInicio;
@@ -51,7 +50,7 @@ public class RelatoriosController {
 	}
 
 	@ModelAttribute("tipos")
-	public TipoRelatorio[] getTipos() {
-		return TipoRelatorio.values();
+	public Relatorio.TipoRelatorio[] getTipos() {
+		return Relatorio.TipoRelatorio.values();
 	}
 }
