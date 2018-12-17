@@ -11,6 +11,6 @@ Crie o arquivo application.properties [na pasta resources](src/main/resources)
 
 [Documento visão](https://docs.google.com/document/d/1N29tnpA0BOTXBQ6RXQDhlWgOqm1buFdwWkRjxUVgqNg/edit?usp=sharing)
 
-[Deploy](http://comandadigital.ddns.net)
+~[Deploy]()~ _desativado_
 
 [Backlog no Trello](https://trello.com/b/abeQ1h3C)
